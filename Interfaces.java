@@ -1,0 +1,7 @@
+/**
+ * Protokolierbar
+ */
+public interface Protokolierbar {
+
+    
+}
