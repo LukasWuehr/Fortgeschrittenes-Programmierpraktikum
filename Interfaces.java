@@ -1,7 +1,7 @@
 /**
- * Protokolierbar
+ * Logable
  */
-public interface Protokolierbar {
+public interface Logable {
 
     
 }
