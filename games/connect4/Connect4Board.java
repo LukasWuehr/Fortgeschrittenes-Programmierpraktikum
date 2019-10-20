@@ -1,6 +1,3 @@
-package games.connect4;
-import games.Board;;
-
 /**
  * Connect4Board
  */
