@@ -1,0 +1,7 @@
+/**
+ * Logable
+ */
+public interface Logable {
+
+    
+}
