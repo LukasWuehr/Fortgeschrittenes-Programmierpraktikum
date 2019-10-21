@@ -4,11 +4,12 @@ package games.connect4;
  */
 public class Disc {
 
-    PlayerColor color;
-    int coordinates[] = new int[2];
+    private  int color;
 
-    public Disc(PlayerColor color, int coordinate){
+    public Disc(int color){
         this.color=color;
-        this.coordinates[0]=coordinate;
+    }
+    public int getColor(){
+        return color;
     }
 }
