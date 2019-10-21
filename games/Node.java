@@ -1,7 +1,16 @@
 package games;
 
 public class Node{
-    Player player;
-    int [][] coordinate;
-    Node next;
+    private Player player;
+    private int lengthcoordinate;
+    private int heightcoordinate;
+    private Node next;
+    public Player getPlayer(){return this.player;}
+    public void setPlayer(Player p){this.player = p;}
+    public int getLengthCoordinate(){return this.lengthcoordinate;}
+    public void setLengthCoordinate(int l){this.lengthcoordinate = l;}
+    public int getHeightCoordinate(){return this.heightcoordinate;}
+    public void setHeightCoordinate(int h){this.heightcoordinate = h;}
+    public Node getNextNode(){return this.next;}
+    public void setNextNode(Node n){this.next = n;}
 }
