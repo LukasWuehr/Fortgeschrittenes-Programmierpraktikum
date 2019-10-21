@@ -6,6 +6,7 @@ import java.util.Scanner;
  */
 public class Connect4Game extends Game {
     private Connect4Player player1 =new Connect4Player(), player2 = new Connect4Player();
+    private Connect4Board board;
     public Connect4Game(){
         this.player1 = (Connect4Player)getPlayer1(); this.player2=(Connect4Player)getPlayer2();
 
@@ -16,7 +17,11 @@ public class Connect4Game extends Game {
         System.out.println("Spielfeldgröße Höhe, Breite:");
         Scanner scan = new Scanner(System.in);
         int height = scan.nextInt();
-        int with = scan.nextInt();
+        int lenght = scan.nextInt();
+        board = new Connect4Board(height, lenght);
+        
+    }
+    int nextTurn(){
 
     }
 }
