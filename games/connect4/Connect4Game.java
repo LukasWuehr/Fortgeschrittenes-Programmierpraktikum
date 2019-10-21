@@ -5,13 +5,14 @@ import java.util.Scanner;
  * Connect4Game
  */
 public class Connect4Game extends Game {
-    private Connect4Player player1, player2;
+    private Connect4Player player1 =new Connect4Player(), player2 = new Connect4Player();
     public Connect4Game(){
         this.player1 = (Connect4Player)getPlayer1(); this.player2=(Connect4Player)getPlayer2();
-        this.player1.setColor(PlayerColor.RED);
-        this.player2.setColor(PlayerColor.YELLOW);
+
     }
     public void start(){
+        player1.setColor(2);//PlayerColor.RED);
+        player2.setColor(1);//PlayerColor.YELLOW);
         System.out.println("Spielfeldgröße Höhe, Breite:");
         Scanner scan = new Scanner(System.in);
         int height = scan.nextInt();
