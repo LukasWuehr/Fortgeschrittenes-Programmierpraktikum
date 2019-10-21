@@ -19,9 +19,10 @@ public class Connect4Game extends Game {
         int height = scan.nextInt();
         int lenght = scan.nextInt();
         board = new Connect4Board(height, lenght);
+        board.draw();
         
     }
     int nextTurn(){
-
+        System.out.printf("Choose Field");
     }
 }
