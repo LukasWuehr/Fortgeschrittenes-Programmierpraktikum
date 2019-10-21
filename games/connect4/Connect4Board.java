@@ -1,3 +1,5 @@
+package games.connect4;
+import games.*;
 /**
  * Connect4Board
  */
