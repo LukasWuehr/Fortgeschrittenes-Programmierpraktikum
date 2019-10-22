@@ -23,16 +23,16 @@ public class Connect4Board extends Board {
     }
    }
 
-   public int setDisc(int coordinate, Player player){
+   public int setDisc(int coordinate, Player player, int turn){ //0 Colum is full //1 successfull turn //2 win
        int row= discs[coordinate].length-1;
         while (discs[coordinate][row] != null && row>=-1) {
             row--;
         }
-        if (row== -1) { 
+        if (row<= -1) { 
             return 0;
         } else {
-            discs[coordinate][row]=new Disc(player.getNumber());
-            if (win(coordinate,row)) {
+            discs[coordinate][row]=new Disc(turn%2);
+            if (win(coordinate,row)) { //win status 2
                 return 2;
             } else {
                 return 1;
@@ -40,25 +40,25 @@ public class Connect4Board extends Board {
         }    
    }
 
-   private boolean win(int lenght, int height){
+   private boolean win(int lenght, int height){ //gewinnbedingungen pruefen
        int counterH=0,counterV=0,counterD1=0,counterD2=0;
-       for (int i = -3; i < 4; i++) {
-            if(discs[lenght][height].getColor()==discs[lenght+i][height].getColor()){  // teste horizontale
+       for (int i = -3; i < 4; i++) {   //!muss noch testen ob i im array ist!
+            if(discs[lenght+i][height]!=null && discs[lenght][height].getColor()==discs[lenght+i][height].getColor()){  // teste horizontale
                 if (++counterH>=4) {
                     return true;
                 }
             }
-            if(discs[lenght][height].getColor()==discs[lenght][height+i].getColor()){  // teste Vertikale
+            if(discs[lenght][height+i]!=null && discs[lenght][height].getColor()==discs[lenght][height+i].getColor()){  // teste Vertikale
                 if (++counterV>=4) {
                     return true;
                 }
             }
-            if(discs[lenght][height].getColor()==discs[lenght+i][height+i].getColor()){  // teste Diagonale links oben nach rechts unten
+            if(discs[lenght+i][height+i]!=null && discs[lenght][height].getColor()==discs[lenght+i][height+i].getColor()){  // teste Diagonale links oben nach rechts unten
                 if (++counterD1>=4) {
                     return true;
                 }
             }
-            if(discs[lenght][height].getColor()==discs[lenght-i][height-i].getColor()){  // teste horizontale links unten nach rechts oben
+            if(discs[lenght-i][height-i]!=null && discs[lenght][height].getColor()==discs[lenght-i][height-i].getColor()){  // teste horizontale links unten nach rechts oben
                 if (++counterD2>=4) {
                     return true;
                 }
@@ -66,9 +66,4 @@ public class Connect4Board extends Board {
         }
         return false;    
    }
-}
-
-enum PlayerColor{
-    RED,
-    YELLOW;
 }
