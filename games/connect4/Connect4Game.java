@@ -6,7 +6,7 @@ import java.util.Scanner;
  */
 public class Connect4Game extends Game {
     private int turns=0;
-    private Player player1, player2;
+    private Player player1= new Player(), player2 = new Player();
     private Connect4Board board;
     public Connect4Game(){
         this.player1 = getPlayer1(); this.player2= getPlayer2();
