@@ -2,10 +2,10 @@ package games.chomp;
 import games.*;
 
 class chompLogable implements logable{
-    @Override public void push(Node n){
-        Node oldTop = top;
-        this.top = n;
-        n.setNextNode(oldTop);
-    
+    @Override public void add(Node n){
+        protokoll.push(n);
+    }
+    @Override public Node delete(){
+        return protokoll.pop();
     }
 }
