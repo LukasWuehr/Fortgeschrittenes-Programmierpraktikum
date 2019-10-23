@@ -1,6 +1,7 @@
 package games;
 import java.util.Scanner;
 
+import games.chomp.ChompGame;
 import games.connect4.Connect4Game;
 /**
  *  Game
@@ -41,7 +42,8 @@ public abstract class Game {
             Connect4Game game = new Connect4Game();
             game.start();
         } else if(input==2) {
-            //Fressen
+            ChompGame game = new ChompGame();
+            game.start();
         }
     }
 }

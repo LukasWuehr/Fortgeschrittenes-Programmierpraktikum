@@ -2,7 +2,7 @@ package games.chomp;
 import games.*;
 import java.util.*;
 
-public class chomp extends Game{
+public class ChompGame extends Game{
     Player player1 = super.getPlayer1();
     Player player2 = super.getPlayer2();
     boolean lost = false;

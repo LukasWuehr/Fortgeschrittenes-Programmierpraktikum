@@ -1,7 +1,7 @@
 package games.chomp;
 import games.*;
 
-class chompLogable implements logable{
+class ChompLogable implements logable{
     @Override public void add(Node n){
         protokoll.push(n);
     }
