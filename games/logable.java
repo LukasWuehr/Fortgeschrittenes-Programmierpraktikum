@@ -1,7 +1,7 @@
 package games;
 import games.*;
 
-public interface logable{
+public interface Logable{
     Stack protokoll = new Stack();
     abstract public void add(Node n);
     abstract public Node delete();
