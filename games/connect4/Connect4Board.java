@@ -35,6 +35,7 @@ public class Connect4Board extends Board implements Logable {
             return 0;
         } else {
             discs[coordinate][row]=new Disc(turn%2);
+            add(new Node(coordinate, row, player));
             if (win(coordinate,row)) { //win status 2
                 return 2;
             } else {
@@ -86,6 +87,6 @@ public class Connect4Board extends Board implements Logable {
    }
    @Override
    public void add(Node n) {
-    // keine node als parameter!!! add erstellt die node       
+        protokoll.push(n);
    }
 }

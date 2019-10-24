@@ -14,6 +14,7 @@ public class Menu {
         System.out.println("Hallo \nWas möchtest du Spielen?\n(1) 1SPIELER\t(2) 2SPIELER");
         int input = scan.nextInt();
         Player player1 = new Player("Spieler 1", true);
+
         if (input==2) {                      //Erstellen von Spielern
             System.out.println("(1)Vier Gewinnt\t (2)Fressen"); //Spiele Auswahl
             input = scan.nextInt();
@@ -24,9 +25,8 @@ public class Menu {
             } else if(input==2) {
                 ChompGame game = new ChompGame(player1,player2);
                 game.start();
-        }
+            }
             
-            //this.player2 = new Player("Spieler 2", true);
         } else if(input==1) {
             System.out.println("(1)Vier Gewinnt\t (2)Fressen"); //Spiele Auswahl
             input = scan.nextInt();
@@ -38,10 +38,6 @@ public class Menu {
                 ChompGame game = new ChompGame(player1,player2);
                 game.start();
             }
-            
-            //this.player2 = new Player("Computer", false);
-        }
-        //this.player1 = new Player("Spieler 1", true);
-        
+        } 
     }
 }
