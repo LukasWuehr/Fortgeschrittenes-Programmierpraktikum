@@ -6,17 +6,18 @@ import games.*;
 public class Connect4Board extends Board {
 
     private Disc discs[][];
-    public Connect4Board(int height, int lenght){
-        discs=new Disc[lenght][height];
+    public Connect4Board(int height, int length){
+        discs=new Disc[length][height];
     }
    @Override
    public void draw() {
-    for (Disc[] discColum : discs) {        //links oben 0,0
-        for (Disc disc : discColum) {
+    for (int i=0;discs[0].length>i;i++) {        //links oben 0,0
+        for (int j=0;discs.length>j;j++) {
+            Disc disc = discs[j][i];
             if (disc != null) {
                 System.out.printf("|%d", disc.getColor());
             } else{
-                System.out.printf("|\t");
+                System.out.printf("| ");
             }
         }
         System.out.printf("|\n");
@@ -40,30 +41,38 @@ public class Connect4Board extends Board {
         }    
    }
 
-   private boolean win(int lenght, int height){ //gewinnbedingungen pruefen
+   private boolean win(int length, int height){ //gewinnbedingungen pruefen
        int counterH=0,counterV=0,counterD1=0,counterD2=0;
        for (int i = -3; i < 4; i++) {   //!muss noch testen ob i im array ist!
-            if(discs[lenght+i][height]!=null && discs[lenght][height].getColor()==discs[lenght+i][height].getColor()){  // teste horizontale
+            if(discs.length > length+i && length+i >=0 && discs[length+i][height]!=null 
+               && discs[length][height].getColor()==discs[length+i][height].getColor()){  // teste horizontale
                 if (++counterH>=4) {
                     return true;
                 }
             }
-            if(discs[lenght][height+i]!=null && discs[lenght][height].getColor()==discs[lenght][height+i].getColor()){  // teste Vertikale
+            if(discs[length].length > height+i && height+i >=0 && discs[length][height+i]!=null 
+               && discs[length][height].getColor()==discs[length][height+i].getColor()){  // teste Vertikale
                 if (++counterV>=4) {
                     return true;
                 }
             }
-            if(discs[lenght+i][height+i]!=null && discs[lenght][height].getColor()==discs[lenght+i][height+i].getColor()){  // teste Diagonale links oben nach rechts unten
+            if(discs.length < length+i && length+i >=0 && discs[length].length > height+i && height+i >=0 && discs[length+i][height+i]!=null
+               && discs[length][height].getColor()==discs[length+i][height+i].getColor()){  // teste Diagonale links oben nach rechts unten
                 if (++counterD1>=4) {
                     return true;
                 }
             }
-            if(discs[lenght-i][height-i]!=null && discs[lenght][height].getColor()==discs[lenght-i][height-i].getColor()){  // teste horizontale links unten nach rechts oben
+            if(discs.length < length-i && length-i >=0 && discs[length].length > height-i && height-i >=0 && discs[length-i][height-i]!=null 
+               && discs[length][height].getColor()==discs[length-i][height-i].getColor()){  // teste horizontale links unten nach rechts oben
                 if (++counterD2>=4) {
                     return true;
                 }
             }
         }
         return false;    
+   }
+   @Override
+   public int getLength() {
+       return discs.length;
    }
 }
