@@ -22,7 +22,7 @@ public class Menu {
                 Connect4Game game = new Connect4Game(player1,player2);
                 game.start();
             } else if(input==2) {
-                ChompGame game = new ChompGame();
+                ChompGame game = new ChompGame(player1,player2);
                 game.start();
         }
             
@@ -35,7 +35,7 @@ public class Menu {
                 Connect4Game game = new Connect4Game(player1,player2);
                 game.start();
             } else if(input==2) {
-                ChompGame game = new ChompGame();
+                ChompGame game = new ChompGame(player1,player2);
                 game.start();
             }
             
