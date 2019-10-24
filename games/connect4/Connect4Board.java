@@ -3,11 +3,13 @@ import games.*;
 /**
  * Connect4Board
  */
-public class Connect4Board extends Board {
-
+public class Connect4Board extends Board implements Logable {
+    private Stack protokoll;
     private Disc discs[][];
     public Connect4Board(int height, int length){
         discs=new Disc[length][height];
+        this.protokoll = new Stack();
+
     }
    @Override
    public void draw() {
@@ -74,5 +76,16 @@ public class Connect4Board extends Board {
    @Override
    public int getLength() {
        return discs.length;
+   }
+   @Override
+   public Node delete() {
+       Node nodeDelete = protokoll.pop();
+       discs[nodeDelete.getLengthCoordinate()][nodeDelete.getHeightCoordinate()]= null;
+       draw();
+       return nodeDelete;
+   }
+   @Override
+   public void add(Node n) {
+    // keine node als parameter!!! add erstellt die node       
    }
 }
