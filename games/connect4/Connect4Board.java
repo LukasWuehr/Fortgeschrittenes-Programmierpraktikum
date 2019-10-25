@@ -27,8 +27,9 @@ public class Connect4Board extends Board implements Logable {
    }
 
    public int setDisc(int coordinate, Player player, int turn){ //0 Colum is full //1 successfull turn //2 win
-       int row= discs[coordinate].length-1;
-        while (discs[coordinate][row] != null && row>=-1) {
+    if (coordinate<0 || coordinate >= discs.length){ return 0;}  
+    int row= discs[coordinate].length-1;
+        while (row>-1 && discs[coordinate][row] != null) {
             row--;
         }
         if (row<= -1) { 
@@ -59,13 +60,13 @@ public class Connect4Board extends Board implements Logable {
                     return true;
                 }
             }
-            if(discs.length < length+i && length+i >=0 && discs[length].length > height+i && height+i >=0 && discs[length+i][height+i]!=null
+            if(discs.length > length+i && length+i >=0 && discs[length].length > height+i && height+i >=0 && discs[length+i][height+i]!=null
                && discs[length][height].getColor()==discs[length+i][height+i].getColor()){  // teste Diagonale links oben nach rechts unten
                 if (++counterD1>=4) {
                     return true;
                 }
             }
-            if(discs.length < length-i && length-i >=0 && discs[length].length > height-i && height-i >=0 && discs[length-i][height-i]!=null 
+            if(discs.length > length-i && length-i >=0 && discs[length].length > height-i && height-i >=0 && discs[length-i][height-i]!=null 
                && discs[length][height].getColor()==discs[length-i][height-i].getColor()){  // teste horizontale links unten nach rechts oben
                 if (++counterD2>=4) {
                     return true;

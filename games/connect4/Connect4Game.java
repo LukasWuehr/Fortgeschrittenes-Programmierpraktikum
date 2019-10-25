@@ -32,6 +32,7 @@ public class Connect4Game extends Game {
             }
             turns++;
         }
+        System.out.println("DRAW");
     }
 
     private boolean nextTurn(Player player){ //next turn of player
@@ -39,7 +40,7 @@ public class Connect4Game extends Game {
         int discIsSet=0;
         while(0==discIsSet){
             if (player.getIsHuman()){
-            System.out.printf("%s\n Choose Field(0-%d): ", player.getPlayerName(),board.getLength());
+            System.out.printf("%s\n Choose Field(0-%d): ", player.getPlayerName(),board.getLength()-1);
             discIsSet = board.setDisc(scan.nextInt(), player,this.turns);
             } else {
                 System.out.printf("Computer:\n");
