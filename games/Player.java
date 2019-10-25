@@ -13,4 +13,5 @@ public class Player {
     public Player(){}
     public String getPlayerName(){ return this.playerName;}
     public void addWin(){this.wins++;}
+    public Boolean getIsHuman(){ return this.isHuman;}
 }
