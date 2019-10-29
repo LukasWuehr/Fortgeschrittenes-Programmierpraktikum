@@ -32,7 +32,7 @@ public class Connect4Board extends Board implements Logable {
         while (row>-1 && discs[coordinate][row] != null) {
             row--;
         }
-        if (row<= -1) { 
+        if (row<= -1) { // colum full
             return 0;
         } else {
             discs[coordinate][row]=new Disc(turn%2);
