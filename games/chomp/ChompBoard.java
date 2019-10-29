@@ -2,8 +2,6 @@ package games.chomp;
 import games.*;
 
 public class ChompBoard extends Board{
-    private int height;
-    private int length;
     private boolean chompBoard[][] = new boolean [this.getLength()][this.getHeight()];// true = belegt
     public ChompBoard(int length, int height){
         this.chompBoard = new boolean[length][height];
