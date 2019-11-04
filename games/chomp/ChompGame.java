@@ -1,48 +1,94 @@
 package games.chomp;
 import games.*;
 import java.util.*;
+import java.util.Random;
 
-public class ChompGame extends Game{
-    Player player1 = super.getPlayer1();
-    Player player2 = super.getPlayer2();
+public class ChompGame extends Game implements Logable{
+    Player player1;
+    Player player2;
     boolean lost = false;
     boolean currentPlayer; //true = player1; false = player2
-    ChompBoard board = new ChompBoard();
+    ChompBoard board;
+
+    public ChompGame(Player player1, Player player2){
+        this.player1 = player1;
+        this.player2 = player2;
+    }
     public void gameMove(int lengthplace, int heightplace){
         board.setBoardField(lengthplace, heightplace);
     }
-    public void switchPlayers(){
-        if(this.currentPlayer==true)this.currentPlayer = false;
-        else this.currentPlayer = true;
+    public boolean switchPlayers(boolean p){
+        if(p) p = false;
+        else p = true;
+        return p;
+
     }
     public boolean checkLost(int lengthcoordinate, int heightcoordinate){
         if(lengthcoordinate == 0 && heightcoordinate == 0) return true;
         else return false;
     }
-    
+    @Override public void add(Node n){
+        protokoll.push(n);
+    }
+    @Override public Node delete(){
+        return protokoll.pop();
+    }
     public void start(){
+        boolean currentPlayerIsPlayer1 = true;
+        boolean player2IsHuman = player2.getIsHuman();
+         
+        Random randomLength = new Random();
+        Random randomHeight = new Random();
+
         Scanner scan = new Scanner(System.in);
         int chosenLengthCoordinate;
         int chosenHeightCoordinate;
+
         System.out.println("Please insert the length of the Board.");//InitBoard
-        this.board.setLength(scan.nextInt());
+        chosenLengthCoordinate = scan.nextInt();
         System.out.println("Please insert the height of the Board.");
-        this.board.setHeight(scan.nextInt());
+        chosenHeightCoordinate = scan.nextInt();
+        this.board = new ChompBoard(chosenLengthCoordinate,chosenHeightCoordinate);
+        this.board.setLength(chosenLengthCoordinate);
+        this.board.setHeight(chosenHeightCoordinate);
         this.board.initBoard();
-        System.out.println("Player 1: You are first to make a move.");
-        boolean currentPlayer = true;//Player1s turn
+
         while(lost != true){ 
-            System.out.println("This is the current state of the board:");
-            board.draw();
-            System.out.println("Please insert the coordinates of the field you want to choose.");
-            System.out.println("Lengthcoordinate: ");
-            chosenLengthCoordinate = scan.nextInt();
-            System.out.println("Heightcoordinate: ");
-            chosenHeightCoordinate = scan.nextInt();
+
+            if(currentPlayerIsPlayer1)System.out.println("Player1, it's your turn.");
+            else System.out.println("Player2, it's your turn.");
+
+            if(currentPlayerIsPlayer1 || player2IsHuman){
+                System.out.println("This is the current state of the board:");
+                this.board.draw();
+                System.out.println("Please insert the coordinates of the field you want to choose.");
+                System.out.println("Lengthcoordinate: ");
+                chosenLengthCoordinate = scan.nextInt();
+                System.out.println("Heightcoordinate: ");
+                chosenHeightCoordinate = scan.nextInt();
+            }
+            else{
+               chosenLengthCoordinate = randomLength.nextInt(board.getLength());
+               chosenHeightCoordinate = randomHeight.nextInt(board.getHeight());
+            }
+
+            boolean taken = this.board.checkTaken(chosenLengthCoordinate, chosenHeightCoordinate);
+            if(taken && (currentPlayerIsPlayer1 || player2IsHuman)){
+                System.out.println("This coordinate is already taken. Please try again");
+                continue;
+            }
+            else if(!player2IsHuman && !currentPlayerIsPlayer1 && taken)continue;//Fall Computer wählt besetztes Feld
+
             gameMove(chosenLengthCoordinate,chosenHeightCoordinate);
+
+            if(currentPlayerIsPlayer1) add(new Node(chosenLengthCoordinate,chosenHeightCoordinate,player1));
+            else add(new Node(chosenLengthCoordinate,chosenHeightCoordinate,player2));
+
             lost = checkLost(chosenLengthCoordinate,chosenHeightCoordinate);
+            currentPlayerIsPlayer1 = switchPlayers(currentPlayerIsPlayer1);
         }
-        if (currentPlayer) System.out.println("Player1 has lost.");
+        currentPlayerIsPlayer1 = switchPlayers(currentPlayerIsPlayer1);//zurückswitchen im Fall lost
+        if (currentPlayerIsPlayer1) System.out.println("Player1 has lost.");
         else System.out.println("Player2 has lost.");
     }
     
