@@ -36,6 +36,10 @@ public class ChompBoard extends Board{
     }
 
     public boolean checkTaken(int length, int height){
-        return this.chompBoard[length][height];
+        try{
+            return this.chompBoard[length][height];           
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return true;
+        }
     }
 }
