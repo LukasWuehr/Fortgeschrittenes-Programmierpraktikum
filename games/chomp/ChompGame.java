@@ -85,9 +85,9 @@ public class ChompGame extends Game implements Logable{
             else add(new Node(chosenLengthCoordinate,chosenHeightCoordinate,player2));
 
             lost = checkLost(chosenLengthCoordinate,chosenHeightCoordinate);
-            currentPlayerIsPlayer1 = switchPlayers(currentPlayer);
+            currentPlayerIsPlayer1 = switchPlayers(currentPlayerIsPlayer1);
         }
-        currentPlayerIsPlayer1 = switchPlayers(currentPlayer);//zurückswitchen im Fall lost
+        currentPlayerIsPlayer1 = switchPlayers(currentPlayerIsPlayer1);//zurückswitchen im Fall lost
         if (currentPlayerIsPlayer1) System.out.println("Player1 has lost.");
         else System.out.println("Player2 has lost.");
     }
