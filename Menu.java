@@ -11,14 +11,14 @@ public class Menu {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Hallo \nWas möchtest du Spielen?\n(1) 1SPIELER\t(2) 2SPIELER");
+        System.out.println("Hello \nHow many players?\n(1) 1Player\t(2) 2Player");
         int input = scan.nextInt();
-        Player player1 = new Player("Spieler 1", true);
+        Player player1 = new Player("Player 1", true);
 
         if (input==2) {                      //Erstellen von Spielern
-            System.out.println("(1)Vier Gewinnt\t (2)Fressen"); //Spiele Auswahl
+            System.out.println("(1)Connect4\t (2)Chomp"); //Spiele Auswahl
             input = scan.nextInt();
-            Player player2 = new Player("Spieler 2", true);
+            Player player2 = new Player("Player 2", true);
             if (input==1) {
                 Connect4Game game = new Connect4Game(player1,player2);
                 game.start();
@@ -28,7 +28,7 @@ public class Menu {
             }
             
         } else if(input==1) {
-            System.out.println("(1)Vier Gewinnt\t (2)Fressen"); //Spiele Auswahl
+            System.out.println("(1)Connect4\t (2)Chomp"); //Spiele Auswahl
             input = scan.nextInt();
             Player player2 = new Player("Computer", false);
             if (input==1) {
