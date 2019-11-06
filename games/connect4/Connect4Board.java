@@ -69,8 +69,8 @@ public class Connect4Board extends Board implements Logable {
                     return true;
                 }
             }else{counterD1=0;}
-            if(discs.length > length-i && length-i >=0 && discs[length].length > height-i && height-i >=0 && discs[length-i][height-i]!=null 
-               && discs[length][height].getColor()==discs[length-i][height-i].getColor()){  // teste horizontale links unten nach rechts oben
+            if(discs.length > length-i && length-i >=0 && discs[length].length > height+i && height+i >=0 && discs[length-i][height+i]!=null 
+               && discs[length][height].getColor()==discs[length-i][height+i].getColor()){  // teste horizontale links unten nach rechts oben
                 if (++counterD2>=4) {
                     return true;
                 }
