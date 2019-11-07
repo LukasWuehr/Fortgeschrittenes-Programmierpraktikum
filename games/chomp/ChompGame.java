@@ -71,15 +71,21 @@ public class ChompGame extends Game implements Logable{
                chosenLengthCoordinate = randomLength.nextInt(board.getLength());
                chosenHeightCoordinate = randomHeight.nextInt(board.getHeight());
             }
-
-            boolean taken = this.board.checkTaken(chosenLengthCoordinate, chosenHeightCoordinate);
-            if(taken && (currentPlayerIsPlayer1 || player2IsHuman)){
-                System.out.println("This coordinate is already taken. Please try again");
+            boolean outOfBound = chosenLengthCoordinate >= this.board.getLength() || chosenHeightCoordinate >= this.board.getHeight() || chosenLengthCoordinate < 0 || chosenHeightCoordinate < 0;
+            if(!outOfBound){
+                boolean taken = this.board.checkTaken(chosenLengthCoordinate, chosenHeightCoordinate);
+                if(taken && (currentPlayerIsPlayer1 || player2IsHuman)){
+                    System.out.println("This coordinate is already taken. Please try again");
+                    continue;
+                }
+                else if(!player2IsHuman && !currentPlayerIsPlayer1 && taken)continue;//Fall Computer wählt besetztes Feld
+            
+                gameMove(chosenLengthCoordinate,chosenHeightCoordinate);
+            }
+            else{
+                System.out.println("This coordinates doesn't exist. Please try again.");
                 continue;
             }
-            else if(!player2IsHuman && !currentPlayerIsPlayer1 && taken)continue;//Fall Computer wählt besetztes Feld
-
-            gameMove(chosenLengthCoordinate,chosenHeightCoordinate);
 
             if(currentPlayerIsPlayer1) add(new Node(chosenLengthCoordinate,chosenHeightCoordinate,player1));
             else add(new Node(chosenLengthCoordinate,chosenHeightCoordinate,player2));
