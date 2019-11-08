@@ -7,16 +7,20 @@ public class ChompBoard extends Board{
         this.chompBoard = new boolean[length][height];
     }
     @Override public void draw(){
-        for(int k = 0; k < 2*this.getLength()+1;k++)System.out.print("-");
+        System.out.print(" |");
+        for(int k = 0; k < this.getLength();k++)System.out.print(k + "|");
+        System.out.println();
+        for(int k = 0; k < 2*this.getLength()+2;k++)System.out.print("-");
         System.out.println();
         for(int i = 0; i < this.getHeight(); i++){
+            System.out.print(i);
             System.out.print("|");
             for(int j = 0; j < this.getLength(); j++){
                 if (this.chompBoard[j][i] == false)System.out.print("0|");
                 else System.out.print("1|");
             }
             System.out.println();
-            for(int k = 0; k < 2*this.getLength()+1;k++)System.out.print("-");
+            for(int k = 0; k < 2*this.getLength()+2;k++)System.out.print("-");
             System.out.println();
         }
     }
