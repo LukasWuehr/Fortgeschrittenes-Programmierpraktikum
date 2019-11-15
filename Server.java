@@ -2,6 +2,21 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 import java.util.ArrayList;
+
+/*
+    byte codierung fuer messagelisener
+    0000 0001 - letztes bit als boolean
+    7 bit sagen welche aktion 
+
+    0- logout
+    1- error message
+    3/2- login /new Player
+    4/5- password
+    6/7- message for player
+    8/9- Lobby/Ready to play
+    10/11- game message    
+*/
+
 public class Server {
     private static File pwd = new File("./pwd");
     private static File usr = new File("./usr");
@@ -17,50 +32,34 @@ public class Server {
 }
 
 class MulServerThread extends Thread {
+    static ArrayList<ClientNode> clients = new ArrayList<ClientNode>();
     Socket client;
-    MulServerThread(Socket client) { this.client = client; }
+    ClientNode node;
+    MulServerThread(Socket client) { 
+        this.client = client; 
+        this.node=new ClientNode(client, new PipedOutputStream()); 
+        clients.add(node);
+    }
     public void run(){ // Bearbeitung einer aufgebauten Verbindung
         try {
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            String name = in.readUTF();
-            Boolean logIn = in.readBoolean();
-            if (logIn) {
-                int ptr;
-                if((ptr = searchName(name)) !=0){
-                    out.writeBoolean(true);
-                    String pwd = in.readUTF();
-                    out.writeBoolean(comparePWD(pwd, ptr));
-                } else{ out.writeBoolean(false);}
-            } else {
-                if (searchName(name)==0) {
-                    out.writeBoolean(true);
-                    String pwd = in.readUTF();
-                    FileWriter pwdOut = new FileWriter("./pwd", true);
-                    FileWriter nameOut =  new FileWriter("./usr");
-                    BufferedWriter pwds = new BufferedWriter(pwdOut);
-                    BufferedWriter names = new BufferedWriter(nameOut);
-                    pwds.write(pwd);
-                    pwds.close();
-                } else {
-                    out.writeBoolean(false);
-                }
-            }
-
-            int factor1 = in.readInt();
-            int factor2 = in.readInt();
-            int result = factor1 * factor2;
-            out.writeInt(result);
+            while(!login(in,out)){
+                
+               
         } catch ( IOException e ) {} // Fehler bei Ein- und Ausgabe
         finally { if ( client != null ) 
             try { client.close(); } catch ( IOException e ) { }
         }
     }
+
+
     
     private int searchName(String name){
         try{ 
             FileReader usrIn = new FileReader("./usr");
-            BufferedReader usrs = new BufferedReader(usrIn);                ArrayList<String> names = new ArrayList<String>();
+            BufferedReader usrs = new BufferedReader(usrIn);                
+            ArrayList<String> names = new ArrayList<String>();
             String user;
             while ((user = usrs.readLine()) !=null) {
                 names.add(user);
@@ -77,7 +76,7 @@ class MulServerThread extends Thread {
         }
         return 0;
     }
-    private boolean comparePWD(String pwd, int ptr){ //TODO: andere abfrage noch schreiben
+    private boolean comparePWD(String pwd, int ptr){ 
         try{
             FileReader pwdIn = new FileReader("./pwd");
             BufferedReader pwds = new BufferedReader(pwdIn);
@@ -93,6 +92,80 @@ class MulServerThread extends Thread {
             System.out.println("No users found");
         }
         return false;
+    }
+    boolean login(DataInputStream in, DataOutputStream out){
+        String name;
+        switch (in.readByte()) {
+            case 2:                         //new Player
+                out.writeByte(2);
+                name = in.readUTF();
+                if (searchName(name)==0) {
+                    out.writeByte(3);
+                    String pwd = in.readUTF();
+                    FileWriter pwdOut = new FileWriter("./pwd", true);
+                    FileWriter nameOut =  new FileWriter("./usr", true);
+                    BufferedWriter pwds = new BufferedWriter(pwdOut);
+                    BufferedWriter names = new BufferedWriter(nameOut);
+                    pwds.write(pwd);
+                    names.write(name);
+                    pwds.close();
+                    names.close();
+                    out.writeUTF(name);
+                    return true;
+                } else { 
+                    out.writeByte(1);
+                    out.writeByte(2);}
+                break;
+            case 3:                         //log in
+                name = in.readUTF();
+                int ptr;
+                if((ptr = searchName(name)) !=0){
+                    out.writeByte(3);
+                    String pwd = in.readUTF();
+                    if (comparePWD(pwd, ptr)) {
+                        out.writeByte(5);
+                        return true;
+                    } else {            //TODO: benoetigt noch loop
+                        out.writeByte(1);
+                        out.writeByte(3);
+                    }
+                } else{ 
+                    out.writeByte(1);
+                    out.writeByte(2);}
+                break;
+            case 1:                         //error message
+                System.out.println(this.getName()+"Error: "+in.readUTF());
+                return false;
+              break;
+            case 0:                         //log out
+            default:
+                logout();
+                return false;
+            }
+        }
+    }
+
+    void logout(){
+        System.out.println("Client logged out");
+        //sende nachricht an mitspieler
+    }
+
+    void sendMessage(String message, int mode){
+        //pipe to other thread
+        PipedOutputStream pipeOut = new PipedOutputStream(snk);
+        PipedInputStream pipeIn = new PipedInputStream(src);
+        switch (mode) {
+            case 2: //message plain text
+
+                break;
+            case 1: //error
+                
+                break;
+            case 0:
+            default: //player loged out
+
+                break;
+        }
     }
 
 }
