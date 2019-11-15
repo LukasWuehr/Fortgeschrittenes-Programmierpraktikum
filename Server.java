@@ -44,9 +44,7 @@ class MulServerThread extends Thread {
         try {
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            while(!login(in,out)){
-                
-               
+            while(!login(in,out)){}     
         } catch ( IOException e ) {} // Fehler bei Ein- und Ausgabe
         finally { if ( client != null ) 
             try { client.close(); } catch ( IOException e ) { }
@@ -110,13 +108,14 @@ class MulServerThread extends Thread {
                     names.write(name);
                     pwds.close();
                     names.close();
+                    out.writeByte(5);
                     out.writeUTF(name);
                     return true;
                 } else { 
-                    out.writeByte(1);
-                    out.writeByte(2);}
+                    out.writeByte(1);}
                 break;
-            case 3:                         //log in
+            case 3:                        //log in
+                out.writeByte(2)
                 name = in.readUTF();
                 int ptr;
                 if((ptr = searchName(name)) !=0){
@@ -127,7 +126,7 @@ class MulServerThread extends Thread {
                         return true;
                     } else {            //TODO: benoetigt noch loop
                         out.writeByte(1);
-                        out.writeByte(3);
+                        out.writeByte(2);
                     }
                 } else{ 
                     out.writeByte(1);
