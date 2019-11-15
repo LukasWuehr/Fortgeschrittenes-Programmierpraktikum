@@ -1,7 +1,5 @@
 //verbindet games, server client
 //regelt alles
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.util.Scanner;
 import games.chomp.*;
 import games.connect4.*;
@@ -11,20 +9,7 @@ import games.*;
  */
 public class Menu {
 
-    public void login(DataInputStream in, DataOutputStream out){
-        try {
-            Scanner scan = new Scanner(System.in);
-            System.out.println("(1)New Player\t(2)Log in");
-            
-            String name = scan.nextLine();
-            out.writeChars(name);
-            in.readBoolean();
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
-    }
-
-    public void start() {
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Hello \nHow many players?\n(1) 1Player\t(2) 2Player");
         int input = scan.nextInt();
