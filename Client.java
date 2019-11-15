@@ -10,11 +10,7 @@ class Client {
             DataOutputStream out = new DataOutputStream(server.getOutputStream());
             Menu menu = new Menu();
             while(!menu.login(in, out)){System.out.println("LogIn");}
-            menu.start();
-            out.writeInt(4);// sende 1. Operanden
-            out.writeInt(10000);// sende 2. Operanden
-            int result = in.readInt();// lese das Ergebnis
-            System.out.println( result );
+            menu.start(in.readUTF());
         } catch ( UnknownHostException e ) {System.out.println("ERROR: "+e);}// Verbindungsfehler
           catch ( IOException e ) {}// Fehler bei Ein-und Ausgabe
         finally {
