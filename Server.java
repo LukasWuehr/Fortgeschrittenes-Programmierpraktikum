@@ -115,7 +115,7 @@ class MulServerThread extends Thread {
                     out.writeByte(1);}
                 break;
             case 3:                        //log in
-                out.writeByte(2)
+                out.writeByte(2);
                 name = in.readUTF();
                 int ptr;
                 if((ptr = searchName(name)) !=0){
@@ -135,11 +135,22 @@ class MulServerThread extends Thread {
             case 1:                         //error message
                 System.out.println(this.getName()+"Error: "+in.readUTF());
                 return false;
-              break;
             case 0:                         //log out
             default:
                 logout();
                 return false;
+            }
+            return false;
+        }
+    
+
+    void getPlayers(DataInputStream in, DataOutputStream out){
+        String name;
+        out.writeInt(clients.lenght());
+        for (ClientNode node : clients) {
+            name = node.getName();
+            if(name != null){
+                out.writeUTF(name);
             }
         }
     }
@@ -149,7 +160,7 @@ class MulServerThread extends Thread {
         //sende nachricht an mitspieler
     }
 
-    void sendMessage(String message, int mode){
+    void sendMessage(String message, int mode){//maybe not
         //pipe to other thread
         PipedOutputStream pipeOut = new PipedOutputStream(snk);
         PipedInputStream pipeIn = new PipedInputStream(src);
