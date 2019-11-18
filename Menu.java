@@ -14,10 +14,12 @@ public class Menu {
     
 
     public void start(String playerName) {
+        Player player1 = new Player(playerName, true);
+        System.out.println("Hello "+player1.getName());
         Scanner scan = new Scanner(System.in);
         System.out.println("Hello \nHow many players?\n(1) 1Player\t(2) 2Player");
         int input = scan.nextInt();
-        Player player1 = new Player(playerName, true);
+        
 
         if (input==2) {                      //Erstellen von Spielern
             System.out.println("(1)Connect4\t (2)Chomp"); //Spiele Auswahl

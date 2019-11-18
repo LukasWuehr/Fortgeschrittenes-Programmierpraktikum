@@ -4,6 +4,7 @@ class ClientNode{
     Socket client;
     String name;
     PipedOutputStream pos;
+    String game = "idle"; //TODO: ENUM: IDLE WantC4 WantChomp InC4 InComp
 
     public ClientNode(Socket client, PipedOutputStream pos){
         this.client=client; this.pos=pos;
