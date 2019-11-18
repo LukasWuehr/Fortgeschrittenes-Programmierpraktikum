@@ -57,7 +57,7 @@ class Client {
                         case 5:
                             return true;
                         case 3:
-                            System.out.println("Insert Your Password:")
+                            System.out.println("Insert Your Password:");
                             pwd = scan.nextLine();
                             out.writeUTF(pwd);
                             break;
@@ -74,9 +74,10 @@ class Client {
                         default:
                             return false;
                     }
-                    String name = scan.nextLine();
-                out.writeUTF(name);
-                out.writeBoolean(true);
+                }
+                    //String name = scan.nextLine();
+                //out.writeUTF(name);
+                //out.writeBoolean(true);
             } else if(input == 0){out.writeByte(0);}
                 
         } catch (Exception e) {
