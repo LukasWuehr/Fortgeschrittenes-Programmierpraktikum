@@ -1,8 +1,5 @@
 package games;
-import java.util.Scanner;
 
-import games.chomp.ChompGame;
-import games.connect4.Connect4Game;
 /**
  *  Game
  */
