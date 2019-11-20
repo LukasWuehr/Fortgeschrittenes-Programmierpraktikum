@@ -45,16 +45,17 @@ class MulServerThread extends Thread {
     }
     public void run(){ // Bearbeitung einer aufgebauten Verbindung
         try {
-            pis = node.getPipe();
+            PipedInputStream pis = node.getPipe();
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             while(!login(in,out)){}
             while (true) {
-                Int pipeIn = pis.read();
-                if(pipeIn!=null){
+                try{
+                    int pipeIn = pis.read();
                     out.writeByte(6); //liest alles von anderen thread
                     out.writeInt(pipeIn);
                 }
+                catch(IOException e){}
                 switch (in.readByte()) {
                     case 10:
                         sendMessage(in.readInt());
@@ -128,68 +129,75 @@ class MulServerThread extends Thread {
         }
         return false;
     }
-    boolean login(DataInputStream in, DataOutputStream out){
-        String name;
-        switch (in.readByte()) {
-            case 2:                         //new Player
-                out.writeByte(2);
-                name = in.readUTF();
-                if (searchName(name)==0) {
-                    out.writeByte(3);
-                    String pwd = in.readUTF();
-                    FileWriter pwdOut = new FileWriter("./pwd", true);
-                    FileWriter nameOut =  new FileWriter("./usr", true);
-                    BufferedWriter pwds = new BufferedWriter(pwdOut);
-                    BufferedWriter names = new BufferedWriter(nameOut);
-                    pwds.write(pwd);
-                    names.write(name);
-                    pwds.close();
-                    names.close();
-                    out.writeByte(5);
-                    out.writeUTF(name);
-                    return true;
-                } else { 
-                    out.writeByte(1);}
-                break;
-            case 3:                        //log in
-                out.writeByte(2);
-                name = in.readUTF();
-                int ptr;
-                if((ptr = searchName(name)) !=0){
-                    out.writeByte(3);
-                    String pwd = in.readUTF();
-                    if (comparePWD(pwd, ptr)) {
+    boolean login(DataInputStream in, DataOutputStream out) throws IOException{
+        boolean loggedIn = false;
+        try{
+            String name;
+            switch (in.readByte()) {
+                case 2:                         //new Player
+                    out.writeByte(2);
+                    name = in.readUTF();
+                    if (searchName(name)==0) {
+                        out.writeByte(3);
+                        String pwd = in.readUTF();
+                        FileWriter pwdOut = new FileWriter("./pwd", true);
+                        FileWriter nameOut =  new FileWriter("./usr", true);
+                        BufferedWriter pwds = new BufferedWriter(pwdOut);
+                        BufferedWriter names = new BufferedWriter(nameOut);
+                        pwds.write(pwd);
+                        names.write(name);
+                        pwds.close();
+                        names.close();
                         out.writeByte(5);
-                        return true;
-                    } else {            //TODO: benoetigt noch loop
+                        out.writeUTF(name);
+                        loggedIn = true;
+                    } else { 
+                        out.writeByte(1);}
+                    break;
+                case 3:                        //log in
+                    out.writeByte(2);
+                    name = in.readUTF();
+                    int ptr;
+                    if((ptr = searchName(name)) !=0){
+                        out.writeByte(3);
+                        String pwd = in.readUTF();
+                        if (comparePWD(pwd, ptr)) {
+                            out.writeByte(5);
+                            loggedIn = true;
+                        } else {            //TODO: benoetigt noch loop
+                            out.writeByte(1);
+                            out.writeByte(2);
+                        }
+                    } else{ 
                         out.writeByte(1);
-                        out.writeByte(2);
-                    }
-                } else{ 
-                    out.writeByte(1);
-                    out.writeByte(2);}
-                break;
-            case 1:                         //error message
-                System.out.println(this.getName()+"Error: "+in.readUTF());
-                return false;
-            case 0:                         //log out
-            default:
-                logout();
-                return false;
+                        out.writeByte(2);}
+                    break;
+                case 1:                         //error message
+                    System.out.println(this.getName()+"Error: "+in.readUTF());
+                    loggedIn = false;
+                case 0:                         //log out
+                default:
+                    logout();
+                    loggedIn = false;
+                }
+                loggedIn = false;
             }
-            return false;
-        }
-    
+            catch(IOException e){}
+            finally {return loggedIn;}
+            }
+        
 
-    void getPlayers(DataInputStream in, DataOutputStream out){
-        String name;
-        out.writeInt(clients.lenght());
-        for (ClientNode node : clients) {
-            name = node.getName();
-            if(name != null){
-                out.writeUTF(name);
+        void getPlayers(DataInputStream in, DataOutputStream out)throws IOException{
+            try{String name;
+                out.writeInt(clients.size());
+                for (ClientNode node : clients) {
+                    name = node.getName();
+                    if(name != null){
+                        out.writeUTF(name);
+                    }
+                }
             }
-        }
+            catch(IOException e){}
     }
 
     void logout(){
@@ -214,11 +222,13 @@ class MulServerThread extends Thread {
                 break;
         }
     }
-    void sendMessage(Integer cord){
-        PipedOutputStream pos = new PipedOutputStream();
-        pos.connect(vsPlayer.getPipe());
-        pos.write(cord);
-        pos.close();
+    void sendMessage(Integer cord)throws IOException{
+        try{
+            PipedOutputStream pos = new PipedOutputStream();
+            pos.connect(vsPlayer.getPipe());
+            pos.write(cord);
+            pos.close();
+        }
+        catch(IOException e){}
     }
-
 }
