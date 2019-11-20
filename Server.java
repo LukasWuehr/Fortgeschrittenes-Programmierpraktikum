@@ -4,6 +4,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 /*
+    #Alle spielzuege speichern auf server?
+
     byte codierung fuer messagelisener
     0000 0001 - letztes bit als boolean
     7 bit sagen welche aktion 
@@ -35,23 +37,58 @@ class MulServerThread extends Thread {
     static ArrayList<ClientNode> clients = new ArrayList<ClientNode>();
     Socket client;
     ClientNode node;
+    ClientNode vsPlayer;
     MulServerThread(Socket client) { 
         this.client = client; 
-        this.node=new ClientNode(client, new PipedOutputStream()); 
+        this.node=new ClientNode(client, new PipedInputStream()); 
         clients.add(node);
     }
     public void run(){ // Bearbeitung einer aufgebauten Verbindung
         try {
+            pis = node.getPipe();
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            while(!login(in,out)){}     
+            while(!login(in,out)){}
+            while (true) {
+                Int pipeIn = pis.read();
+                if(pipeIn!=null){
+                    out.writeByte(6); //liest alles von anderen thread
+                    out.writeInt(pipeIn);
+                }
+                switch (in.readByte()) {
+                    case 10:
+                        sendMessage(in.readInt());
+                    case 8:
+                        getPlayers(in, out);
+                        break;
+                    case 9:
+                        String playerName = in.readUTF();
+                        this.vsPlayer = searchPlayer(playerName);
+                        if (vsPlayer!=null) {
+                            out.writeByte(9);
+                        } else {
+                            out.writeByte(8);
+                        }
+                        break;
+                
+                    default:
+                        return;
+                }
+            }     
         } catch ( IOException e ) {} // Fehler bei Ein- und Ausgabe
         finally { if ( client != null ) 
             try { client.close(); } catch ( IOException e ) { }
         }
     }
 
-
+    private ClientNode searchPlayer(String name){
+        for (ClientNode clientNode : clients) {
+            if (clientNode.getName().equals(name)) {
+                return clientNode;
+            }
+        }
+        return null;
+    }
     
     private int searchName(String name){
         try{ 
@@ -176,6 +213,12 @@ class MulServerThread extends Thread {
 
                 break;
         }
+    }
+    void sendMessage(Integer cord){
+        PipedOutputStream pos = new PipedOutputStream();
+        pos.connect(vsPlayer.getPipe());
+        pos.write(cord);
+        pos.close();
     }
 
 }
