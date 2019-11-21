@@ -15,7 +15,7 @@ public class Menu {
 
     public void start(String playerName) {
         Player player1 = new Player(playerName, true);
-        System.out.println("Hello "+player1.getName());
+        System.out.println("Hello "+player1.getPlayerName());
         Scanner scan = new Scanner(System.in);
         System.out.println("Hello \nHow many players?\n(1) 1Player\t(2) 2Player");
         int input = scan.nextInt();
