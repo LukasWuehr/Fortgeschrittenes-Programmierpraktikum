@@ -1,19 +1,19 @@
 //verbindet games, server client
 //regelt alles
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.util.Scanner;
+import games.*;
 import games.chomp.*;
 import games.connect4.*;
-import games.*;
+import java.util.Scanner;
 /**
  * Menu
  */
 public class Menu {
-
+    String playerName;
+    public Menu(String playerName){
+        this.playerName = playerName;
+    }
     
-
-    public void start(String playerName) {
+    public void start() {
         Player player1 = new Player(playerName, true);
         System.out.println("Hello "+player1.getPlayerName());
         Scanner scan = new Scanner(System.in);
