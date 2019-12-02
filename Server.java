@@ -242,7 +242,7 @@ class MulServerThread extends Thread {
         // sende nachricht an mitspieler
     }
 
-    synchronized void sendToAllMessage(Int code, String message) throws IOException {
+    synchronized void sendToAllMessage(Byte code, String message) throws IOException {
         try {
             for (ClientNode player : clients) {
                 if (!player.getGame().equals("login")) {
@@ -253,7 +253,7 @@ class MulServerThread extends Thread {
              * PipedOutputStream pos = new PipedOutputStream();
              * pos.connect(vsPlayer.getPipe()); pos.write(coord); pos.close();
              */
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
     }
 }

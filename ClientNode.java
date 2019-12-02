@@ -33,16 +33,22 @@ class ClientNode {
     }
 
     public synchronized void sendMessage(Byte code, String Message) {
-        if (!game.equals("login")) {
-            out.writeByte(code);
-            out.writeUTF(Message);
+        try {
+            if (!game.equals("login")) {
+                out.writeByte(code);
+                out.writeUTF(Message);
+            }
+        } catch (IOException e) {
         }
     }
 
     public synchronized void sendMessage(Byte code, Integer Message) {
-        if (!game.equals("login")) {
-            out.writeByte(code);
-            out.writeInt(Message);
+        try {
+            if (!game.equals("login")) {
+                out.writeByte(code);
+                out.writeInt(Message);
+            }
+        } catch (IOException e) {
         }
     }
 }
