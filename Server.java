@@ -120,10 +120,10 @@ class MulServerThread extends Thread {
             usrs.close();
             int i = 0;
             for (String usrName : names) {
-                i++;
                 if (name.equals(usrName)) {
                     return i;
                 }
+                i++;
             }
             return 0;
         } catch (Exception e) {
@@ -169,7 +169,9 @@ class MulServerThread extends Thread {
                         BufferedWriter pwds = new BufferedWriter(pwdOut);
                         BufferedWriter names = new BufferedWriter(nameOut);
                         pwds.write(pwd);
+                        pwds.newLine();
                         names.write(name);
+                        names.newLine();
                         pwds.close();
                         names.close();
                     }
@@ -189,14 +191,13 @@ class MulServerThread extends Thread {
                     String pwd = in.readUTF();
                     if (comparePWD(pwd, ptr)) {// teste auf pwd
                         out.writeByte(5); // success
+                        out.writeUTF(name);
                         loggedIn = true;
                     } else { // DONE: benoetigt noch loop
                         out.writeByte(1);
-                        out.writeByte(2);
                     }
                 } else {
                     out.writeByte(1);
-                    out.writeByte(2);
                 }
                 break;
             case 1: // error message

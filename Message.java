@@ -1,6 +1,6 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-
+import games.*;
 /**
  * Message
  */
