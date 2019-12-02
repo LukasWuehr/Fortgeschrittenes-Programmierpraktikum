@@ -2,10 +2,10 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 
 class ClientNode {
-    Socket client;
-    String name;
+    private Socket client;
+    private String name;
     DataOutputStream out;
-    String game = "login"; // TODO: ENUM: IDLE WantC4 WantChomp InC4 InComp
+    private String game = "login"; // TODO: ENUM: IDLE WantC4 WantChomp InC4 InComp
 
     public ClientNode(Socket client, DataOutputStream out) {
         this.client = client;
@@ -24,10 +24,25 @@ class ClientNode {
         return client;
     }
 
+    public String getGame() {
+        return (game);
+    }
+
+    public void setGame(String game) {
+        this.game = game;
+    }
+
     public synchronized void sendMessage(Byte code, String Message) {
         if (!game.equals("login")) {
             out.writeByte(code);
             out.writeUTF(Message);
+        }
+    }
+
+    public synchronized void sendMessage(Byte code, Integer Message) {
+        if (!game.equals("login")) {
+            out.writeByte(code);
+            out.writeInt(Message);
         }
     }
 }

@@ -52,13 +52,14 @@ class MulServerThread extends Thread {
     @Override
     public void run() { // Bearbeitung einer aufgebauten Verbindung
         try {
-            PipedInputStream pis = node.getPipe();
+            // PipedInputStream pis = node.getPipe();
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             this.node = new ClientNode(client, out);
             clients.add(node);
             while (!login(in, out)) {
             }
+            node.setGame("idle");
             while (true) {
                 /*
                  * try{ int pipeIn = pis.read(); out.writeByte(6); //liest alles von anderen
@@ -66,7 +67,8 @@ class MulServerThread extends Thread {
                  */
                 switch (in.readByte()) {
                 case 10:
-                    sendMessage(in.readInt());
+                    Byte code = 10;
+                    vsPlayer.sendMessage(code, in.readInt()); // game message
                 case 8:
                     getPlayers(in, out);
                     break;
@@ -158,9 +160,9 @@ class MulServerThread extends Thread {
             case 2: // new Player
                 out.writeByte(2);
                 name = in.readUTF();
-                if (searchName(name) == 0) {
+                if (searchName(name) == 0) {// name noch nicht registriert
                     out.writeByte(3);
-                    synchronized (this) {
+                    synchronized (this) { // write pwd, name into files
                         String pwd = in.readUTF();
                         FileWriter pwdOut = new FileWriter("./pwd", true);
                         FileWriter nameOut = new FileWriter("./usr", true);
@@ -171,24 +173,24 @@ class MulServerThread extends Thread {
                         pwds.close();
                         names.close();
                     }
-                    out.writeByte(5);
+                    out.writeByte(5); // success
                     out.writeUTF(name);
                     loggedIn = true;
                 } else {
-                    out.writeByte(1);
+                    out.writeByte(1); // name allready used
                 }
                 break;
             case 3: // log in
                 out.writeByte(2);
                 name = in.readUTF();
                 int ptr;
-                if ((ptr = searchName(name)) != 0) {
-                    out.writeByte(3);
+                if ((ptr = searchName(name)) != 0) {// name suchen und stelle im file zurueckgeben
+                    out.writeByte(3); // pwd anfordern
                     String pwd = in.readUTF();
-                    if (comparePWD(pwd, ptr)) {
-                        out.writeByte(5);
+                    if (comparePWD(pwd, ptr)) {// teste auf pwd
+                        out.writeByte(5); // success
                         loggedIn = true;
-                    } else { // TODO: benoetigt noch loop
+                    } else { // DONE: benoetigt noch loop
                         out.writeByte(1);
                         out.writeByte(2);
                     }
@@ -206,13 +208,14 @@ class MulServerThread extends Thread {
                 loggedIn = false;
             }
             loggedIn = false;
+            // return loggedIn; lieber hier login
         } catch (IOException e) {
         } finally {
             return loggedIn;
         }
     }
 
-    void getPlayers(DataInputStream in, DataOutputStream out) throws IOException {
+    synchronized void getPlayers(DataInputStream in, DataOutputStream out) throws IOException {
         try {
             String name;
             out.writeInt(clients.size());
@@ -226,36 +229,30 @@ class MulServerThread extends Thread {
         }
     }
 
-    void logout() {
+    void logout() { // remove this server-client from list, close connection -> error in client ->
+                    // terminates
         System.out.println("Client logged out");
+        clients.remove(node);
+        if (client != null)
+            try {
+                client.close();
+            } catch (IOException e) {
+            }
+
         // sende nachricht an mitspieler
     }
 
-    void sendMessage(String message, int mode) {// maybe not
-        // pipe to other thread
-        PipedOutputStream pipeOut = new PipedOutputStream(snk);
-        PipedInputStream pipeIn = new PipedInputStream(src);
-        switch (mode) {
-        case 2: // message plain text
-
-            break;
-        case 1: // error
-
-            break;
-        case 0:
-
-        default: // player loged out
-            break;
-        }
-    }
-
-    void sendMessage(Integer coord) throws IOException { // mit printWriter objeke schicken, enthalten name code und
-                                                         // value
+    synchronized void sendToAllMessage(Int code, String message) throws IOException {
         try {
-            PipedOutputStream pos = new PipedOutputStream();
-            pos.connect(vsPlayer.getPipe());
-            pos.write(coord);
-            pos.close();
+            for (ClientNode player : clients) {
+                if (!player.getGame().equals("login")) {
+                    player.sendMessage(code, message);
+                }
+            }
+            /*
+             * PipedOutputStream pos = new PipedOutputStream();
+             * pos.connect(vsPlayer.getPipe()); pos.write(coord); pos.close();
+             */
         } catch (IOException e) {
         }
     }
