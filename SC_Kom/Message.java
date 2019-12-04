@@ -2,6 +2,8 @@ package SC_Kom;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+
 import games.*;
 import games.connect4.*;
 import games.chomp.*;
@@ -71,12 +73,14 @@ public class Message extends Thread {
         this.game = game;
     }
 
-    public static void sendMessage(Byte b) {
-        out.writeByte(b);
+    public static void sendMessage(Byte b) throws IOException {
+       try{ out.writeByte(b);}
+        catch(Exception e){}
     }
 
     public static void sendMessage(String s) {
-        out.writeUTF(s);
+        try{out.writeUTF(s);}
+        catch(Exception e){}
     }
 
     void logout() {
