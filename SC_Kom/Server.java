@@ -30,10 +30,19 @@ public class Server {
         ServerSocket server = new ServerSocket(3141);
         if (!pwd.exists()) {
             pwd.createNewFile();
+            FileWriter pwdOut = new FileWriter("./pwd", false);
+            BufferedWriter pwds = new BufferedWriter(pwdOut);
+            pwds.write("Passwords:");
+            pwds.newLine();
+            pwds.close();
         }
         if (!usr.exists()) {
             usr.createNewFile();
-        }
+            FileWriter nameOut = new FileWriter("./usr", true);
+            BufferedWriter names = new BufferedWriter(nameOut);
+            names.write("Usernames:");
+            names.newLine();
+            names.close();        }
         while (true) { // einzelner Thread bearbeitet eine aufgebaute Verbindung
             MulServerThread mulThread = new MulServerThread(server.accept());
             mulThread.start();
@@ -59,7 +68,9 @@ class MulServerThread extends Thread {
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             this.node = new ClientNode(client, out);
             clients.add(node);
-            while (!login(in, out)) {
+            if (!login(in, out)) {
+                System.out.println("Client logged out");
+                return;
             }
             node.setGame("idle");
             while (true) {
@@ -151,67 +162,60 @@ class MulServerThread extends Thread {
         return false;
     }
 
-    boolean login(DataInputStream in, DataOutputStream out) throws IOException {
-        boolean loggedIn = false;
+    boolean login(DataInputStream in, DataOutputStream out) {
         try {
             String name;
-            switch (in.readByte()) {
-            case 2: // new Player
-                out.writeByte(2);
-                name = in.readUTF();
-                if (searchName(name) == 0) {// name noch nicht registriert
-                    out.writeByte(3);
-                    synchronized (this) { // write pwd, name into files
-                        String pwd = in.readUTF();
-                        FileWriter pwdOut = new FileWriter("./pwd", true);
-                        FileWriter nameOut = new FileWriter("./usr", true);
-                        BufferedWriter pwds = new BufferedWriter(pwdOut);
-                        BufferedWriter names = new BufferedWriter(nameOut);
-                        pwds.write(pwd);
-                        pwds.newLine();
-                        names.write(name);
-                        names.newLine();
-                        pwds.close();
-                        names.close();
-                    }
-                    out.writeByte(5); // success
-                    out.writeUTF(name);
-                    loggedIn = true;
-                } else {
-                    out.writeByte(1); // name allready used
+            String pwd;
+            while(true) {
+                switch (in.readByte()) {
+                    case 2: // new Player
+                        out.writeByte(2);
+                        name = in.readUTF();
+                        pwd = in.readUTF();
+                        if (searchName(name) == 0) {// name noch nicht registriert
+                            synchronized (this) { // write pwd, name into files
+                                FileWriter pwdOut = new FileWriter("./pwd", true);
+                                FileWriter nameOut = new FileWriter("./usr", true);
+                                BufferedWriter pwds = new BufferedWriter(pwdOut);
+                                BufferedWriter names = new BufferedWriter(nameOut);
+                                pwds.write(pwd);
+                                pwds.newLine();
+                                names.write(name);
+                                names.newLine();
+                                pwds.close();
+                                names.close();
+                            }
+                            out.writeByte(5); // success
+                            out.writeUTF(name);
+                            return true;
+                        } else {
+                            out.writeByte(4);// name allready used
+                        }
+                        break;
+                    case 3: // log in
+                        out.writeByte(3);
+                        name = in.readUTF();
+                        pwd = in.readUTF();
+                        int ptr;
+                        if ((ptr = searchName(name)) != 0) {// name suchen und stelle im file zurueckgeben
+                            if (comparePWD(pwd, ptr)) {// teste auf pwd
+                                out.writeByte(5); // success
+                                out.writeUTF(name);
+                                return true;
+                            } else {
+                                out.writeByte(1);//false pwd or name
+                            }
+                        } else {
+                            out.writeByte(1);//false pwd or name
+                        }
+                        break;
+                    case 0: // log out
+                    default:
+                        return false;
                 }
-                break;
-            case 3: // log in
-                out.writeByte(2);
-                name = in.readUTF();
-                int ptr;
-                if ((ptr = searchName(name)) != 0) {// name suchen und stelle im file zurueckgeben
-                    out.writeByte(3); // pwd anfordern
-                    String pwd = in.readUTF();
-                    if (comparePWD(pwd, ptr)) {// teste auf pwd
-                        out.writeByte(5); // success
-                        out.writeUTF(name);
-                        loggedIn = true;
-                    } else { // DONE: benoetigt noch loop
-                        out.writeByte(1);
-                    }
-                } else {
-                    out.writeByte(1);
-                }
-                break;
-            case 1: // error message
-                System.out.println(this.getName() + "Error: " + in.readUTF());
-                loggedIn = false;
-            case 0: // log out
-            default:
-                logout();
-                loggedIn = false;
             }
-            loggedIn = false;
-            // return loggedIn; lieber hier login
         } catch (IOException e) {
-        } finally {
-            return loggedIn;
+            return false;
         }
     }
 

@@ -5,11 +5,7 @@ import java.net.*;
 import java.util.Scanner;
 
 class Client {
-    boolean loggedIn;
-
-    public Client(boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
+    public Client(){}
 
     public static void main(String[] args) {
         Socket server = null;
@@ -17,9 +13,11 @@ class Client {
             server = new Socket("localhost", 3141);
             DataInputStream in = new DataInputStream(server.getInputStream());
             DataOutputStream out = new DataOutputStream(server.getOutputStream());
-            Client client = new Client(false);
-            while (!client.login(in, out)) {
-                System.out.println("LogIn");
+            Client client = new Client();
+            if (!client.login(in, out)) {
+                System.out.println("Exit");
+                out.writeByte(0);
+                return;
             }
             Menu menu = new Menu(in.readUTF());
             menu.start();
@@ -38,77 +36,48 @@ class Client {
     }
 
     public boolean login(DataInputStream in, DataOutputStream out) {
-        boolean loggedIn = false;
         try {
-            Scanner scanInt = new Scanner(System.in);
-            Scanner scanString = new Scanner(System.in);
-            System.out.println("(1)New Player\t(2)Log in");
-            int intInput = scanInt.nextInt();
-            if (intInput == 2) {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("(1)New Player\t(2)Log in \t(0)Exit");
+            int Input = scan.nextInt();
+            if (Input == 2) {
                 out.writeByte(3);
-                while (!loggedIn) {
-                    switch (in.readByte()) {
-                    case 2:
-                        System.out.println("Insert Your Name");
-                        String name = scanString.nextLine();
-                        out.writeUTF(name);
-                        break;
-                    case 3:
-                        System.out.println("Insert Your Password"); // TODO: hashing
-                        String pwd = scanString.nextLine();
-                        out.writeUTF(pwd);
-                        break;
-                    /*
-                     * case 4: break;
-                     */
-                    case 5:
-                        loggedIn = true;
-                        break;
-                    case 1:
-                        System.out.println("Try Again");
-                        out.writeByte(3);
-                        // case 0:
-                    default:
-                        loggedIn = false;
-                        break;
-                    }
-                }
-            } else if (intInput == 1) {
+            } else if (Input == 1) {
                 out.writeByte(2);
-                while (!loggedIn) {
+            } else {
+                return false;
+            }
+            scan.nextLine();
+                while (true) {
+                    String pwd, name="Player1";
                     switch (in.readByte()) {
-                    case 5:
-                        loggedIn = true;
-                        break;
-                    case 3:
-                        System.out.println("Insert Your Password:");
-                        String pwd = scanString.nextLine();
-                        out.writeUTF(pwd);
-                        break;
-                    case 2:
-                        System.out.println("Insert Your Name:");
-                        String name = scanString.nextLine();
-                        out.writeUTF(name);
-                        break;
-                    case 1:
-                        System.out.println("Name already used!");
-                        out.writeByte(2);
-                        break;
-                    // case 0:
-                    default:
-                        loggedIn = false;
-                        break;
+                        case 2:
+                        case 3:
+                            System.out.printf("Insert Your Name: ");
+                            name = scan.nextLine();
+                            out.writeUTF(name);
+                            System.out.printf("Insert Your Password: ");
+                            pwd = scan.nextLine();
+                            out.writeUTF(pwd);
+                            break;
+                        case 4:
+                            System.out.println("Use other name");
+                            out.writeByte(2);
+                            break;
+                        case 5:
+                            System.out.println("You logged in as "+name);
+                            return true;
+                        case 1:
+                            System.out.println("Try Again");
+                            out.writeByte(3);
+                            break;
+                        case 0:
+                        default:
+                            return false;
                     }
                 }
-            } else if (intInput == 0) {
-                out.writeByte(0);
-                loggedIn = false;
-            }
-
-        } catch (Exception e) {
-            // TODO: handle exception
-        } finally {
-            return loggedIn;
+        } catch (IOException e) {
+            return false;
         }
     }
 }
