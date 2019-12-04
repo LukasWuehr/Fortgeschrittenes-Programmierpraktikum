@@ -16,10 +16,12 @@ public class Message extends Thread {
     static DataInputStream in;
     Game game;
     Player player;
+    Client client;
 
-    public Message(DataInputStream in, DataOutputStream out) {
+    public Message(DataInputStream in, DataOutputStream out, Client client) {
         Message.in = in;
         Message.out = out;
+        this.client = client;
     }
 
     public Message() {
@@ -41,9 +43,14 @@ public class Message extends Thread {
                     case 10: // turn of VSplayer
                         setTurn(in.readUTF());
                         break;
+                    case 9:
+                        //spiel starten
+                        break;
                     case 6: // chat message
                         chat(in.readUTF());
                         break;
+                    case 3:
+                        playerList(in.readInt());
                     case 2: // new Player logged in
                         newPlayer(in.readUTF());
                         break;
@@ -76,7 +83,7 @@ public class Message extends Thread {
         this.game = game;
     }
 
-    public static void sendMessage(Byte b) throws IOException {
+    public static void sendMessage(Integer b)  {
        try{ out.writeByte(b);}
         catch(IOException e){}
     }
@@ -86,17 +93,25 @@ public class Message extends Thread {
         catch(IOException e){}
     }
 
-    void logout() {
+    private void logout() {
         // TODO: Logout
     }
 
-    void chat(String s) {
+    private void chat(String s) {
 
         System.out.println(s);
     }
 
-    void newPlayer(String s){
+    private void newPlayer(String s){
         System.out.println("New Player: "+ s);
+    }
+
+    private void playerList(int size){
+         try {
+             for (int i = 0; i < size; i++) {
+                 System.out.println(in.readUTF());
+             }
+         }catch (IOException e){}
     }
     // turns of vsplayer saved in stack
 }

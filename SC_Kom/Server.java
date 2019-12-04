@@ -73,15 +73,12 @@ class MulServerThread extends Thread {
                 return;
             }
             node.setGame("idle");
+            sendToAllMessage((byte) 2, node.getName());
             while (true) {
-                /*
-                 * try{ int pipeIn = pis.read(); out.writeByte(6); //liest alles von anderen
-                 * thread out.writeInt(pipeIn); } catch(IOException e){}
-                 */
                 switch (in.readByte()) {
                 case 10:
-                    Byte code = 10;
-                    vsPlayer.sendMessage(code, in.readInt()); // game message
+                    vsPlayer.sendMessage((byte) 10, in.readInt()); // game message
+                    break;
                 case 8:
                     getPlayers(in, out);
                     break;
@@ -94,7 +91,8 @@ class MulServerThread extends Thread {
                         out.writeByte(8);
                     }
                     break;
-
+                case 0:
+                    logout();
                 default:
                     return;
                 }
@@ -104,11 +102,7 @@ class MulServerThread extends Thread {
         IOException e) {
         } // Fehler bei Ein- und Ausgabe
         finally {
-            if (client != null)
-                try {
-                    client.close();
-                } catch (IOException e) {
-                }
+            logout();
         }
     }
 
@@ -219,9 +213,10 @@ class MulServerThread extends Thread {
         }
     }
 
-    synchronized void getPlayers(DataInputStream in, DataOutputStream out) throws IOException {
+    synchronized void getPlayers(DataInputStream in, DataOutputStream out) {
         try {
             String name;
+            out.writeByte(3);
             out.writeInt(clients.size());
             for (ClientNode node : clients) {
                 name = node.getName();

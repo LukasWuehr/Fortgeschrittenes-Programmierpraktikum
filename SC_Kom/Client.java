@@ -21,6 +21,9 @@ class Client {
             }
             Menu menu = new Menu(in.readUTF());
             menu.start();
+            Message message = new Message(in,out, client);
+            message.start();
+            Message.sendMessage(8);
         } catch (UnknownHostException e) {
             System.out.println("ERROR: " + e);
         } // Verbindungsfehler
