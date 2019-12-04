@@ -18,8 +18,8 @@ public class Message extends Thread {
     Player player;
 
     public Message(DataInputStream in, DataOutputStream out) {
-        this.in = in;
-        this.out = out;
+        Message.in = in;
+        Message.out = out;
     }
 
     public Message() {
@@ -35,35 +35,38 @@ public class Message extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            switch (in.readByte()) {
-            case 10: // turn of VSplayer
-                setTurn(in.readUTF());
-                break;
-            case 6: // chat message
-                chat(in.readUTF());
-                break;
-            case 2: // new Player logged in
-                newPlayer(in.readUTF());
-                break;
-            case 1: // error Message
-                System.out.println("ERROR");
-                break;
+        try {
+            while (true) {
+                switch (in.readByte()) {
+                    case 10: // turn of VSplayer
+                        setTurn(in.readUTF());
+                        break;
+                    case 6: // chat message
+                        chat(in.readUTF());
+                        break;
+                    case 2: // new Player logged in
+                        newPlayer(in.readUTF());
+                        break;
+                    case 1: // error Message
+                        System.out.println("ERROR");
+                        break;
 
-            case 0: // log out
-                logout();
-                out.writeByte(0);
-                break;
+                    case 0: // log out
+                        logout();
+                        out.writeByte(0);
+                        break;
+                }
             }
+        }catch (IOException e){
         }
     }
 
     private void setTurn(String turn) {
-        Object infos[] = new Object[5]; // game,player,turn,h,l
+        Object []infos = new Object[5]; // game,player,turn,h,l
         infos = turn.split(",");
         // greife auf spiel zu und setze zug
         if (infos[0].equals("connect")) {
-            (Connect4Game) game.setDisc();
+            //(Connect4Game) game.setDisc();
         } else if (infos[0].equals("chomp")) {
 
         }
@@ -75,12 +78,12 @@ public class Message extends Thread {
 
     public static void sendMessage(Byte b) throws IOException {
        try{ out.writeByte(b);}
-        catch(Exception e){}
+        catch(IOException e){}
     }
 
     public static void sendMessage(String s) {
         try{out.writeUTF(s);}
-        catch(Exception e){}
+        catch(IOException e){}
     }
 
     void logout() {
@@ -88,8 +91,12 @@ public class Message extends Thread {
     }
 
     void chat(String s) {
+
         System.out.println(s);
     }
 
+    void newPlayer(String s){
+        System.out.println("New Player: "+ s);
+    }
     // turns of vsplayer saved in stack
 }

@@ -144,10 +144,7 @@ class MulServerThread extends Thread {
                 passwords.add(password);
             }
             pwds.close();
-            if (pwd.equals(passwords.get(ptr))) {
-                return true;
-            }
-            return false;
+            return pwd.equals(passwords.get(ptr));
         } catch (Exception e) {
             System.out.println("No users found");
         }
@@ -246,7 +243,6 @@ class MulServerThread extends Thread {
     }
 
     synchronized void sendToAllMessage(Byte code, String message) throws IOException {
-        try {
             for (ClientNode player : clients) {
                 if (!player.getGame().equals("login")) {
                     player.sendMessage(code, message);
@@ -256,14 +252,14 @@ class MulServerThread extends Thread {
              * PipedOutputStream pos = new PipedOutputStream();
              * pos.connect(vsPlayer.getPipe()); pos.write(coord); pos.close();
              */
-        } catch (Exception e) {
-        }
     }
 
-    synchronized void sendMessages(String name, Object Messages[]) {
+    synchronized void sendMessage(String name,Byte code, String message) {
         ClientNode client = searchPlayer(name);
-        for (Object message : Messages) {
-            client.sendMessage(message);
-        }
+            client.sendMessage(code, message);
     }
-}
+    synchronized void sendMessage(String name,Byte code, int message) {
+        ClientNode client = searchPlayer(name);
+        client.sendMessage(code, message);
+    }
+    }
