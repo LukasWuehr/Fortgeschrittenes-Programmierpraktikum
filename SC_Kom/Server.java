@@ -1,3 +1,5 @@
+package SC_Kom;
+
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -255,6 +257,13 @@ class MulServerThread extends Thread {
              * pos.connect(vsPlayer.getPipe()); pos.write(coord); pos.close();
              */
         } catch (Exception e) {
+        }
+    }
+
+    synchronized void sendMessages(String name, Object Messages[]) {
+        ClientNode client = searchPlayer(name);
+        for (Object message : Messages) {
+            client.sendMessage(message);
         }
     }
 }

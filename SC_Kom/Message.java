@@ -1,6 +1,11 @@
+package SC_Kom;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import games.*;
+import games.connect4.*;
+import games.chomp.*;
+
 /**
  * Message
  */
@@ -18,16 +23,10 @@ public class Message extends Thread {
     public Message() {
     }
 
-    /**
-     * @param in the in to set
-     */
     public static void setIn(DataInputStream in) {
         Message.in = in;
     }
 
-    /**
-     * @param out the out to set
-     */
     public static void setOut(DataOutputStream out) {
         Message.out = out;
     }
@@ -36,14 +35,20 @@ public class Message extends Thread {
     public void run() {
         while (true) {
             switch (in.readByte()) {
-            case 10:
+            case 10: // turn of VSplayer
                 setTurn(in.readUTF());
-
-            case 1:
+                break;
+            case 6: // chat message
+                chat(in.readUTF());
+                break;
+            case 2: // new Player logged in
+                newPlayer(in.readUTF());
+                break;
+            case 1: // error Message
                 System.out.println("ERROR");
                 break;
 
-            case 0:
+            case 0: // log out
                 logout();
                 out.writeByte(0);
                 break;
@@ -56,15 +61,12 @@ public class Message extends Thread {
         infos = turn.split(",");
         // greife auf spiel zu und setze zug
         if (infos[0].equals("connect")) {
-            game.setDisc();
+            (Connect4Game) game.setDisc();
         } else if (infos[0].equals("chomp")) {
 
         }
     }
 
-    /**
-     * @param game the game to set
-     */
     public void setGame(Game game) {
         this.game = game;
     }
@@ -77,6 +79,13 @@ public class Message extends Thread {
         out.writeUTF(s);
     }
 
-    // game spieler 2 ist dran -> wait()
-    // message schreibt spielzug -> notify()
+    void logout() {
+        // TODO: Logout
+    }
+
+    void chat(String s) {
+        System.out.println(s);
+    }
+
+    // turns of vsplayer saved in stack
 }

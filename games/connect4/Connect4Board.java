@@ -1,5 +1,6 @@
 package games.connect4;
 
+import SC_Kom.Message;
 import games.*;
 
 /**

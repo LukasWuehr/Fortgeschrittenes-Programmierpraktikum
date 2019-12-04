@@ -1,3 +1,5 @@
+package SC_Kom;
+
 import java.io.DataOutputStream;
 import java.net.Socket;
 
@@ -38,7 +40,7 @@ class ClientNode {
                 out.writeByte(code);
                 out.writeUTF(Message);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
     }
 
@@ -48,7 +50,7 @@ class ClientNode {
                 out.writeByte(code);
                 out.writeInt(Message);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
     }
 }
