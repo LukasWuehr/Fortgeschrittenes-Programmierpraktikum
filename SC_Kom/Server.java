@@ -63,7 +63,6 @@ class MulServerThread extends Thread {
     @Override
     public void run() { // Bearbeitung einer aufgebauten Verbindung
         try {
-            // PipedInputStream pis = node.getPipe();
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             this.node = new ClientNode(client, out);
@@ -73,7 +72,7 @@ class MulServerThread extends Thread {
                 return;
             }
             node.setGame("idle");
-            //sendToAllMessage((byte) 2, node.getName());
+            sendToAllMessage((byte) 2, node.getName());
             while (true) {
                 switch (in.readByte()) {
                 case 10:
