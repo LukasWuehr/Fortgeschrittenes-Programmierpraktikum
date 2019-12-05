@@ -65,7 +65,7 @@ public class Message extends Thread {
         if (infos[0].equals("connect")) {
             (Connect4Game) game.setDisc();
         } else if (infos[0].equals("chomp")) {
-
+            (ChompGame) game.gamemove(infos[4],infos[5]);
         }
     }
 
