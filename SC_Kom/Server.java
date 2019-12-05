@@ -73,7 +73,7 @@ class MulServerThread extends Thread {
                 return;
             }
             node.setGame("idle");
-            sendToAllMessage((byte) 2, node.getName());
+            //sendToAllMessage((byte) 2, node.getName());
             while (true) {
                 switch (in.readByte()) {
                 case 10:
@@ -181,6 +181,7 @@ class MulServerThread extends Thread {
                             }
                             out.writeByte(5); // success
                             out.writeUTF(name);
+                            node.setName(name);
                             return true;
                         } else {
                             out.writeByte(4);// name allready used
@@ -195,6 +196,7 @@ class MulServerThread extends Thread {
                             if (comparePWD(pwd, ptr)) {// teste auf pwd
                                 out.writeByte(5); // success
                                 out.writeUTF(name);
+                                node.setName(name);
                                 return true;
                             } else {
                                 out.writeByte(1);//false pwd or name

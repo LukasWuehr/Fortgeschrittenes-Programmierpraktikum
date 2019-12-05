@@ -37,6 +37,7 @@ public class Message extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Ready for msg");
         try {
             while (true) {
                 switch (in.readByte()) {
@@ -114,7 +115,7 @@ public class Message extends Thread {
 
     private void playerList(int size){
          try {
-             System.out.println("Players Online:");
+             System.out.println("Players Online:"+size);
              for (int i = 0; i < size; i++) {
                  System.out.println(in.readUTF());
              }
