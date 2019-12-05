@@ -62,6 +62,8 @@ public class Message extends Thread {
                         logout();
                         out.writeByte(0);
                         break;
+                    default:
+                        break;
                 }
             }
         }catch (IOException e){
@@ -85,12 +87,16 @@ public class Message extends Thread {
 
     public static void sendMessage(Integer b)  {
        try{ out.writeByte(b);}
-        catch(IOException e){}
+        catch(IOException e){
+            System.out.println("connection Error");
+        }
     }
 
     public static void sendMessage(String s) {
         try{out.writeUTF(s);}
-        catch(IOException e){}
+        catch(IOException e){
+            System.out.println("connection Error");
+        }
     }
 
     private void logout() {
@@ -108,10 +114,13 @@ public class Message extends Thread {
 
     private void playerList(int size){
          try {
+             System.out.println("Players Online:");
              for (int i = 0; i < size; i++) {
                  System.out.println(in.readUTF());
              }
-         }catch (IOException e){}
+         }catch (IOException e){
+             System.out.println("cant write players");
+         }
     }
     // turns of vsplayer saved in stack
 }

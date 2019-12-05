@@ -4,8 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-class Client {
-    public Client(){}
+class Client2 {
+    public Client2(){}
 
     public static void main(String[] args) {
         Socket server = null;
@@ -20,10 +20,10 @@ class Client {
                 return;
             }
             Menu menu = new Menu(in.readUTF());
+            menu.start();
             Message message = new Message(in,out, client);
             message.start();
             Message.sendMessage(8);
-            menu.start();
         } catch (UnknownHostException e) {
             System.out.println("ERROR: " + e);
         } // Verbindungsfehler
@@ -51,34 +51,34 @@ class Client {
                 return false;
             }
             scan.nextLine();
-            String pwd, name="Player1";
-                while (true) {
-                    switch (in.readByte()) {
-                        case 2:
-                        case 3:
-                            System.out.printf("Insert Your Name: ");
-                            name = scan.nextLine();
-                            out.writeUTF(name);
-                            System.out.printf("Insert Your Password: ");
-                            pwd = scan.nextLine();
-                            out.writeUTF(pwd);
-                            break;
-                        case 4:
-                            System.out.println("Use other name");
-                            out.writeByte(2);
-                            break;
-                        case 5:
-                            System.out.println("You logged in as "+name);
-                            return true;
-                        case 1:
-                            System.out.println("Try Again");
-                            out.writeByte(3);
-                            break;
-                        case 0:
-                        default:
-                            return false;
-                    }
+            while (true) {
+                String pwd, name="Player1";
+                switch (in.readByte()) {
+                    case 2:
+                    case 3:
+                        System.out.printf("Insert Your Name: ");
+                        name = scan.nextLine();
+                        out.writeUTF(name);
+                        System.out.printf("Insert Your Password: ");
+                        pwd = scan.nextLine();
+                        out.writeUTF(pwd);
+                        break;
+                    case 4:
+                        System.out.println("Use other name");
+                        out.writeByte(2);
+                        break;
+                    case 5:
+                        System.out.println("You logged in as "+name);
+                        return true;
+                    case 1:
+                        System.out.println("Try Again");
+                        out.writeByte(3);
+                        break;
+                    case 0:
+                    default:
+                        return false;
                 }
+            }
         } catch (IOException e) {
             return false;
         }
