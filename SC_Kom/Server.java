@@ -3,6 +3,7 @@ package SC_Kom;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 /*
     #Alle spielzuege speichern auf server?
@@ -43,6 +44,8 @@ public class Server {
             names.write("Usernames:");
             names.newLine();
             names.close();        }
+        ServerInput serverInput = new ServerInput();
+        serverInput.start();
         while (true) { // einzelner Thread bearbeitet eine aufgebaute Verbindung
             MulServerThread mulThread = new MulServerThread(server.accept());
             mulThread.start();
@@ -55,6 +58,7 @@ class MulServerThread extends Thread {
     Socket client;
     ClientNode node;
     ClientNode vsPlayer;
+    Date date = new Date();
 
     MulServerThread(Socket client) {
         this.client = client;
@@ -181,6 +185,7 @@ class MulServerThread extends Thread {
                             out.writeByte(5); // success
                             out.writeUTF(name);
                             node.setName(name);
+                            System.out.println("Player logged in: "+name+" "+ date);
                             return true;
                         } else {
                             out.writeByte(4);// name allready used
@@ -196,6 +201,7 @@ class MulServerThread extends Thread {
                                 out.writeByte(5); // success
                                 out.writeUTF(name);
                                 node.setName(name);
+                                System.out.println("Player logged in: "+name+" "+ date);
                                 return true;
                             } else {
                                 out.writeByte(1);//false pwd or name
@@ -231,7 +237,7 @@ class MulServerThread extends Thread {
 
     void logout() { // remove this server-client from list, close connection -> error in client ->
                     // terminates
-        System.out.println("Client logged out");
+        System.out.println("Client logged out: "+node.getName()+" at "+date);
         clients.remove(node);
         if (client != null)
             try {
