@@ -1,4 +1,5 @@
-package SC_Kom;
+package server;
+
 
 import java.io.*;
 import java.net.*;
@@ -26,9 +27,12 @@ import java.util.Date;
 public class Server {
     private static File pwd = new File("./pwd");
     private static File usr = new File("./usr");
+    public Gui gui;
 
-    public static void main(String[] args) throws IOException {
+    public Server(Gui gui) throws IOException {
+        this.gui=gui;
         ServerSocket server = new ServerSocket(3141);
+        gui.setLog(server.toString());
         if (!pwd.exists()) {
             pwd.createNewFile();
             FileWriter pwdOut = new FileWriter("./pwd", false);
@@ -36,6 +40,7 @@ public class Server {
             pwds.write("Passwords:");
             pwds.newLine();
             pwds.close();
+            gui.setLog("New pwd file created");
         }
         if (!usr.exists()) {
             usr.createNewFile();
@@ -43,9 +48,10 @@ public class Server {
             BufferedWriter names = new BufferedWriter(nameOut);
             names.write("Usernames:");
             names.newLine();
-            names.close();        }
-        ServerInput serverInput = new ServerInput();
-        serverInput.start();
+            names.close();
+            gui.setLog("New pwd file created");
+        }
+        MulServerThread.gui = this.gui;
         while (true) { // einzelner Thread bearbeitet eine aufgebaute Verbindung
             MulServerThread mulThread = new MulServerThread(server.accept());
             mulThread.start();
@@ -55,6 +61,7 @@ public class Server {
 
 class MulServerThread extends Thread {
     static ArrayList<ClientNode> clients = new ArrayList<ClientNode>();
+    static Gui gui;
     Socket client;
     ClientNode node;
     ClientNode vsPlayer;
@@ -67,15 +74,19 @@ class MulServerThread extends Thread {
     @Override
     public void run() { // Bearbeitung einer aufgebauten Verbindung
         try {
+            gui.setLog("new client:"+client.toString()+date);
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             this.node = new ClientNode(client, out);
             clients.add(node);
             if (!login(in, out)) {
                 System.out.println("Client logged out");
+                gui.setLog("logout client: "+client.toString()+date);
                 return;
             }
             node.setGame("idle");
+            gui.setLog("player Log in: "+node.getName()+ " "+date);
+            gui.addPlayer(node.getName());
             sendToAllMessage((byte) 2, node.getName());
             while (true) {
                 switch (in.readByte()) {
@@ -237,7 +248,7 @@ class MulServerThread extends Thread {
 
     void logout() { // remove this server-client from list, close connection -> error in client ->
                     // terminates
-        System.out.println("Client logged out: "+node.getName()+" at "+date);
+        gui.setLog("Client logged out: "+node.getName()+" at "+date);
         clients.remove(node);
         //vsPlayer.sendMessage((byte)0,"logout");
         if (client != null)

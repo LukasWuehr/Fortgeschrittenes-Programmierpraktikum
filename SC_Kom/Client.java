@@ -1,11 +1,17 @@
 package SC_Kom;
 
+import GUI.Login;
+
+import javax.swing.*;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
 class Client {
-    public Client(){}
+    JFrame frame;
+    public Client(){
+        this.frame = new JFrame();
+    }
 
     public static void main(String[] args) {
         Socket server = null;
@@ -39,10 +45,20 @@ class Client {
     }
 
     public boolean login(DataInputStream in, DataOutputStream out) {
+        Login frameLogin = new Login(frame);
         try {
-            Scanner scan = new Scanner(System.in);
+            //Scanner scan = new Scanner(System.in);
             System.out.println("(1)New Player\t(2)Log in \t(0)Exit");
-            int Input = scan.nextInt();
+            //int Input = scan.nextInt();
+            int Input;
+            String []inputs;
+            do{
+                inputs = frameLogin.getInputs();
+                Input = Integer.parseInt(inputs[0]);
+                //System.out.println(Input);
+                try{Thread.sleep(10);
+                }catch (InterruptedException e){System.out.println(Input);}
+            } while (Input==0);
             if (Input == 2) {
                 out.writeByte(3);
             } else if (Input == 1) {
@@ -50,21 +66,24 @@ class Client {
             } else {
                 return false;
             }
-            scan.nextLine();
+            //scan.nextLine();
             String pwd, name="Player1";
                 while (true) {
                     switch (in.readByte()) {
                         case 2:
                         case 3:
                             System.out.printf("Insert Your Name: ");
-                            name = scan.nextLine();
+                            //name = scan.nextLine();
+                            name = inputs[1];
                             out.writeUTF(name);
                             System.out.printf("Insert Your Password: ");
-                            pwd = scan.nextLine();
+                            //pwd = scan.nextLine();
+                            pwd = inputs[2];
                             out.writeUTF(pwd);
                             break;
                         case 4:
                             System.out.println("Use other name");
+                            frameLogin.setMessage("Use other name");
                             out.writeByte(2);
                             break;
                         case 5:
@@ -72,6 +91,7 @@ class Client {
                             return true;
                         case 1:
                             System.out.println("Try Again");
+                            frameLogin.setMessage("Try Again");
                             out.writeByte(3);
                             break;
                         case 0:

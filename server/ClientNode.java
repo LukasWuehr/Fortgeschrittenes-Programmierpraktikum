@@ -1,4 +1,4 @@
-package SC_Kom;
+package server;
 
 import java.io.DataOutputStream;
 import java.net.Socket;

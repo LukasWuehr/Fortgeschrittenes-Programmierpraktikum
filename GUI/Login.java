@@ -3,6 +3,8 @@ package GUI;
 import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Login {
     private JPanel LoginPanel;
@@ -16,19 +18,58 @@ public class Login {
     private JLabel nameLable;
     private JLabel messageLable;
 
-    public Login() {
-        JFrame frame = new JFrame("Login");
+    private String[] inputs = new String[3];
+
+    public Login(JFrame frame) {
+        inputs[0] = "0";
+        //JFrame frame = new JFrame("Login");
+        frame.setTitle("Login");
         frame.setContentPane(LoginPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(500, 500);
         frame.setVisible(true);
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String pwd = String.valueOf(passwordField.getPassword());
+                String name = nameField.getText();
+                inputs[0] = "2";
+                inputs[1] = name;
+                inputs[2] = pwd;
+            }
+        });
+        newPlayerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String pwd = String.valueOf(passwordField.getPassword());
+                String name = nameField.getText();
+                inputs[0] = "1";
+                inputs[1] = name;
+                inputs[2] = pwd;
+            }
+        });
 
+        messageLable.setText("");
+    }
+
+    public String[] getInputs() {
+        return inputs;
+    }
+
+    public void setMessage(String message) {
+        messageLable.setText(message);
     }
 
     public static void main(String[] args) {
-        new Login();
+        new Login(new JFrame());
     }
 
     {
@@ -74,6 +115,7 @@ public class Login {
         nameField = new JTextField();
         Font nameFieldFont = this.$$$getFont$$$("Dyuthi", -1, 22, nameField.getFont());
         if (nameFieldFont != null) nameField.setFont(nameFieldFont);
+        nameField.setText("");
         panel1.add(nameField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         passwordField = new JPasswordField();
         Font passwordFieldFont = this.$$$getFont$$$("Dyuthi", -1, 22, passwordField.getFont());
@@ -125,7 +167,7 @@ public class Login {
         Font messageLableFont = this.$$$getFont$$$(null, -1, 20, messageLable.getFont());
         if (messageLableFont != null) messageLable.setFont(messageLableFont);
         messageLable.setForeground(new Color(-3395282));
-        messageLable.setText("");
+        messageLable.setText("Message");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;

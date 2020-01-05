@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.Login">
   <grid id="27dc6" binding="LoginPanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="573" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -39,6 +39,7 @@
             </constraints>
             <properties>
               <font name="Dyuthi" size="22"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="db08e" class="javax.swing.JPasswordField" binding="passwordField">
@@ -125,7 +126,7 @@
         <properties>
           <font size="20"/>
           <foreground color="-3395282"/>
-          <text value=""/>
+          <text value="Message"/>
         </properties>
       </component>
     </children>

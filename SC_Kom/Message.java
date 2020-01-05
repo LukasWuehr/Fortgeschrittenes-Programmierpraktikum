@@ -115,9 +115,10 @@ public class Message extends Thread {
 
     private void playerList(int size){
          try {
+             String []players = new String[size];
              System.out.println("Players Online:"+size);
              for (int i = 0; i < size; i++) {
-                 System.out.println(in.readUTF());
+                 System.out.println(players[i]=in.readUTF());
              }
          }catch (IOException e){
              System.out.println("cant write players");

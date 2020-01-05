@@ -28,6 +28,7 @@ public class Window extends JFrame implements ActionListener{
     public static void main(String[] args) {
         new Window();
         new LoginWindow();
+        new CardLayoutExample();
     } }
 
  class LoginWindow {
@@ -51,6 +52,8 @@ public class Window extends JFrame implements ActionListener{
         b.setBounds(100,120, 80,30);
         JTextField text = new JTextField();
         text.setBounds(100,20, 100,30);
+        l1.setFont(new Font( "Calibri",Font.PLAIN, 22));
+
         f.add(value); f.add(l1); f.add(label); f.add(l2); f.add(b); f.add(text);f.add(radioButton);
         for (int i = 0; i <3; i++) {
             f.add(new JButton());
@@ -66,5 +69,35 @@ public class Window extends JFrame implements ActionListener{
                 label.setText(data);
             }
         });
+    }
+}
+
+class CardLayoutExample extends JFrame implements ActionListener{
+    CardLayout card;
+    JButton b1,b2,b3;
+    Container c;
+    CardLayoutExample(){
+        setSize(400,400);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        c=getContentPane();
+        card=new CardLayout(40,30);
+//create CardLayout object with 40 hor space and 30 ver space
+        c.setLayout(card);
+
+        b1=new JButton("Apple");
+        b2=new JButton("Boy");
+        b3=new JButton("Cat");
+        b3.setBackground(Color.GRAY);
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        b3.addActionListener(this);
+
+        c.add("a",b1);c.add("b",b2);c.add("c",b3);
+
+    }
+    public void actionPerformed(ActionEvent e) {
+        card.next(c);
     }
 }
