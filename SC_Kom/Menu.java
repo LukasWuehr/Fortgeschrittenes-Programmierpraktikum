@@ -2,6 +2,7 @@ package SC_Kom;
 
 //verbindet games, server client
 //regelt alles
+import GUI.MainScreen;
 import games.*;
 import games.chomp.*;
 import games.connect4.*;
@@ -10,8 +11,9 @@ import java.util.Scanner;
 /**
  * Menu
  */
-public class Menu {
+public class Menu extends Thread {
     String playerName;
+    MainScreen screen;
 
     public Menu(String playerName) {
         this.playerName = playerName;
@@ -48,5 +50,9 @@ public class Menu {
                 game.start();
             }
         }
+    }
+
+    public void setScreen(MainScreen screen) {
+        this.screen = screen;
     }
 }

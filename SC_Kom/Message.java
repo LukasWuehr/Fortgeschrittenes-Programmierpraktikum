@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import GUI.MainScreen;
 import games.*;
 import games.connect4.*;
 import games.chomp.*;
@@ -17,6 +18,7 @@ public class Message extends Thread {
     Game game;
     Player player;
     Client client;
+    MainScreen screen;
 
     public Message(DataInputStream in, DataOutputStream out, Client client) {
         Message.in = in;
@@ -102,6 +104,7 @@ public class Message extends Thread {
 
     private void logout() {
         // TODO: Logout
+        System.exit(0);
     }
 
     private void chat(String s) {
@@ -111,18 +114,25 @@ public class Message extends Thread {
 
     private void newPlayer(String s){
         System.out.println("New Player: "+ s);
+        screen.addPlayer(s);
     }
 
     private void playerList(int size){
          try {
-             String []players = new String[size];
+             String player;
              System.out.println("Players Online:"+size);
              for (int i = 0; i < size; i++) {
-                 System.out.println(players[i]=in.readUTF());
+                 System.out.println(player=in.readUTF());
+                 screen.addPlayer(player);
              }
          }catch (IOException e){
              System.out.println("cant write players");
          }
     }
+
+    public void setScreen(MainScreen screen) {
+        this.screen = screen;
+    }
+
     // turns of vsplayer saved in stack
 }

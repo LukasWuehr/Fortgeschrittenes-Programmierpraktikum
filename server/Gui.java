@@ -14,7 +14,7 @@ public class Gui implements ActionListener {
     private JPanel guiPanel;
 
     public Gui() {
-        JFrame frame = new JFrame("Login");
+        JFrame frame = new JFrame("SERVER");
         frame.setContentPane(guiPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -44,6 +44,14 @@ public class Gui implements ActionListener {
 
     public void addPlayer(String name) {
         playerOnline.setText(name);
+    }
+    public void removePlayer(String name){
+        String text = playerOnline.getText();
+        String players="";
+        for(String player : text.split(name+"\n")){
+            players += player;
+        }
+        playerOnline.setText(players);
     }
 
     public static void main(String[] args) {

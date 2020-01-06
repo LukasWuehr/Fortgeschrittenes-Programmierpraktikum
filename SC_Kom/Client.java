@@ -1,6 +1,7 @@
 package SC_Kom;
 
 import GUI.Login;
+import GUI.MainScreen;
 
 import javax.swing.*;
 import java.io.*;
@@ -29,6 +30,9 @@ class Client {
             Message message = new Message(in,out, client);
             message.start();
             Message.sendMessage(8);
+            MainScreen screen = new MainScreen(client.frame);
+            menu.setScreen(screen);
+            message.setScreen(screen);
             menu.start();
         } catch (UnknownHostException e) {
             System.out.println("ERROR: " + e);

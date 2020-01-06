@@ -249,6 +249,7 @@ class MulServerThread extends Thread {
     void logout() { // remove this server-client from list, close connection -> error in client ->
                     // terminates
         gui.setLog("Client logged out: "+node.getName()+" at "+date);
+        gui.removePlayer(node.getName());
         clients.remove(node);
         //vsPlayer.sendMessage((byte)0,"logout");
         if (client != null)
