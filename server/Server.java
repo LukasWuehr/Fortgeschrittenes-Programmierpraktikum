@@ -17,7 +17,7 @@ import java.util.Date;
     0- logout
     1- error message
     3/2- login /new Player
-    4/5- password
+    4/5- password / logout Player
     6/7- message for player
     8/9- Lobby/Ready to play
     10/11- game message    
@@ -248,9 +248,11 @@ class MulServerThread extends Thread {
 
     void logout() { // remove this server-client from list, close connection -> error in client ->
                     // terminates
-        gui.setLog("Client logged out: "+node.getName()+" at "+date);
-        gui.removePlayer(node.getName());
+        String name = node.getName();
+        gui.setLog("Client logged out: "+name+" at "+date);
+        gui.removePlayer(name);
         clients.remove(node);
+        sendToAllMessage((byte) 4,name);
         //vsPlayer.sendMessage((byte)0,"logout");
         if (client != null)
             try {
@@ -261,7 +263,7 @@ class MulServerThread extends Thread {
         // sende nachricht an mitspieler
     }
 
-    synchronized void sendToAllMessage(Byte code, String message) throws IOException {
+    synchronized void sendToAllMessage(Byte code, String message){// throws IOException {
             for (ClientNode player : clients) {
                 if (!player.getGame().equals("login")) {
                     player.sendMessage(code, message);

@@ -19,7 +19,10 @@
               </grid>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
-            <properties/>
+            <properties>
+              <editable value="false"/>
+              <rows value="20"/>
+            </properties>
           </component>
           <component id="675ce" class="javax.swing.JTextField" binding="chatInput">
             <constraints>
@@ -28,7 +31,9 @@
               </grid>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
-            <properties/>
+            <properties>
+              <columns value="15"/>
+            </properties>
           </component>
           <component id="f29b6" class="javax.swing.JButton" binding="sendButton" default-binding="true">
             <constraints>
@@ -59,7 +64,9 @@
               </grid>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
-            <properties/>
+            <properties>
+              <rows value="8"/>
+            </properties>
           </component>
         </children>
       </grid>
@@ -68,14 +75,28 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="f73ad" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="f73ad" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <card name="Card1"/>
             </constraints>
             <properties/>
             <border type="none"/>
-            <children/>
+            <children>
+              <component id="4f5f0" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="MAINMENU"/>
+                </properties>
+              </component>
+              <vspacer id="b2bca">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </vspacer>
+            </children>
           </grid>
           <grid id="148d7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>

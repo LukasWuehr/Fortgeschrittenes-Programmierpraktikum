@@ -28,11 +28,11 @@ class Client {
             }
             Menu menu = new Menu(in.readUTF());
             Message message = new Message(in,out, client);
+            MainScreen screen = new MainScreen(client.frame);
+            message.setScreen(screen);
             message.start();
             Message.sendMessage(8);
-            MainScreen screen = new MainScreen(client.frame);
             menu.setScreen(screen);
-            message.setScreen(screen);
             menu.start();
         } catch (UnknownHostException e) {
             System.out.println("ERROR: " + e);

@@ -29,7 +29,7 @@ public class Login {
         frame.pack();
         frame.setSize(500, 500);
         frame.setVisible(true);
-        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        //frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

@@ -43,12 +43,13 @@ public class Gui implements ActionListener {
     }
 
     public void addPlayer(String name) {
-        playerOnline.setText(name);
+        playerOnline.setText(playerOnline.getText() + "\n" + name);
     }
-    public void removePlayer(String name){
+
+    public void removePlayer(String name) {
         String text = playerOnline.getText();
-        String players="";
-        for(String player : text.split(name+"\n")){
+        String players = "";
+        for (String player : text.split("\n" + name)) {
             players += player;
         }
         playerOnline.setText(players);

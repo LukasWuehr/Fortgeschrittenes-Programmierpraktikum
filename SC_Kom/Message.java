@@ -52,6 +52,9 @@ public class Message extends Thread {
                     case 6: // chat message
                         chat(in.readUTF());
                         break;
+                    case 4:
+                        screen.removePlayer(in.readUTF());
+                        break;
                     case 3:
                         playerList(in.readInt());
                     case 2: // new Player logged in
