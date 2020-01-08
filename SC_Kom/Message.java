@@ -57,7 +57,9 @@ public class Message extends Thread {
                         break;
                     case 3:
                         playerList(in.readInt());
+                        break;
                     case 2: // new Player logged in
+                        System.out.println("newPlayer");
                         newPlayer(in.readUTF());
                         break;
                     case 1: // error Message
@@ -111,7 +113,7 @@ public class Message extends Thread {
     }
 
     private void chat(String s) {
-
+        screen.addChatMessage(s);
         System.out.println(s);
     }
 

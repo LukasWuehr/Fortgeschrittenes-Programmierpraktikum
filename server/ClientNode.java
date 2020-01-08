@@ -37,6 +37,7 @@ class ClientNode {
     public synchronized void sendMessage(Byte code, String Message) {
         try {
             if (!game.equals("login")) {
+                System.out.println(name+code+" Message "+Message);
                 out.writeByte(code);
                 out.writeUTF(Message);
             }

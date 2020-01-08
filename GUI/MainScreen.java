@@ -17,9 +17,15 @@ public class MainScreen {
     private JPanel gamePanel;
     private JComboBox atPlayer;
     private JTextArea playerOnline;
+    private JScrollPane scrollText;
+    private JPanel mainMenuPanel;
+    private JPanel connect4Panel;
+    private JPanel chompPanel;
     private ArrayList<String> players = new ArrayList<String>();
+    private String playerName;
 
-    public MainScreen(JFrame frame) {
+    public MainScreen(JFrame frame, String playerName) {
+        this.playerName = playerName;
         frame.setContentPane(mainPanel);
         frame.setTitle("GAME");
         frame.pack();
@@ -34,22 +40,33 @@ public class MainScreen {
                 processChatMessage(message);
             }
         });
+
     }
 
     private void processChatMessage(String message) {
-
+        String name = (String) atPlayer.getSelectedItem();
+        addChatMessage("You: " + message);
+        synchronized (this) {
+            if (name.equals("@ALL")) {
+                Message.sendMessage(7);
+                Message.sendMessage(message);
+            } else {
+                Message.sendMessage(6);
+                Message.sendMessage(name);
+                Message.sendMessage(message);
+            }
+        }
     }
 
-    private void sendChatMessage(String message) {
-        synchronized (this) {
-            Message.sendMessage(6);
-            Message.sendMessage(message);
-        }
+    public void addChatMessage(String message) {
+        chat.setText(chat.getText() + "\n" + message);
     }
 
     public void addPlayer(String player) {
         players.add(player);
-        atPlayer.addItem(player);
+        if (!playerName.equals(player)) {
+            atPlayer.addItem(player);
+        }
         updatePlayerOnline();
     }
 
@@ -88,18 +105,9 @@ public class MainScreen {
         chatPanel = new JPanel();
         chatPanel.setLayout(new GridBagLayout());
         mainPanel.add(chatPanel, BorderLayout.EAST);
-        chat = new JTextArea();
-        chat.setEditable(false);
-        chat.setRows(20);
-        GridBagConstraints gbc;
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
-        gbc.fill = GridBagConstraints.BOTH;
-        chatPanel.add(chat, gbc);
         chatInput = new JTextField();
         chatInput.setColumns(15);
+        GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -126,31 +134,44 @@ public class MainScreen {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         chatPanel.add(spacer1, gbc);
-        playerOnline = new JTextArea();
-        playerOnline.setRows(8);
+        scrollText = new JScrollPane();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        chatPanel.add(scrollText, gbc);
+        chat = new JTextArea();
+        chat.setEditable(false);
+        chat.setRows(20);
+        scrollText.setViewportView(chat);
+        final JScrollPane scrollPane1 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
-        chatPanel.add(playerOnline, gbc);
+        chatPanel.add(scrollPane1, gbc);
+        playerOnline = new JTextArea();
+        playerOnline.setRows(8);
+        scrollPane1.setViewportView(playerOnline);
         gamePanel = new JPanel();
         gamePanel.setLayout(new CardLayout(0, 0));
         mainPanel.add(gamePanel, BorderLayout.CENTER);
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        gamePanel.add(panel1, "Card1");
+        mainMenuPanel = new JPanel();
+        mainMenuPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        gamePanel.add(mainMenuPanel, "Card1");
         final JLabel label1 = new JLabel();
         label1.setText("MAINMENU");
-        panel1.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainMenuPanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
-        panel1.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        gamePanel.add(panel2, "Card2");
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        gamePanel.add(panel3, "Card3");
+        mainMenuPanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        connect4Panel = new JPanel();
+        connect4Panel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        gamePanel.add(connect4Panel, "Card2");
+        chompPanel = new JPanel();
+        chompPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        gamePanel.add(chompPanel, "Card3");
     }
 
     /**

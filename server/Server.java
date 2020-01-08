@@ -89,7 +89,8 @@ class MulServerThread extends Thread {
             gui.addPlayer(node.getName());
             sendToAllMessage((byte) 2, node.getName());
             while (true) {
-                switch (in.readByte()) {
+                int x = in.readByte();
+                switch (x) {
                 case 10:
                     vsPlayer.sendMessage((byte) 10, in.readInt()); // game message
                     break;
@@ -105,9 +106,17 @@ class MulServerThread extends Thread {
                         out.writeByte(8);
                     }
                     break;
+                case 7:
+                    sendToAllMessage((byte)6,node.getName()+": "+in.readUTF());
+                    break;
+                case 6:
+                    playerName = in.readUTF();
+                    sendMessage(playerName,(byte)6,node.getName()+": "+in.readUTF());
+                    break;
                 case 0:
                     logout();
                 default:
+                    System.out.println(x);
                     return;
                 }
             }
@@ -265,7 +274,7 @@ class MulServerThread extends Thread {
 
     synchronized void sendToAllMessage(Byte code, String message){// throws IOException {
             for (ClientNode player : clients) {
-                if (!player.getGame().equals("login")) {
+                if (!player.getGame().equals("login")&&!player.getName().equals(node.getName())) {
                     player.sendMessage(code, message);
                 }
             }

@@ -26,9 +26,10 @@ class Client {
                 out.writeByte(0);
                 return;
             }
-            Menu menu = new Menu(in.readUTF());
+            String name = in.readUTF();
+            Menu menu = new Menu(name);
             Message message = new Message(in,out, client);
-            MainScreen screen = new MainScreen(client.frame);
+            MainScreen screen = new MainScreen(client.frame,name);
             message.setScreen(screen);
             message.start();
             Message.sendMessage(8);
