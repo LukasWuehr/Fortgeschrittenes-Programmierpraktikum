@@ -17,12 +17,17 @@ public class Gui implements ActionListener {
         JFrame frame = new JFrame("SERVER");
         frame.setContentPane(guiPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        closeServerButton.setBackground(Color.LIGHT_GRAY);
+        closeServerButton.setForeground(Color.DARK_GRAY);
         frame.pack();
         frame.setSize(500, 500);
         frame.setVisible(true);
         closeServerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                for(ClientNode client :MulServerThread.clients){
+                    client.sendMessage((byte)0,0);
+                }
                 frame.dispose();
                 System.exit(0);
             }
@@ -86,7 +91,10 @@ public class Gui implements ActionListener {
     private void $$$setupUI$$$() {
         guiPanel = new JPanel();
         guiPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 4, new Insets(0, 0, 0, 0), -1, -1));
+        guiPanel.setForeground(new Color(-7896951));
         closeServerButton = new JButton();
+        closeServerButton.setBackground(new Color(-12698050));
+        closeServerButton.setForeground(new Color(-4871245));
         closeServerButton.setText("CloseServer");
         guiPanel.add(closeServerButton, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         logInput = new JTextField();
@@ -99,6 +107,7 @@ public class Gui implements ActionListener {
         final JScrollPane scrollPane2 = new JScrollPane();
         guiPanel.add(scrollPane2, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         playerOnline = new JTextArea();
+        playerOnline.setEditable(false);
         scrollPane2.setViewportView(playerOnline);
     }
 

@@ -52,10 +52,10 @@ public class Message extends Thread {
                     case 6: // chat message
                         chat(in.readUTF());
                         break;
-                    case 4:
+                    case 4: //if logout
                         screen.removePlayer(in.readUTF());
                         break;
-                    case 3:
+                    case 3://list of all players
                         playerList(in.readInt());
                         break;
                     case 2: // new Player logged in
@@ -69,6 +69,7 @@ public class Message extends Thread {
                     case 0: // log out
                         logout();
                         out.writeByte(0);
+                        System.exit(0);
                         break;
                     default:
                         break;
@@ -97,6 +98,7 @@ public class Message extends Thread {
        try{ out.writeByte(b);}
         catch(IOException e){
             System.out.println("connection Error");
+            System.exit(0);
         }
     }
 
@@ -104,11 +106,12 @@ public class Message extends Thread {
         try{out.writeUTF(s);}
         catch(IOException e){
             System.out.println("connection Error");
+            System.exit(0);
         }
     }
 
     private void logout() {
-        // TODO: Logout
+        // DONE: Logout
         System.exit(0);
     }
 
@@ -122,12 +125,12 @@ public class Message extends Thread {
         screen.addPlayer(s);
     }
 
-    private void playerList(int size){
+    private void playerList(int size){ //all players who are logged in
          try {
              String player;
              System.out.println("Players Online:"+size);
              for (int i = 0; i < size; i++) {
-                 System.out.println(player=in.readUTF());
+                 System.out.println(player=in.readUTF());//check
                  screen.addPlayer(player);
              }
          }catch (IOException e){

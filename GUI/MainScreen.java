@@ -18,14 +18,16 @@ public class MainScreen {
     private JComboBox atPlayer;
     private JTextArea playerOnline;
     private JScrollPane scrollText;
-    private JPanel mainMenuPanel;
-    private JPanel connect4Panel;
-    private JPanel chompPanel;
     private ArrayList<String> players = new ArrayList<String>();
     private String playerName;
 
     public MainScreen(JFrame frame, String playerName) {
         this.playerName = playerName;
+        sendButton.setForeground(Color.DARK_GRAY);
+        sendButton.setBackground(Color.LIGHT_GRAY);
+        atPlayer.setBackground(Color.LIGHT_GRAY);
+        atPlayer.setForeground(Color.DARK_GRAY);
+        MainMenu menu = new MainMenu();
         frame.setContentPane(mainPanel);
         frame.setTitle("GAME");
         frame.pack();
@@ -40,6 +42,11 @@ public class MainScreen {
                 processChatMessage(message);
             }
         });
+        CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
+        JPanel menuPanel = menu.getCurrentPanel();
+
+        gamePanel.add("Card1", menuPanel);
+        cardLayout.first(gamePanel);
 
     }
 
@@ -56,6 +63,7 @@ public class MainScreen {
                 Message.sendMessage(message);
             }
         }
+
     }
 
     public void addChatMessage(String message) {
@@ -107,71 +115,96 @@ public class MainScreen {
         mainPanel.add(chatPanel, BorderLayout.EAST);
         chatInput = new JTextField();
         chatInput.setColumns(15);
+        Font chatInputFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, chatInput.getFont());
+        if (chatInputFont != null) chatInput.setFont(chatInputFont);
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         chatPanel.add(chatInput, gbc);
         sendButton = new JButton();
+        Font sendButtonFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, sendButton.getFont());
+        if (sendButtonFont != null) sendButton.setFont(sendButtonFont);
         sendButton.setText("Send");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         chatPanel.add(sendButton, gbc);
         atPlayer = new JComboBox();
+        Font atPlayerFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, atPlayer.getFont());
+        if (atPlayerFont != null) atPlayer.setFont(atPlayerFont);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         chatPanel.add(atPlayer, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         chatPanel.add(spacer1, gbc);
         scrollText = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         chatPanel.add(scrollText, gbc);
         chat = new JTextArea();
         chat.setEditable(false);
+        Font chatFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, chat.getFont());
+        if (chatFont != null) chat.setFont(chatFont);
         chat.setRows(20);
         scrollText.setViewportView(chat);
         final JScrollPane scrollPane1 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         chatPanel.add(scrollPane1, gbc);
         playerOnline = new JTextArea();
+        playerOnline.setEditable(false);
+        Font playerOnlineFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, playerOnline.getFont());
+        if (playerOnlineFont != null) playerOnline.setFont(playerOnlineFont);
         playerOnline.setRows(8);
         scrollPane1.setViewportView(playerOnline);
+        final JLabel label1 = new JLabel();
+        Font label1Font = this.$$$getFont$$$("JetBrains Mono", -1, -1, label1.getFont());
+        if (label1Font != null) label1.setFont(label1Font);
+        label1.setText("PlayerOnline");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        chatPanel.add(label1, gbc);
         gamePanel = new JPanel();
         gamePanel.setLayout(new CardLayout(0, 0));
         mainPanel.add(gamePanel, BorderLayout.CENTER);
-        mainMenuPanel = new JPanel();
-        mainMenuPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        gamePanel.add(mainMenuPanel, "Card1");
-        final JLabel label1 = new JLabel();
-        label1.setText("MAINMENU");
-        mainMenuPanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
-        mainMenuPanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        connect4Panel = new JPanel();
-        connect4Panel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        gamePanel.add(connect4Panel, "Card2");
-        chompPanel = new JPanel();
-        chompPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        gamePanel.add(chompPanel, "Card3");
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

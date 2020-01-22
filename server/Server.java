@@ -260,8 +260,8 @@ class MulServerThread extends Thread {
         String name = node.getName();
         gui.setLog("Client logged out: "+name+" at "+date);
         gui.removePlayer(name);
-        clients.remove(node);
         sendToAllMessage((byte) 4,name);
+        clients.remove(node);
         //vsPlayer.sendMessage((byte)0,"logout");
         if (client != null)
             try {

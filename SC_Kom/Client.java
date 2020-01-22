@@ -24,6 +24,7 @@ class Client {
             if (!client.login(in, out)) {
                 System.out.println("Exit");
                 out.writeByte(0);
+                System.exit(0);
                 return;
             }
             String name = in.readUTF();
@@ -44,8 +45,10 @@ class Client {
             if (server != null)
                 try {
                     server.close();
+
                 } catch (IOException e) {
                 }
+            System.exit(0);
         }
     }
 
