@@ -52,8 +52,10 @@ public class Message extends Thread {
                     case 8://game invitations
                         screen.setInvite(in.readUTF());
                         break;
-                    case 9:
-                        screen.startGame(player, game, height, length, playerNumb);//spiel starten force
+                    case 9://spiel starten force
+                        String[] game = in.readUTF().split("#");
+                        String[] dim = game[2].split("x");
+                        screen.startGame(game[0], game[1], Integer.parseInt(dim[0]), Integer.parseInt(dim[1]), Integer.parseInt(game[3])); //vsPlayer, game, l,h, playerNumb
                         break;
                     case 6: // chat message
                         chat(in.readUTF());

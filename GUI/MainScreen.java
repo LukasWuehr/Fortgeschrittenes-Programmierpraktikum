@@ -52,6 +52,23 @@ public class MainScreen {
 
     }
 
+    public void startGame(String vsPlayerName, String game, int length, int height, int startNumb){
+        atPlayer.setSelectedItem(vsPlayerName);
+        Player player1,player2;
+        if (startNumb==1) {
+            player1 = new Player(playerName, true);
+            player2 = new Player(vsPlayerName, true);
+        }else {
+            player1 = new Player(vsPlayerName, true);
+            player2 = new Player(playerName, true);
+        }
+        if (game.equals("Chomp")){
+            gamePanel.add("ChompCard",new ChompGui());
+        }else {
+            gamePanel.add("ConnectFourCard",new Connect4Gui(player1,player2,length,height,startNumb,this));
+        }
+    }
+
     public void setInvite(String invite) {
         menu.setInvites(invite);
     }
@@ -66,12 +83,11 @@ public class MainScreen {
         synchronized (this) {
             if (name.equals("@ALL")) {
                 Message.sendMessage(7);
-                Message.sendMessage(message);
             } else {
                 Message.sendMessage(6);
                 Message.sendMessage(name);
-                Message.sendMessage(message);
             }
+            Message.sendMessage(message);
         }
 
     }

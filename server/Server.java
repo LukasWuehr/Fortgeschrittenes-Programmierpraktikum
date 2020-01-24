@@ -98,7 +98,7 @@ class MulServerThread extends Thread {
                     getPlayers(in, out);
                     break;
                 case 9:
-
+                    startGame(in.readUTF());
                     break;
                 case 8:
                     sendMessage(in.readUTF(),(byte)8,in.readUTF());
@@ -107,7 +107,7 @@ class MulServerThread extends Thread {
                     sendToAllMessage((byte)6,node.getName()+": "+in.readUTF());
                     break;
                 case 6:
-                    playerName = in.readUTF();
+                    String playerName = in.readUTF();
                     sendMessage(playerName,(byte)6,node.getName()+": "+in.readUTF());
                     break;
                 case 0:
@@ -137,15 +137,15 @@ class MulServerThread extends Thread {
 
     private synchronized void startGame(String input) {
 
-        String[] invite = in.readUTF().split("#");
-        String playerName = invite[0];
-        String dim[] = invite[2].split("x");
-        this.vsPlayer = searchPlayer(playerName);
+        String[] invite = input.split("#");
+        this.vsPlayer = searchPlayer(invite[0]);
         if (vsPlayer != null && vsPlayer.getGame().equals("idle")) {
-            node.sendMessage(9,input);
-            node.getName()
+            vsPlayer.sendMessage((byte)9,node.getName()+"#"+invite[1]+"#"+invite[2]+"#2");
+            node.sendMessage((byte)9,input+"#1");
+            vsPlayer.setGame(invite[1]);
+            node.setGame(invite[1]);
         } else {
-            //out.writeByte(8);  12 invite error
+            node.sendMessage((byte)12,"To slow :/");// 12 invite error
         }
     }
 

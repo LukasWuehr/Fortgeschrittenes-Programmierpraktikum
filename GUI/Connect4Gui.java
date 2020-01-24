@@ -16,6 +16,7 @@ public class Connect4Gui {
     private JPanel connect4BoardPanel;
     private Disc[][] discs;
     private Player player1, player2;
+    private int startPlayer;
 
     public Connect4Gui(Disc[][] discs) {
         this.discs = discs;
@@ -35,6 +36,12 @@ public class Connect4Gui {
 
             }
         }
+    }
+
+    public Connect4Gui(Player player1, Player player2, int length, int height,int startPlayer, MainScreen mainScreen) {
+        setPlayers(player1,player2);
+
+
     }
 
     public JPanel getPanel() {
