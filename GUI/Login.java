@@ -21,6 +21,9 @@ public class Login {
     private String[] inputs = new String[3];
 
     public Login(JFrame frame) {
+        loginButton.setBackground(Color.LIGHT_GRAY);
+        exitButton.setBackground(Color.LIGHT_GRAY);
+        newPlayerButton.setBackground(Color.LIGHT_GRAY);
         inputs[0] = "0";
         //JFrame frame = new JFrame("Login");
         frame.setTitle("Login");

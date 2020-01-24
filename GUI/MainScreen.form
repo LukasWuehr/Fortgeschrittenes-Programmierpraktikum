@@ -61,7 +61,6 @@
                 <constraints/>
                 <properties>
                   <editable value="false"/>
-                  <font name="JetBrains Mono" size="14"/>
                   <rows value="20"/>
                 </properties>
               </component>
@@ -79,7 +78,6 @@
                 <constraints/>
                 <properties>
                   <editable value="false"/>
-                  <font name="JetBrains Mono" size="14"/>
                   <rows value="8"/>
                 </properties>
               </component>

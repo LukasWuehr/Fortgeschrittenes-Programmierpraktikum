@@ -19,7 +19,7 @@ import java.util.Date;
     3/2- login /new Player
     4/5- password / logout Player
     6/7- message for player
-    8/9- Lobby/Ready to play
+    8/9- Invite/Ready to play
     10/11- game message    
 
 */
@@ -92,19 +92,16 @@ class MulServerThread extends Thread {
                 int x = in.readByte();
                 switch (x) {
                 case 10:
-                    vsPlayer.sendMessage((byte) 10, in.readInt()); // game message
+                    vsPlayer.sendMessage((byte) 10, in.readInt()); // game message  // game,player,turn,h,l
                     break;
-                case 8:
+                case 5:
                     getPlayers(in, out);
                     break;
                 case 9:
-                    String playerName = in.readUTF();
-                    this.vsPlayer = searchPlayer(playerName);
-                    if (vsPlayer != null) {
-                        out.writeByte(9);
-                    } else {
-                        out.writeByte(8);
-                    }
+
+                    break;
+                case 8:
+                    sendMessage(in.readUTF(),(byte)8,in.readUTF());
                     break;
                 case 7:
                     sendToAllMessage((byte)6,node.getName()+": "+in.readUTF());
@@ -136,6 +133,20 @@ class MulServerThread extends Thread {
             }
         }
         return null;
+    }
+
+    private synchronized void startGame(String input) {
+
+        String[] invite = in.readUTF().split("#");
+        String playerName = invite[0];
+        String dim[] = invite[2].split("x");
+        this.vsPlayer = searchPlayer(playerName);
+        if (vsPlayer != null && vsPlayer.getGame().equals("idle")) {
+            node.sendMessage(9,input);
+            node.getName()
+        } else {
+            //out.writeByte(8);  12 invite error
+        }
     }
 
     private int searchName(String name) {
@@ -278,15 +289,11 @@ class MulServerThread extends Thread {
                     player.sendMessage(code, message);
                 }
             }
-            /*
-             * PipedOutputStream pos = new PipedOutputStream();
-             * pos.connect(vsPlayer.getPipe()); pos.write(coord); pos.close();
-             */
     }
 
     synchronized void sendMessage(String name,Byte code, String message) {
         ClientNode client = searchPlayer(name);
-            client.sendMessage(code, message);
+            client.sendMessage(code, message);//TODO: NullPointer
     }
     synchronized void sendMessage(String name,Byte code, int message) {
         ClientNode client = searchPlayer(name);

@@ -1,6 +1,7 @@
 package GUI;
 
 import SC_Kom.Message;
+import games.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,7 @@ public class MainScreen {
     private JScrollPane scrollText;
     private ArrayList<String> players = new ArrayList<String>();
     private String playerName;
+    private MainMenu menu;
 
     public MainScreen(JFrame frame, String playerName) {
         this.playerName = playerName;
@@ -27,7 +29,7 @@ public class MainScreen {
         sendButton.setBackground(Color.LIGHT_GRAY);
         atPlayer.setBackground(Color.LIGHT_GRAY);
         atPlayer.setForeground(Color.DARK_GRAY);
-        MainMenu menu = new MainMenu();
+        menu = new MainMenu(this);
         frame.setContentPane(mainPanel);
         frame.setTitle("GAME");
         frame.pack();
@@ -48,6 +50,14 @@ public class MainScreen {
         gamePanel.add("Card1", menuPanel);
         cardLayout.first(gamePanel);
 
+    }
+
+    public void setInvite(String invite) {
+        menu.setInvites(invite);
+    }
+
+    public String getPLayer() {
+        return playerName;
     }
 
     private void processChatMessage(String message) {
@@ -79,8 +89,7 @@ public class MainScreen {
     }
 
     public void removePlayer(String player) {
-        int ptr = players.indexOf(player);
-        players.remove(ptr);
+        players.remove(player);
         atPlayer.removeItem(player);
         updatePlayerOnline();
     }
@@ -157,8 +166,6 @@ public class MainScreen {
         chatPanel.add(scrollText, gbc);
         chat = new JTextArea();
         chat.setEditable(false);
-        Font chatFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, chat.getFont());
-        if (chatFont != null) chat.setFont(chatFont);
         chat.setRows(20);
         scrollText.setViewportView(chat);
         final JScrollPane scrollPane1 = new JScrollPane();
@@ -170,8 +177,6 @@ public class MainScreen {
         chatPanel.add(scrollPane1, gbc);
         playerOnline = new JTextArea();
         playerOnline.setEditable(false);
-        Font playerOnlineFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, playerOnline.getFont());
-        if (playerOnlineFont != null) playerOnline.setFont(playerOnlineFont);
         playerOnline.setRows(8);
         scrollPane1.setViewportView(playerOnline);
         final JLabel label1 = new JLabel();

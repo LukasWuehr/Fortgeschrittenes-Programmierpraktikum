@@ -33,7 +33,7 @@ class Client {
             MainScreen screen = new MainScreen(client.frame,name);
             message.setScreen(screen);
             message.start();
-            Message.sendMessage(8);
+            Message.sendMessage(5);
             menu.setScreen(screen);
             menu.start();
         } catch (UnknownHostException e) {

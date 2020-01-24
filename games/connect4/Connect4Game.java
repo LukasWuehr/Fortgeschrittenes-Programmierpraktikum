@@ -19,6 +19,7 @@ public class Connect4Game extends Game {
         int height = scan.nextInt();
         int lenght = scan.nextInt();
         board = new Connect4Board(height, lenght);
+        board.getGui().setPlayers(player1,player2);
         board.draw();
         while (turns<lenght*height) {   //beginning of playing
             if (turns%2==0) {

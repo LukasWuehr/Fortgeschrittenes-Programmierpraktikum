@@ -1,5 +1,6 @@
 package games.connect4;
 
+import GUI.Connect4Gui;
 import SC_Kom.Message;
 import games.*;
 
@@ -9,12 +10,14 @@ import games.*;
 public class Connect4Board extends Board implements Logable {
     private Stack protokoll;
     private Disc discs[][];
-
+    private Connect4Gui gui;
     public Connect4Board(int height, int length) {
         discs = new Disc[length][height];
         this.protokoll = new Stack();
-
+        this.gui = new Connect4Gui(discs);
     }
+
+    public Connect4Gui getGui(){ return gui;}
 
     @Override
     public void draw() {

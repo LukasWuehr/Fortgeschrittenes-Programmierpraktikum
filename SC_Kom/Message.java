@@ -43,11 +43,17 @@ public class Message extends Thread {
         try {
             while (true) {
                 switch (in.readByte()) {
+                    case 12:
+                        //screen.infoWindow(in.readUTF());
+                        break;
                     case 10: // turn of VSplayer
                         setTurn(in.readUTF());
                         break;
+                    case 8://game invitations
+                        screen.setInvite(in.readUTF());
+                        break;
                     case 9:
-                        //spiel starten
+                        screen.startGame(player, game, height, length, playerNumb);//spiel starten force
                         break;
                     case 6: // chat message
                         chat(in.readUTF());

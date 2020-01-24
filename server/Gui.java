@@ -25,8 +25,8 @@ public class Gui implements ActionListener {
         closeServerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                for(ClientNode client :MulServerThread.clients){
-                    client.sendMessage((byte)0,0);
+                for (ClientNode client : MulServerThread.clients) {
+                    client.sendMessage((byte) 0, 0);
                 }
                 frame.dispose();
                 System.exit(0);
