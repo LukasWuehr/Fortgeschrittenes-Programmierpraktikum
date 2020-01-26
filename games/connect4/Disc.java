@@ -11,11 +11,13 @@ import java.awt.*;
 public class Disc {
     private Connect4Gui gui;
     private  int color;
-    private JButton button = new JButton("⚫");
+    private JButton button;
 
     public Disc(){
+        this.button = new JButton("⚫");
         button.setBackground(Color.BLUE);
         button.setForeground(Color.WHITE);
+        this.color = 0;
     }
 
     public void setGui(Connect4Gui gui) {

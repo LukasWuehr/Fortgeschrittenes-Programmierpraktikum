@@ -103,7 +103,7 @@
               <visible value="false"/>
             </properties>
           </component>
-          <component id="ec703" class="javax.swing.JLabel">
+          <component id="ec703" class="javax.swing.JLabel" binding="invitesLabel">
             <constraints>
               <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -148,7 +148,7 @@
               <visible value="false"/>
             </properties>
           </component>
-          <component id="d8011" class="javax.swing.JComboBox" binding="PlayerComboBox">
+          <component id="d8011" class="javax.swing.JComboBox" binding="playerComboBox">
             <constraints>
               <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>

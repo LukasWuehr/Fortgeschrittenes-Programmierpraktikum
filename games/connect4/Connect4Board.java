@@ -42,7 +42,7 @@ public class Connect4Board extends Board implements Logable {
             return ;
         }
         int row = discs[coordinate].length - 1;
-        while (row > -1 && discs[coordinate][row] != null) {
+        while (row > -1 && discs[coordinate][row].getColor() != 0) {
             row--;
         }
         if (row <= -1) { // colum full
@@ -129,7 +129,7 @@ public class Connect4Board extends Board implements Logable {
 
     synchronized private void send(Node n) {
         String msg = "connect,";
-        msg += n.getPlayer().getPlayerName() + ",";
+        msg += n.getPlayer().getPlayerName() + ",0,";
         msg += n.getLengthCoordinate();
         Message.sendMessage(msg);
     }

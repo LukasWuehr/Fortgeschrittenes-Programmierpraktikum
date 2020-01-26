@@ -19,14 +19,16 @@ public class MainScreen {
     private JComboBox atPlayer;
     private JTextArea playerOnline;
     private JScrollPane scrollText;
+    //-------------------------------------------------------------------
     private ArrayList<String> players = new ArrayList<String>();
     private String playerName;
     private MainMenu menu;
     public Connect4Gui connectGui;
-    public ChompGUI chompGUI;
-    private CardLayout card = (CardLayout) gamePanel.getLayout();
+    public ChompGui chompGui;
+    private CardLayout card;
 
     public MainScreen(JFrame frame, String playerName) {
+        this.card = (CardLayout) gamePanel.getLayout();
         this.playerName = playerName;
         sendButton.setForeground(Color.DARK_GRAY);
         sendButton.setBackground(Color.LIGHT_GRAY);
@@ -54,27 +56,29 @@ public class MainScreen {
 
     }
 
-    public void startGame(String vsPlayerName, String game, int length, int height, int startNumb){
+    public void startGame(String vsPlayerName, String game, int length, int height, int startNumb) {
         atPlayer.setSelectedItem(vsPlayerName);
-        Player player1,player2;
-        if (startNumb==1) {
+        Player player1, player2;
+        if (startNumb == 1) {
             player1 = new Player(playerName, true);
             player2 = new Player(vsPlayerName, true);
-        }else {
+        } else {
             player1 = new Player(vsPlayerName, true);
             player2 = new Player(playerName, true);
         }
-        if (game.equals("Chomp")){
-            gamePanel.add("ChompCard",new ChompGui());
-        }else {
-            connectGui = new Connect4Gui(player1,player2,length,height,startNumb,this);
+        if (game.equals("Chomp")) {
+            //chompGui = new ChompGui();
+            //gamePanel.add("ChompCard",chompGui.getPanel());
+        } else {
+            connectGui = new Connect4Gui(player1, player2, length, height, startNumb, this);
             gamePanel.add("ConnectFourCard", connectGui.getPanel());
+            connectGui.setScreen(this);
             card.last(gamePanel);
         }
     }
 
-    public void stopGame(String stop){
-        //window
+    public void stopGame(String stop) {
+        JOptionPane.showMessageDialog(new JFrame(), stop);//window
         card.removeLayoutComponent(connectGui.getPanel());  //only menuPanel
         card.first(gamePanel); //show menu
     }
@@ -110,6 +114,7 @@ public class MainScreen {
         players.add(player);
         if (!playerName.equals(player)) {
             atPlayer.addItem(player);
+            menu.setPlayerComboBox(player);
         }
         updatePlayerOnline();
     }
@@ -117,6 +122,7 @@ public class MainScreen {
     public void removePlayer(String player) {
         players.remove(player);
         atPlayer.removeItem(player);
+        menu.removePlayerComboBox(player);
         updatePlayerOnline();
     }
 

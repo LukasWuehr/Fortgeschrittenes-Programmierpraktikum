@@ -28,14 +28,13 @@ class Client {
                 return;
             }
             String name = in.readUTF();
-            Menu menu = new Menu(name);
             Message message = new Message(in,out, client);
             MainScreen screen = new MainScreen(client.frame,name);
             message.setScreen(screen);
-            message.start();
             Message.sendMessage(5);
-            menu.setScreen(screen);
-            menu.start();
+            message.start();
+            while (true){
+            }
         } catch (UnknownHostException e) {
             System.out.println("ERROR: " + e);
         } // Verbindungsfehler

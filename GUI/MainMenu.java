@@ -18,15 +18,15 @@ public class MainMenu<Client> {
     private JRadioButton chompRadioButton;
     private JSpinner heightSpinner;
     private JSpinner lengthSpinner;
-    private JComboBox PlayerComboBox;
+    private JComboBox playerComboBox;
     private JButton inviteButton;
     private JButton cancelButton;
+    private JLabel invitesLabel;
     private ArrayList<String> invites = new ArrayList<>();
     MainScreen mainScreen;
 
     public MainMenu(MainScreen mainScreen) {
         playButton.setBackground(Color.LIGHT_GRAY);
-        setInvites("fhaufw");
         // list1.setListData((String[]) invites.toArray());
         list1.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -43,15 +43,15 @@ public class MainMenu<Client> {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String invite = mainScreen.getPLayer() + "#";
-                if (connectFourRadioButton.equals((JRadioButton)chompRadioButton.getModel().getGroup().getSelection())) {
+                if (connectFourRadioButton.isSelected()) {
                     invite += "ConnectFour#";
                 } else {
                     invite += "Chomp#";
                 }
-                invite += lengthSpinner.getValue()+"x"+heightSpinner.getValue();
-                synchronized (this){
+                invite += lengthSpinner.getValue() + "x" + heightSpinner.getValue();
+                synchronized (this) {
                     Message.sendMessage(8);
-                    Message.sendMessage(mainScreen.getPLayer());
+                    Message.sendMessage((String) playerComboBox.getSelectedItem());
                     Message.sendMessage(invite);
                 }
                 changeMenu();
@@ -73,16 +73,25 @@ public class MainMenu<Client> {
 
     }
 
-    private void changeMenu(){
+    private void changeMenu() {
         playButton.setVisible(!playButton.isVisible());
-        list1.setVisible(!playButton.isVisible());
+        list1.setVisible(!list1.isVisible());
         connectFourRadioButton.setVisible(!connectFourRadioButton.isVisible());
         chompRadioButton.setVisible(!chompRadioButton.isVisible());
         heightSpinner.setVisible(!heightSpinner.isVisible());
         lengthSpinner.setVisible(!lengthSpinner.isVisible());
-        PlayerComboBox.setVisible(!PlayerComboBox.isVisible());
+        playerComboBox.setVisible(!playerComboBox.isVisible());
         inviteButton.setVisible(!inviteButton.isVisible());
         cancelButton.setVisible(!cancelButton.isVisible());
+        invitesLabel.setVisible(!invitesLabel.isVisible());
+    }
+
+    public void setPlayerComboBox(String player) {
+        playerComboBox.addItem(player);
+    }
+
+    public void removePlayerComboBox(String player) {
+        playerComboBox.removeItem(player);
     }
 
     public void setInvites(String invite) {
@@ -160,40 +169,40 @@ public class MainMenu<Client> {
         chompRadioButton.setText("Chomp");
         chompRadioButton.setVisible(false);
         panel1.add(chompRadioButton, new com.intellij.uiDesigner.core.GridConstraints(4, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        invitesLabel = new JLabel();
+        invitesLabel.setText("Invites");
+        panel1.add(invitesLabel, new com.intellij.uiDesigner.core.GridConstraints(7, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("Invites");
-        panel1.add(label2, new com.intellij.uiDesigner.core.GridConstraints(7, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label3 = new JLabel();
-        Font label3Font = this.$$$getFont$$$("JetBrains Mono", -1, -1, label3.getFont());
-        if (label3Font != null) label3.setFont(label3Font);
-        label3.setText("Height");
-        label3.setVisible(false);
-        panel1.add(label3, new com.intellij.uiDesigner.core.GridConstraints(5, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        Font label2Font = this.$$$getFont$$$("JetBrains Mono", -1, -1, label2.getFont());
+        if (label2Font != null) label2.setFont(label2Font);
+        label2.setText("Height");
+        label2.setVisible(false);
+        panel1.add(label2, new com.intellij.uiDesigner.core.GridConstraints(5, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         heightSpinner = new JSpinner();
         Font heightSpinnerFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, heightSpinner.getFont());
         if (heightSpinnerFont != null) heightSpinner.setFont(heightSpinnerFont);
         heightSpinner.setVisible(false);
         panel1.add(heightSpinner, new com.intellij.uiDesigner.core.GridConstraints(5, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label4 = new JLabel();
-        label4.setText("Length");
-        label4.setVisible(false);
-        panel1.add(label4, new com.intellij.uiDesigner.core.GridConstraints(6, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label3 = new JLabel();
+        label3.setText("Length");
+        label3.setVisible(false);
+        panel1.add(label3, new com.intellij.uiDesigner.core.GridConstraints(6, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         lengthSpinner = new JSpinner();
-        Font LengthSpinnerFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, lengthSpinner.getFont());
-        if (LengthSpinnerFont != null) lengthSpinner.setFont(LengthSpinnerFont);
+        Font lengthSpinnerFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, lengthSpinner.getFont());
+        if (lengthSpinnerFont != null) lengthSpinner.setFont(lengthSpinnerFont);
         lengthSpinner.setVisible(false);
         panel1.add(lengthSpinner, new com.intellij.uiDesigner.core.GridConstraints(6, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        PlayerComboBox = new JComboBox();
-        Font PlayerComboBoxFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, PlayerComboBox.getFont());
-        if (PlayerComboBoxFont != null) PlayerComboBox.setFont(PlayerComboBoxFont);
-        PlayerComboBox.setVisible(false);
-        panel1.add(PlayerComboBox, new com.intellij.uiDesigner.core.GridConstraints(8, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label5 = new JLabel();
-        Font label5Font = this.$$$getFont$$$("JetBrains Mono", -1, -1, label5.getFont());
-        if (label5Font != null) label5.setFont(label5Font);
-        label5.setText("Player");
-        label5.setVisible(false);
-        panel1.add(label5, new com.intellij.uiDesigner.core.GridConstraints(8, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        playerComboBox = new JComboBox();
+        Font playerComboBoxFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, playerComboBox.getFont());
+        if (playerComboBoxFont != null) playerComboBox.setFont(playerComboBoxFont);
+        playerComboBox.setVisible(false);
+        panel1.add(playerComboBox, new com.intellij.uiDesigner.core.GridConstraints(8, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label4 = new JLabel();
+        Font label4Font = this.$$$getFont$$$("JetBrains Mono", -1, -1, label4.getFont());
+        if (label4Font != null) label4.setFont(label4Font);
+        label4.setText("Player");
+        label4.setVisible(false);
+        panel1.add(label4, new com.intellij.uiDesigner.core.GridConstraints(8, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         inviteButton = new JButton();
         Font inviteButtonFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, inviteButton.getFont());
         if (inviteButtonFont != null) inviteButton.setFont(inviteButtonFont);
