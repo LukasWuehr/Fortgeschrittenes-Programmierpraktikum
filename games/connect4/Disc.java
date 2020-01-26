@@ -1,5 +1,7 @@
 package games.connect4;
 
+import GUI.Connect4Gui;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,12 +9,17 @@ import java.awt.*;
  * Disc
  */
 public class Disc {
-
+    private Connect4Gui gui;
     private  int color;
-    private JButton button = new JButton("o");
+    private JButton button = new JButton("⚫");
 
-    public Disc(int color){
-        setColor(color);
+    public Disc(){
+        button.setBackground(Color.BLUE);
+        button.setForeground(Color.WHITE);
+    }
+
+    public void setGui(Connect4Gui gui) {
+        this.gui = gui;
     }
 
     public JButton getButton(){
@@ -26,13 +33,13 @@ public class Disc {
         this.color=color;
         switch (color){
             case 1:
-                button.setBackground(Color.RED);
+                button.setForeground(Color.RED);
                 break;
             case 0:
-                button.setBackground(Color.YELLOW);
+                button.setForeground(Color.YELLOW);
                 break;
             default:
-                button.setBackground(Color.BLUE);
+                button.setForeground(Color.WHITE);
                 break;
         }
     }

@@ -9,12 +9,11 @@ import games.*;
  */
 public class Connect4Board extends Board implements Logable {
     private Stack protokoll;
-    private Disc discs[][];
+    private Disc[][] discs;
     private Connect4Gui gui;
-    public Connect4Board(int height, int length) {
-        discs = new Disc[length][height];
+    public Connect4Board(Disc[][] discs) {
+        this.discs = discs;
         this.protokoll = new Stack();
-        this.gui = new Connect4Gui(discs);
     }
 
     public Connect4Gui getGui(){ return gui;}
@@ -38,23 +37,23 @@ public class Connect4Board extends Board implements Logable {
         }
     }
 
-    public int setDisc(int coordinate, Player player, int turn) { // 0 Colum is full //1 successfull turn //2 win
+    public void setDisc(int coordinate, Player player, int turn) { // 0 Colum is full //1 successfull turn //2 win
         if (coordinate < 0 || coordinate >= discs.length) {
-            return 0;
+            return ;
         }
         int row = discs[coordinate].length - 1;
         while (row > -1 && discs[coordinate][row] != null) {
             row--;
         }
         if (row <= -1) { // colum full
-            return 0;
+            return;
         } else {
-            discs[coordinate][row] = new Disc(turn % 2);
+            discs[coordinate][row].setColor(turn % 2);
             add(new Node(coordinate, row, player));
             if (win(coordinate, row)) { // win status 2
-                return 2;
+                gui.win();
             } else {
-                return 1;
+                gui.changeClickable();
             }
         }
     }
@@ -124,7 +123,8 @@ public class Connect4Board extends Board implements Logable {
     @Override
     public void add(Node n) {
         protokoll.push(n);
-        send(n);
+        if(n.getPlayer().getIsHuman())
+            send(n);
     }
 
     synchronized private void send(Node n) {

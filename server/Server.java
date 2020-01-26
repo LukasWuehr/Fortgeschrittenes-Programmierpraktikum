@@ -20,7 +20,7 @@ import java.util.Date;
     4/5- password / logout Player
     6/7- message for player
     8/9- Invite/Ready to play
-    10/11- game message    
+    10/11- game message   / stopgame
 
 */
 

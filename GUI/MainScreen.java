@@ -22,6 +22,9 @@ public class MainScreen {
     private ArrayList<String> players = new ArrayList<String>();
     private String playerName;
     private MainMenu menu;
+    public Connect4Gui connectGui;
+    public ChompGUI chompGUI;
+    private CardLayout card = (CardLayout) gamePanel.getLayout();
 
     public MainScreen(JFrame frame, String playerName) {
         this.playerName = playerName;
@@ -44,11 +47,10 @@ public class MainScreen {
                 processChatMessage(message);
             }
         });
-        CardLayout cardLayout = (CardLayout) gamePanel.getLayout();
         JPanel menuPanel = menu.getCurrentPanel();
 
         gamePanel.add("Card1", menuPanel);
-        cardLayout.first(gamePanel);
+        card.first(gamePanel);
 
     }
 
@@ -65,8 +67,16 @@ public class MainScreen {
         if (game.equals("Chomp")){
             gamePanel.add("ChompCard",new ChompGui());
         }else {
-            gamePanel.add("ConnectFourCard",new Connect4Gui(player1,player2,length,height,startNumb,this));
+            connectGui = new Connect4Gui(player1,player2,length,height,startNumb,this);
+            gamePanel.add("ConnectFourCard", connectGui.getPanel());
+            card.last(gamePanel);
         }
+    }
+
+    public void stopGame(String stop){
+        //window
+        card.removeLayoutComponent(connectGui.getPanel());  //only menuPanel
+        card.first(gamePanel); //show menu
     }
 
     public void setInvite(String invite) {
@@ -111,11 +121,11 @@ public class MainScreen {
     }
 
     private void updatePlayerOnline() {
-        String text = "";
+        StringBuilder text = new StringBuilder();
         for (String player : players) {
-            text += player + "\n";
+            text.append(player).append("\n");
         }
-        playerOnline.setText(text);
+        playerOnline.setText(text.toString());
     }
 
     {

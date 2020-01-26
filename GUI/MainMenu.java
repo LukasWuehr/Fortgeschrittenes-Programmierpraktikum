@@ -39,7 +39,7 @@ public class MainMenu<Client> {
                 //mainScreen.setPanel(Connect4Gui.getPanel); // noch enscheidung hinzufuegen
             }
         });
-        cancelButton.addActionListener(new ActionListener() {
+        inviteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String invite = mainScreen.getPLayer() + "#";
@@ -54,8 +54,35 @@ public class MainMenu<Client> {
                     Message.sendMessage(mainScreen.getPLayer());
                     Message.sendMessage(invite);
                 }
+                changeMenu();
             }
         });
+
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                changeMenu();
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                changeMenu();
+            }
+        });
+
+    }
+
+    private void changeMenu(){
+        playButton.setVisible(!playButton.isVisible());
+        list1.setVisible(!playButton.isVisible());
+        connectFourRadioButton.setVisible(!connectFourRadioButton.isVisible());
+        chompRadioButton.setVisible(!chompRadioButton.isVisible());
+        heightSpinner.setVisible(!heightSpinner.isVisible());
+        lengthSpinner.setVisible(!lengthSpinner.isVisible());
+        PlayerComboBox.setVisible(!PlayerComboBox.isVisible());
+        inviteButton.setVisible(!inviteButton.isVisible());
+        cancelButton.setVisible(!cancelButton.isVisible());
     }
 
     public void setInvites(String invite) {

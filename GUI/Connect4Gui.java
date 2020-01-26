@@ -1,46 +1,122 @@
 package GUI;
 
+import games.Game;
 import games.Player;
+import games.connect4.Connect4Board;
 import games.connect4.Disc;
+import GUI.GridActionListener;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
-public class Connect4Gui {
+public class Connect4Gui extends Game {
     private JLabel playersLabel;
     private JLabel turnLable;
     private JButton exitButton;
     private JPanel connect4Panel;
     private JPanel connect4BoardPanel;
+    //-------------------------------------
     private Disc[][] discs;
     private Player player1, player2;
     private int startPlayer;
+    private Connect4Board board;
+    private int turns=0;
+    public int played;
 
-    public Connect4Gui(Disc[][] discs) {
-        this.discs = discs;
+
+    public Connect4Gui(Player player1, Player player2, int length, int height,int startPlayer, MainScreen mainScreen) {
+        setPlayers(player1,player2);
+        this.startPlayer=startPlayer;
+        this.discs = new Disc[length][height];
+        board = new Connect4Board(discs);
+        start();
+    }
+
+    private void setButtons(Player player){
         connect4BoardPanel.setLayout(new GridLayout(discs[0].length + 1, discs.length));
-        for (int i = 0; i < discs[0].length; i++) {
-            new JButton("V").addActionListener(new ActionListener() {
+        for (int i = 0; i < discs.length; i++) {
+            JButton topButton = new JButton("▼");
+            topButton.setForeground(Color.WHITE);
+            topButton.setBackground(Color.BLUE);
+            topButton.addActionListener(new GridActionListener(i,0) {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    // setDisc(i);
+                    board.setDisc(i,player,turns);
                 }
             });
         }
         for (int i = 0; discs[0].length > i; i++) { // links oben 0,0
-            for (Disc[] value : discs) {
-                Disc disc = value[i];
+            for (int j = 0; discs[0].length > j; j++) {
+                Disc disc = discs[j][i];
                 connect4BoardPanel.add(disc.getButton());
+                disc.getButton().addActionListener(new GridActionListener(0,j) {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        board.setDisc(j,player,turns);
+                    }
+                });
+                disc.getButton().addMouseListener(new GridMouseListener(0,j){
+                    @Override
+                    public void mouseEntered(MouseEvent mouseEvent) {
+                        for (Disc disc: discs[j]) {
+                            disc.getButton().setBackground(Color.CYAN);
+                        }
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent mouseEvent) {
+                        for (Disc disc: discs[j]) {
+                            disc.getButton().setBackground(Color.BLUE);
+                        }
+                    }
+                });
 
             }
         }
     }
 
-    public Connect4Gui(Player player1, Player player2, int length, int height,int startPlayer, MainScreen mainScreen) {
-        setPlayers(player1,player2);
+    public Connect4Board getBoard() {
+        return board;
+    }
 
+    @Override
+    public void start() {
+        if (startPlayer==2){
+            setButtons(player2);
+            turns=-1;
+            changeClickable();
+        }else {
+            setButtons(player1);
+            setTurnLabel(turns);
+        }
+    }
+
+
+
+    public void changeClickable(){
+        connect4BoardPanel.setEnabled(!connect4BoardPanel.isEnabled());
+        turns++;
+        setTurnLabel(turns);
+        if (turns>discs.length*discs[0].length) draw();
+    }
+
+    private void draw(){
+        //TODO: exit + message
+    }
+
+    public void win(){
+        Player winner;
+        if (turns%2==0) { //gewinner finden
+            winner= player1;
+        } else {
+            winner = player2;
+        }
+        winner.addWin();
+        System.out.printf("%s Wins\n", winner.getPlayerName());
+        //TODO: exit+ message
 
     }
 
@@ -54,7 +130,7 @@ public class Connect4Gui {
         playersLabel.setText(player1.getPlayerName() + " vs " + player2.getPlayerName());
     }
 
-    public void setTurnLable(int turn) {
+    public void setTurnLabel(int turn) {
         if (turn % 2 == 0) {
             turnLable.setText("Turn of " + player1.getPlayerName());
         } else {

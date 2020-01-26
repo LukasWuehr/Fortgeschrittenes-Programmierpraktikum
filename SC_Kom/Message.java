@@ -46,6 +46,9 @@ public class Message extends Thread {
                     case 12:
                         //screen.infoWindow(in.readUTF());
                         break;
+                    case 11: //stop game
+                        screen.stopGame(in.readUTF());
+                        break;
                     case 10: // turn of VSplayer
                         setTurn(in.readUTF());
                         break;
@@ -88,10 +91,11 @@ public class Message extends Thread {
     }
 
     private void setTurn(String turn) {
-        Object []infos = new Object[5]; // game,player,turn,h,l
-        infos = turn.split(",");
+        String []infos = turn.split(","); // game,player,turn,h,l
         // greife auf spiel zu und setze zug
         if (infos[0].equals("connect")) {
+            Player player = new Player(infos[1],false);
+            screen.connectGui.getBoard().setDisc(Integer.parseInt(infos[4]),player,Integer.parseInt(infos[2]));
             //(Connect4Game) game.setDisc();
         } else if (infos[0].equals("chomp")) {
 
