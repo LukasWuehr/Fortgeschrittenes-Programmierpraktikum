@@ -80,7 +80,9 @@ public class MainScreen {
     public void stopGame(String stop) {
         JOptionPane.showMessageDialog(new JFrame(), stop);//window
         card.removeLayoutComponent(connectGui.getPanel());  //only menuPanel
-        card.first(gamePanel); //show menu
+        card.first(gamePanel);
+        Message.sendMessage(11);
+        Message.sendMessage("Game is over");//show menu
     }
 
     public void setInvite(String invite) {

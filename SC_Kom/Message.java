@@ -45,6 +45,7 @@ public class Message extends Thread {
                 switch (in.readByte()) {
                     case 12:
                         //screen.infoWindow(in.readUTF());
+                        in.readUTF();
                         break;
                     case 11: //stop game
                         screen.stopGame(in.readUTF());
@@ -59,6 +60,7 @@ public class Message extends Thread {
                         String[] game = in.readUTF().split("#");
                         String[] dim = game[2].split("x");
                         screen.startGame(game[0], game[1], Integer.parseInt(dim[0]), Integer.parseInt(dim[1]), Integer.parseInt(game[3])); //vsPlayer, game, l,h, playerNumb
+                        in.skip(in.available());
                         break;
                     case 6: // chat message
                         chat(in.readUTF());

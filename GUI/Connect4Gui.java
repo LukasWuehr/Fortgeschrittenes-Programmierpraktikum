@@ -31,7 +31,7 @@ public class Connect4Gui extends Game {
         setPlayers(player1, player2);
         this.startPlayer = startPlayer;
         this.discs = new Disc[length][height];
-        board = new Connect4Board(discs);
+        board = new Connect4Board(discs, this);
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,8 +84,8 @@ public class Connect4Gui extends Game {
             });
         }
 
-            for (int i = 0; discs[0].length > i; i++) { // links oben 0,0
-                for (int j = 0; discs.length > j; j++) {
+        for (int i = 0; discs[0].length > i; i++) { // links oben 0,0
+            for (int j = 0; discs.length > j; j++) {
                 Disc disc = discs[j][i];
                 connect4BoardPanel.add(disc.getButton());
                 disc.getButton().setText(j + " " + i);
@@ -115,7 +115,7 @@ public class Connect4Gui extends Game {
                         board.setDisc(j, player, turns);
                     }
                 });
-
+                disc.setFont();
             }
         }
     }

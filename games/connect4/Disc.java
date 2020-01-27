@@ -17,7 +17,22 @@ public class Disc {
         this.button = new JButton("⚫");
         button.setBackground(Color.BLUE);
         button.setForeground(Color.WHITE);
-        this.color = 0;
+        this.color = 2;
+    }
+
+    public void setFont(){
+        Font buttonFont = button.getFont();
+        String buttonText = button.getText();
+        int stringWidth = button.getFontMetrics(buttonFont).stringWidth(buttonText);
+        int componentWidth = button.getWidth();
+// Find out how much the font can grow in width.
+        double widthRatio = (double)componentWidth / (double)stringWidth;
+        int newFontSize = (int)(10 * widthRatio);
+        int componentHeight = button.getHeight();
+// Pick a new font size so it will not be larger than the height of label.
+        int fontSizeToUse = Math.min(newFontSize, componentHeight);
+// Set the label's font size to the newly determined size.
+        button.setFont(new Font(buttonFont.getName(), Font.PLAIN, fontSizeToUse));
     }
 
     public void setGui(Connect4Gui gui) {

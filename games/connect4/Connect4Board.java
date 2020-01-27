@@ -4,16 +4,19 @@ import GUI.Connect4Gui;
 import SC_Kom.Message;
 import games.*;
 
+import javax.swing.*;
+
 /**
  * Connect4Board
  */
-public class Connect4Board extends Board implements Logable {
+public class Connect4Board extends Board {
     private Stack protokoll;
     private Disc[][] discs;
     private Connect4Gui gui;
-    public Connect4Board(Disc[][] discs) {
+    public Connect4Board(Disc[][] discs, Connect4Gui gui) {
         this.discs = discs;
         this.protokoll = new Stack();
+        this.gui=gui;
     }
 
     public Connect4Gui getGui(){ return gui;}
@@ -42,14 +45,14 @@ public class Connect4Board extends Board implements Logable {
             return ;
         }
         int row = discs[coordinate].length - 1;
-        while (row > -1 && discs[coordinate][row].getColor() != 0) {
+        while (row > -1 && discs[coordinate][row].getColor() != 2) {
             row--;
         }
         if (row <= -1) { // colum full
             return;
         } else {
             discs[coordinate][row].setColor(turn % 2);
-            add(new Node(coordinate, row, player));
+            add(new Node(coordinate, row, player),turn);
             if (win(coordinate, row)) { // win status 2
                 gui.win();
             } else {
@@ -112,7 +115,7 @@ public class Connect4Board extends Board implements Logable {
         return discs.length;
     }
 
-    @Override
+
     public Node delete() {
         Node nodeDelete = protokoll.pop();
         discs[nodeDelete.getLengthCoordinate()][nodeDelete.getHeightCoordinate()] = null;
@@ -120,17 +123,17 @@ public class Connect4Board extends Board implements Logable {
         return nodeDelete;
     }
 
-    @Override
-    public void add(Node n) {
+    public void add(Node n,int turn) {
         protokoll.push(n);
         if(n.getPlayer().getIsHuman())
-            send(n);
+            send(n,turn);
     }
 
-    synchronized private void send(Node n) {
+    synchronized private void send(Node n, int turn) {
         String msg = "connect,";
-        msg += n.getPlayer().getPlayerName() + ",0,";
+        msg += n.getPlayer().getPlayerName() + ","+turn+",0,";
         msg += n.getLengthCoordinate();
+        Message.sendMessage(10);
         Message.sendMessage(msg);
     }
 }
