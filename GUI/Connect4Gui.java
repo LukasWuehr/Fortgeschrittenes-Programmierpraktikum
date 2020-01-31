@@ -35,14 +35,10 @@ public class Connect4Gui extends Game {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                synchronized (this) {
-                    Message.sendMessage(11);
-                    Message.sendMessage("Enemy left");
-                }
+                Message.sendMessage(11);
                 screen.stopGame("Exit Game");
             }
         });
-        start();
     }
 
     public void setScreen(MainScreen screen) {
@@ -115,6 +111,13 @@ public class Connect4Gui extends Game {
                         board.setDisc(j, player, turns);
                     }
                 });
+            }
+        }
+    }
+
+    public void setFontSize() {
+        for (Disc[] discss : discs) {
+            for (Disc disc : discss) {
                 disc.setFont();
             }
         }

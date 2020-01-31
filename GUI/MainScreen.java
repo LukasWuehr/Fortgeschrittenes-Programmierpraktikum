@@ -74,6 +74,8 @@ public class MainScreen {
             gamePanel.add("ConnectFourCard", connectGui.getPanel());
             connectGui.setScreen(this);
             card.last(gamePanel);
+            connectGui.start();
+            connectGui.setFontSize();
         }
     }
 

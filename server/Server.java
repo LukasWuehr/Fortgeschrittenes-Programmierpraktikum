@@ -93,10 +93,9 @@ class MulServerThread extends Thread {
                 switch (x) {
                 case 11:
                     //player left game
-                    in.readUTF();
                     node.setGame("idle");
                     vsPlayer.setGame("idle");
-                    vsPlayer.sendMessage();
+                    vsPlayer.sendMessage((byte)11,"Player left");
                     break;
                 case 10:
                     vsPlayer.sendMessage((byte) 10, in.readUTF()); // game message  // game,player,turn,h,l
