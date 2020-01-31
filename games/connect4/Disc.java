@@ -24,11 +24,11 @@ public class Disc {
         Font buttonFont = button.getFont();
         String buttonText = button.getText();
         int stringWidth = button.getFontMetrics(buttonFont).stringWidth(buttonText);
-        int componentWidth = button.getWidth();
+        int componentWidth = Math.min(button.getWidth(), button.getHeight());
 // Find out how much the font can grow in width.
         double widthRatio = (double)componentWidth / (double)stringWidth;
         int newFontSize = (int)(10 * widthRatio);
-        int componentHeight = button.getHeight();
+        int componentHeight = Math.min(button.getWidth(), button.getHeight());
 // Pick a new font size so it will not be larger than the height of label.
         int fontSizeToUse = Math.min(newFontSize, componentHeight);
 // Set the label's font size to the newly determined size.

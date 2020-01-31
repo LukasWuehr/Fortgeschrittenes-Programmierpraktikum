@@ -84,7 +84,7 @@ public class Connect4Gui extends Game {
             for (int j = 0; discs.length > j; j++) {
                 Disc disc = discs[j][i];
                 connect4BoardPanel.add(disc.getButton());
-                disc.getButton().setText(j + " " + i);
+                //disc.getButton().setText(j + " " + i);
                 disc.getButton().addActionListener(new GridActionListener(i, j) {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
@@ -138,9 +138,11 @@ public class Connect4Gui extends Game {
             setButtons(player2);
             turns = -1;
             changeClickable();
+            setFontSize();
         } else {
             setButtons(player1);
             setTurnLabel(turns);
+            setFontSize();
         }
     }
 

@@ -75,7 +75,7 @@ public class MainScreen {
             connectGui.setScreen(this);
             card.last(gamePanel);
             connectGui.start();
-            connectGui.setFontSize();
+            //connectGui.setFontSize();
         }
     }
 
