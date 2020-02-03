@@ -94,11 +94,11 @@ class MulServerThread extends Thread {
                 case 11:
                     //player left game
                     node.setGame("idle");
-                    vsPlayer.setGame("idle");
-                    vsPlayer.sendMessage((byte)11,"Player left");
+                    node.getVsPlayer().setGame("idle");
+                    node.getVsPlayer().sendMessage((byte)11,"Player left");
                     break;
                 case 10:
-                    vsPlayer.sendMessage((byte) 10, in.readUTF()); // game message  // game,player,turn,h,l
+                    node.getVsPlayer().sendMessage((byte) 10, in.readUTF()); // game message  // game,player,turn,h,l
                     break;
                 case 5:
                     getPlayers(in, out);
@@ -150,6 +150,8 @@ class MulServerThread extends Thread {
             node.sendMessage((byte)9,input+"#1");
             vsPlayer.setGame(invite[1]);
             node.setGame(invite[1]);
+            node.setVsPlayer(vsPlayer);
+            vsPlayer.setVsPlayer(node);
         } else {
             node.sendMessage((byte)12,"To slow :/");// 12 invite error
         }

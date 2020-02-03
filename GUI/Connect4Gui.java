@@ -52,12 +52,6 @@ public class Connect4Gui extends Game {
             connect4BoardPanel.add(topButton);
             topButton.setForeground(Color.WHITE);
             topButton.setBackground(Color.BLUE);
-            topButton.addActionListener(new GridActionListener(i, 0) {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    board.setDisc(i, player, turns);
-                }
-            });
             topButton.addMouseListener(new GridMouseListener(i, 0) {
                 @Override
                 public void mouseEntered(MouseEvent mouseEvent) {
@@ -85,12 +79,6 @@ public class Connect4Gui extends Game {
                 Disc disc = discs[j][i];
                 connect4BoardPanel.add(disc.getButton());
                 //disc.getButton().setText(j + " " + i);
-                disc.getButton().addActionListener(new GridActionListener(i, j) {
-                    @Override
-                    public void actionPerformed(ActionEvent actionEvent) {
-                        board.setDisc(j, player, turns);
-                    }
-                });
                 disc.getButton().addMouseListener(new GridMouseListener(i, j) {
                     @Override
                     public void mouseEntered(MouseEvent mouseEvent) {
@@ -185,9 +173,9 @@ public class Connect4Gui extends Game {
 
     public void setTurnLabel(int turn) {
         if (turn % 2 == 0) {
-            turnLabel.setText("Turn of " + player1.getPlayerName());
+            turnLabel.setText("Turn " + turn + ": " + player1.getPlayerName());
         } else {
-            turnLabel.setText("Turn of " + player2.getPlayerName());
+            turnLabel.setText("Turn " + turn + ": " + player2.getPlayerName());
         }
     }
 
