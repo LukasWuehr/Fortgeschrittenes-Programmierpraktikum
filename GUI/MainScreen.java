@@ -67,8 +67,10 @@ public class MainScreen {
             player2 = new Player(playerName, true);
         }
         if (game.equals("Chomp")) {
+            chompGui = new ChompGui(length, height);
             //chompGui = new ChompGui();
-            //gamePanel.add("ChompCard",chompGui.getPanel());
+            gamePanel.add("ChompCard", chompGui.getChompPanel());
+            card.last(gamePanel);
         } else {
             connectGui = new Connect4Gui(player1, player2, length, height, startNumb, this);
             gamePanel.add("ConnectFourCard", connectGui.getPanel());

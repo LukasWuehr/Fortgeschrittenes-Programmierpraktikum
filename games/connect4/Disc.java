@@ -12,27 +12,20 @@ public class Disc {
     private Connect4Gui gui;
     private  int color;
     private JButton button;
+    private ImageIcon icon;
 
     public Disc(){
-        this.button = new JButton("⚫");
+        icon = new ImageIcon("games/connect4/dotWhite.png");
+        this.button = new JButton(icon);
         button.setBackground(Color.BLUE);
         button.setForeground(Color.WHITE);
         this.color = 2;
     }
 
-    public void setFont(){
-        Font buttonFont = button.getFont();
-        String buttonText = button.getText();
-        int stringWidth = button.getFontMetrics(buttonFont).stringWidth(buttonText);
-        int componentWidth = Math.min(button.getWidth(), button.getHeight());
-// Find out how much the font can grow in width.
-        double widthRatio = (double)componentWidth / (double)stringWidth;
-        int newFontSize = (int)(10 * widthRatio);
-        int componentHeight = Math.min(button.getWidth(), button.getHeight());
-// Pick a new font size so it will not be larger than the height of label.
-        int fontSizeToUse = Math.min(newFontSize, componentHeight);
-// Set the label's font size to the newly determined size.
-        button.setFont(new Font(buttonFont.getName(), Font.PLAIN, fontSizeToUse));
+    public void setFont(int size){
+        Image img = icon.getImage();
+        Image newimg = img.getScaledInstance( size, size,  Image.SCALE_FAST ) ;
+        button.setIcon(new ImageIcon( newimg ));
     }
 
     public void setGui(Connect4Gui gui) {
@@ -48,15 +41,19 @@ public class Disc {
     }
     public void setColor(int color){
         this.color=color;
+        int size = Math.min(button.getWidth(), button.getHeight()) - Math.max(button.getInsets().left, button.getInsets().top);
         switch (color){
             case 1:
-                button.setForeground(Color.RED);
+                icon = new ImageIcon("games/connect4/dotRed.png");
+                setFont(size);
                 break;
             case 0:
-                button.setForeground(Color.YELLOW);
+                icon = new ImageIcon("games/connect4/dotYellow.png");
+                setFont(size);
                 break;
             default:
-                button.setForeground(Color.WHITE);
+                icon = new ImageIcon("games/connect4/dotWhite.png");
+                setFont(size);
                 break;
         }
     }

@@ -8,9 +8,7 @@ import games.connect4.Disc;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class Connect4Gui extends Game {
     private JLabel playersLabel;
@@ -25,6 +23,7 @@ public class Connect4Gui extends Game {
     private Connect4Board board;
     private int turns = 0;
     private MainScreen screen;
+    private boolean buttonsEnabled = true;
 
 
     public Connect4Gui(Player player1, Player player2, int length, int height, int startPlayer, MainScreen mainScreen) {
@@ -69,7 +68,8 @@ public class Connect4Gui extends Game {
 
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
-                    board.setDisc(i, player, turns);
+                    if (buttonsEnabled)
+                        board.setDisc(i, player, turns);
                 }
             });
         }
@@ -96,7 +96,8 @@ public class Connect4Gui extends Game {
 
                     @Override
                     public void mouseClicked(MouseEvent mouseEvent) {
-                        board.setDisc(j, player, turns);
+                        if (buttonsEnabled)
+                            board.setDisc(j, player, turns);
                     }
                 });
             }
@@ -106,7 +107,20 @@ public class Connect4Gui extends Game {
     public void setFontSize() {
         for (Disc[] discss : discs) {
             for (Disc disc : discss) {
-                disc.setFont();
+                disc.setFont(1);
+            }
+        }
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+        }
+        JButton button = discs[0][0].getButton();
+        int size = Math.min(button.getWidth(), button.getHeight()) - Math.max(button.getInsets().left, button.getInsets().top);
+
+        for (Disc[] discss : discs) {
+            for (Disc disc : discss) {
+                disc.setFont(size);
             }
         }
     }
@@ -117,6 +131,17 @@ public class Connect4Gui extends Game {
 
     @Override
     public void start() {
+        connect4Panel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                setFontSize();
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                setFontSize();
+            }
+        });
         for (int i = 0; discs[0].length > i; i++) { // links oben 0,0
             for (int j = 0; discs.length > j; j++) {
                 discs[j][i] = new Disc();
@@ -137,9 +162,10 @@ public class Connect4Gui extends Game {
 
     public void changeClickable() {
         connect4BoardPanel.setEnabled(!connect4BoardPanel.isEnabled());
+        buttonsEnabled = !buttonsEnabled;
         turns++;
         setTurnLabel(turns);
-        if (turns > discs.length * discs[0].length) draw();
+        if (turns >= discs.length * discs[0].length) draw();
     }
 
     private void draw() {
