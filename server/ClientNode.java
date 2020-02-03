@@ -8,6 +8,15 @@ class ClientNode {
     private String name;
     DataOutputStream out;
     private String game = "login"; // TODO: ENUM: IDLE WantC4 WantChomp InC4 InComp
+    private ClientNode vsPlayer;
+
+    public void setVsPlayer(ClientNode vsPlayer) {
+        this.vsPlayer = vsPlayer;
+    }
+
+    public ClientNode getVsPlayer() {
+        return vsPlayer;
+    }
 
     public ClientNode(Socket client, DataOutputStream out) {
         this.client = client;
