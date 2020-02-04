@@ -8,6 +8,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class MainMenu<Client> {
@@ -28,15 +30,36 @@ public class MainMenu<Client> {
     public MainMenu(MainScreen mainScreen) {
         playButton.setBackground(Color.LIGHT_GRAY);
         // list1.setListData((String[]) invites.toArray());
-        list1.addListSelectionListener(new ListSelectionListener() {
+        list1.addMouseListener(new MouseListener() {
+
             @Override
-            public void valueChanged(ListSelectionEvent listSelectionEvent) {
+            public void mouseClicked(MouseEvent mouseEvent) {
                 String invite = list1.getSelectedValue();
                 synchronized (this) {
                     Message.sendMessage(9);
                     Message.sendMessage(invite);
                 }
                 //mainScreen.setPanel(Connect4Gui.getPanel); // noch enscheidung hinzufuegen
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
             }
         });
         inviteButton.addActionListener(new ActionListener() {
@@ -96,7 +119,7 @@ public class MainMenu<Client> {
 
     public void setInvites(String invite) {
         invites.add(invite);            // PLayername#Game#lxh
-        list1.setListData(invites.toArray(new String[invites.size()]));
+        list1.setListData(invites.toArray(new String[0]));
 
     }
 
