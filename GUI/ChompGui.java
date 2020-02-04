@@ -18,7 +18,7 @@ public class ChompGui {
     private JPanel chompPanel;
     private JPanel headPanel;
 
-
+//Bananatest
     public ChompGui(int length, int height) {
         this.chompPanel.setLayout(new GridLayout(length, height));
         ButtonArray = new JButton[length][height];

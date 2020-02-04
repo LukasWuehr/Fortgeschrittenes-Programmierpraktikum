@@ -68,7 +68,6 @@ public class MainScreen {
         }
         if (game.equals("Chomp")) {
             chompGui = new ChompGui(length, height);
-            //chompGui = new ChompGui();
             gamePanel.add("ChompCard", chompGui.getChompPanel());
             card.last(gamePanel);
         } else {
