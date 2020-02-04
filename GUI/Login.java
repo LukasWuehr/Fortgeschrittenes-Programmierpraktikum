@@ -1,5 +1,7 @@
 package GUI;
 
+import SC_Kom.Message;
+
 import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
@@ -44,9 +46,10 @@ public class Login {
             public void actionPerformed(ActionEvent actionEvent) {
                 String pwd = String.valueOf(passwordField.getPassword());
                 String name = nameField.getText();
-                inputs[0] = "2";
+                inputs[0] = "2"; //TODO: noch loeschen
                 inputs[1] = name;
                 inputs[2] = pwd;
+                Message.sendMessage(3);
             }
         });
         newPlayerButton.addActionListener(new ActionListener() {
@@ -57,6 +60,7 @@ public class Login {
                 inputs[0] = "1";
                 inputs[1] = name;
                 inputs[2] = pwd;
+                Message.sendMessage(2);
             }
         });
 

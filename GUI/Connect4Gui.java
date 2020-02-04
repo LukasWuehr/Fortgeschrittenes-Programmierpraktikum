@@ -9,6 +9,7 @@ import games.connect4.Disc;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 public class Connect4Gui extends Game {
     private JLabel playersLabel;
@@ -68,8 +69,13 @@ public class Connect4Gui extends Game {
 
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
-                    if (buttonsEnabled)
+                    if (buttonsEnabled) {
                         board.setDisc(i, player, turns);
+                        if (!player1.getIsHuman() && !player2.getIsHuman()) {
+                            Random rn = new Random();
+                            board.setDisc(rn.nextInt(discs.length), player2, turns);
+                        }
+                    }
                 }
             });
         }

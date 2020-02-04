@@ -60,8 +60,13 @@ public class MainScreen {
         atPlayer.setSelectedItem(vsPlayerName);
         Player player1, player2;
         if (startNumb == 1) {
-            player1 = new Player(playerName, true);
-            player2 = new Player(vsPlayerName, true);
+            if (vsPlayerName.equals("@Computer")) {
+                player1 = new Player(playerName, false);
+                player2 = new Player(vsPlayerName, false);
+            } else {
+                player1 = new Player(playerName, true);
+                player2 = new Player(vsPlayerName, true);
+            }
         } else {
             player1 = new Player(vsPlayerName, true);
             player2 = new Player(playerName, true);

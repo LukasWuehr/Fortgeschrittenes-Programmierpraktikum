@@ -134,7 +134,7 @@ class MulServerThread extends Thread {
 
     private ClientNode searchPlayer(String name) {
         for (ClientNode clientNode : clients) {
-            if (clientNode.getName().equals(name)) {
+            if (clientNode.getName()!=null && clientNode.getName().equals(name)) {
                 return clientNode;
             }
         }
@@ -236,7 +236,7 @@ class MulServerThread extends Thread {
                         pwd = in.readUTF();
                         int ptr;
                         if ((ptr = searchName(name)) != 0) {// name suchen und stelle im file zurueckgeben
-                            if(searchPlayer(name) != null) out.writeByte(1);
+                            if(clients!=null && searchPlayer(name) != null) out.writeByte(1);
                             else if (comparePWD(pwd, ptr)) {// teste auf pwd
                                 out.writeByte(5); // success
                                 out.writeUTF(name);

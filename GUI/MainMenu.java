@@ -29,12 +29,15 @@ public class MainMenu<Client> {
 
     public MainMenu(MainScreen mainScreen) {
         playButton.setBackground(Color.LIGHT_GRAY);
+        playerComboBox.addItem("@Computer");
         // list1.setListData((String[]) invites.toArray());
         list1.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 String invite = list1.getSelectedValue();
+                invites.remove(invite);
+                list1.setListData(invites.toArray(new String[0]));
                 synchronized (this) {
                     Message.sendMessage(9);
                     Message.sendMessage(invite);
@@ -65,19 +68,23 @@ public class MainMenu<Client> {
         inviteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                String invite = mainScreen.getPLayer() + "#";
-                if (connectFourRadioButton.isSelected()) {
-                    invite += "ConnectFour#";
-                } else {
-                    invite += "Chomp#";
-                }
-                invite += lengthSpinner.getValue() + "x" + heightSpinner.getValue();
-                synchronized (this) {
-                    Message.sendMessage(8);
-                    Message.sendMessage((String) playerComboBox.getSelectedItem());
-                    Message.sendMessage(invite);
-                }
                 changeMenu();
+                if (!playerComboBox.getSelectedItem().equals("@Computer")) {
+                    String invite = mainScreen.getPLayer() + "#";
+                    if (connectFourRadioButton.isSelected()) {
+                        invite += "ConnectFour#";
+                    } else {
+                        invite += "Chomp#";
+                    }
+                    invite += lengthSpinner.getValue() + "x" + heightSpinner.getValue();
+                    synchronized (this) {
+                        Message.sendMessage(8);
+                        Message.sendMessage((String) playerComboBox.getSelectedItem());
+                        Message.sendMessage(invite);
+                    }
+                } else {
+                    mainScreen.startGame("@Computer", connectFourRadioButton.isSelected() ? "ConnectFour" : "Chomp", (int) lengthSpinner.getValue(), (int) heightSpinner.getValue(), 1);
+                }
             }
         });
 
@@ -153,7 +160,7 @@ public class MainMenu<Client> {
         label1.setHorizontalAlignment(0);
         label1.setHorizontalTextPosition(0);
         label1.setText("MAINMENU");
-        panel1.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_NORTH, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_NORTH, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         playButton = new JButton();
         Font playButtonFont = this.$$$getFont$$$("JetBrains Mono", -1, 16, playButton.getFont());
         if (playButtonFont != null) playButton.setFont(playButtonFont);
