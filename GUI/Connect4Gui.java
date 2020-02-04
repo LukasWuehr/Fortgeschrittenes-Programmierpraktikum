@@ -72,8 +72,10 @@ public class Connect4Gui extends Game {
                     if (buttonsEnabled) {
                         board.setDisc(i, player, turns);
                         if (!player1.getIsHuman() && !player2.getIsHuman()) {
-                            Random rn = new Random();
-                            board.setDisc(rn.nextInt(discs.length), player2, turns);
+                            while (!buttonsEnabled) {
+                                Random rn = new Random();
+                                board.setDisc(rn.nextInt(discs.length), player2, turns);
+                            }
                         }
                     }
                 }
@@ -102,8 +104,15 @@ public class Connect4Gui extends Game {
 
                     @Override
                     public void mouseClicked(MouseEvent mouseEvent) {
-                        if (buttonsEnabled)
+                        if (buttonsEnabled) {
                             board.setDisc(j, player, turns);
+                            if (!player1.getIsHuman() && !player2.getIsHuman()) {
+                                while (!buttonsEnabled) {
+                                    Random rn = new Random();
+                                    board.setDisc(rn.nextInt(discs.length), player2, turns);
+                                }
+                            }
+                        }
                     }
                 });
             }

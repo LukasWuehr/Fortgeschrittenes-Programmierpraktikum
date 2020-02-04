@@ -28,6 +28,11 @@ public class MainMenu<Client> {
     MainScreen mainScreen;
 
     public MainMenu(MainScreen mainScreen) {
+        inviteButton.setBackground(Color.LIGHT_GRAY);
+        cancelButton.setBackground(Color.LIGHT_GRAY);
+        playerComboBox.setBackground(Color.LIGHT_GRAY);
+        heightSpinner.setBackground(Color.LIGHT_GRAY);
+        lengthSpinner.setBackground(Color.LIGHT_GRAY);
         playButton.setBackground(Color.LIGHT_GRAY);
         playerComboBox.addItem("@Computer");
         // list1.setListData((String[]) invites.toArray());
@@ -76,7 +81,7 @@ public class MainMenu<Client> {
                     } else {
                         invite += "Chomp#";
                     }
-                    invite += lengthSpinner.getValue() + "x" + heightSpinner.getValue();
+                    invite += Math.abs((int) lengthSpinner.getValue()) + "x" + Math.abs((int) heightSpinner.getValue());
                     synchronized (this) {
                         Message.sendMessage(8);
                         Message.sendMessage((String) playerComboBox.getSelectedItem());
@@ -186,7 +191,7 @@ public class MainMenu<Client> {
         panel1.add(list1, new com.intellij.uiDesigner.core.GridConstraints(8, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         connectFourRadioButton = new JRadioButton();
         connectFourRadioButton.setEnabled(true);
-        Font connectFourRadioButtonFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, connectFourRadioButton.getFont());
+        Font connectFourRadioButtonFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, connectFourRadioButton.getFont());
         if (connectFourRadioButtonFont != null) connectFourRadioButton.setFont(connectFourRadioButtonFont);
         connectFourRadioButton.setSelected(true);
         connectFourRadioButton.setText("Connect Four");
@@ -194,7 +199,7 @@ public class MainMenu<Client> {
         panel1.add(connectFourRadioButton, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         chompRadioButton = new JRadioButton();
         chompRadioButton.setEnabled(true);
-        Font chompRadioButtonFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, chompRadioButton.getFont());
+        Font chompRadioButtonFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, chompRadioButton.getFont());
         if (chompRadioButtonFont != null) chompRadioButton.setFont(chompRadioButtonFont);
         chompRadioButton.setText("Chomp");
         chompRadioButton.setVisible(false);
@@ -209,7 +214,7 @@ public class MainMenu<Client> {
         label2.setVisible(false);
         panel1.add(label2, new com.intellij.uiDesigner.core.GridConstraints(5, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         heightSpinner = new JSpinner();
-        Font heightSpinnerFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, heightSpinner.getFont());
+        Font heightSpinnerFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, heightSpinner.getFont());
         if (heightSpinnerFont != null) heightSpinner.setFont(heightSpinnerFont);
         heightSpinner.setVisible(false);
         panel1.add(heightSpinner, new com.intellij.uiDesigner.core.GridConstraints(5, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -218,7 +223,7 @@ public class MainMenu<Client> {
         label3.setVisible(false);
         panel1.add(label3, new com.intellij.uiDesigner.core.GridConstraints(6, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         lengthSpinner = new JSpinner();
-        Font lengthSpinnerFont = this.$$$getFont$$$("JetBrains Mono", -1, -1, lengthSpinner.getFont());
+        Font lengthSpinnerFont = this.$$$getFont$$$("JetBrains Mono", -1, 14, lengthSpinner.getFont());
         if (lengthSpinnerFont != null) lengthSpinner.setFont(lengthSpinnerFont);
         lengthSpinner.setVisible(false);
         panel1.add(lengthSpinner, new com.intellij.uiDesigner.core.GridConstraints(6, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
