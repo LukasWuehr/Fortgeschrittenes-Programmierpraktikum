@@ -100,7 +100,8 @@ public class Message extends Thread {
             screen.connectGui.getBoard().setDisc(Integer.parseInt(infos[4]),player,Integer.parseInt(infos[2]));
             //(Connect4Game) game.setDisc();
         } else if (infos[0].equals("chomp")) {
-
+            screen.chompGui.colorButtons(Integer.parseInt(infos[4]),Integer.parseInt(infos[3]));
+            screen.chompGui.incrementTurns();
         }
     }
 
