@@ -74,6 +74,7 @@ public class MainScreen {
         if (game.equals("Chomp")) {
             chompGui = new ChompGui(length, height, this, player1, player2, startNumb);
             gamePanel.add("ChompCard", chompGui.getChompPanel());
+            chompGui.setScreen(this);
             card.last(gamePanel);
         } else {
             connectGui = new Connect4Gui(player1, player2, length, height, startNumb, this);
@@ -87,6 +88,7 @@ public class MainScreen {
 
     public void stopGame(String stop) {
         JOptionPane.showMessageDialog(new JFrame(), stop);//window
+        //card.removeLayoutComponent(chompGui.getChompPanel());
         card.removeLayoutComponent(connectGui.getPanel());  //only menuPanel
         card.first(gamePanel);//show menu
     }
