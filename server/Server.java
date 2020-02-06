@@ -1,14 +1,12 @@
 package server;
 
-
 import java.io.*;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
 /*
-    #Alle spielzuege speichern auf server?
-
 
     byte codierung fuer messagelisener
     0000 0001 - letztes bit als boolean

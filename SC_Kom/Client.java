@@ -4,9 +4,11 @@ import GUI.Login;
 import GUI.MainScreen;
 
 import javax.swing.*;
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 class Client {
     JFrame frame;

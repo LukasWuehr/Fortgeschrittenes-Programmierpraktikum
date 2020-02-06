@@ -1,13 +1,12 @@
 package SC_Kom;
 
+import GUI.MainScreen;
+import games.Game;
+import games.Player;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import GUI.MainScreen;
-import games.*;
-import games.connect4.*;
-import games.chomp.*;
 
 /**
  * Message

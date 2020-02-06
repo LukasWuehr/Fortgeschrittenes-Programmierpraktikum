@@ -1,14 +1,11 @@
 package games.connect4;
 
-import GUI.Connect4Gui;
 import SC_Kom.Message;
-import games.*;
+import games.Board;
+import games.Node;
+import games.Player;
+import games.Stack;
 
-import javax.swing.*;
-
-/**
- * Connect4Board
- */
 public class Connect4Board extends Board {
     private Stack protokoll;
     private Disc[][] discs;

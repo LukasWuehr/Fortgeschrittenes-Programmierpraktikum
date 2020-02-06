@@ -1,10 +1,9 @@
-package GUI;
+package games.connect4;
 
+import GUI.MainScreen;
 import SC_Kom.Message;
 import games.Game;
 import games.Player;
-import games.connect4.Connect4Board;
-import games.connect4.Disc;
 
 import javax.swing.*;
 import java.awt.*;

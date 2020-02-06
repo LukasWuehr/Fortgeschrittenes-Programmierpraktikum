@@ -1,9 +1,14 @@
 package games.chomp;
-import games.*;
-import java.util.*;
-import java.util.Random;
 
-public class ChompGame extends Game implements Logable{
+import games.Game;
+import games.Logable;
+import games.Node;
+import games.Player;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class ChompGame extends Game implements Logable {
     Player player1;
     Player player2;
     boolean lost = false;
@@ -18,14 +23,12 @@ public class ChompGame extends Game implements Logable{
         board.setBoardField(lengthplace, heightplace);
     }
     public boolean switchPlayers(boolean p){
-        if(p) p = false;
-        else p = true;
+        p = !p;
         return p;
 
     }
     public boolean checkLost(int lengthcoordinate, int heightcoordinate){
-        if(lengthcoordinate == 0 && heightcoordinate == 0) return true;
-        else return false;
+        return lengthcoordinate == 0 && heightcoordinate == 0;
     }
     @Override public void add(Node n){
         protokoll.push(n);

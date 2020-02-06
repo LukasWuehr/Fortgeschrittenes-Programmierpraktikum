@@ -1,13 +1,9 @@
 package games.connect4;
 
-import GUI.Connect4Gui;
-
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Disc
- */
+
 public class Disc {
     private Connect4Gui gui;
     private  int color;

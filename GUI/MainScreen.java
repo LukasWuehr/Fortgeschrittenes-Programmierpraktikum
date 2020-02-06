@@ -2,6 +2,8 @@ package GUI;
 
 import SC_Kom.Message;
 import games.Player;
+import games.chomp.ChompGui;
+import games.connect4.Connect4Gui;
 
 import javax.swing.*;
 import java.awt.*;

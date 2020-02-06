@@ -40,7 +40,6 @@ public class Gui implements ActionListener {
                 log.setText(log.getText() + "\n" + input);
             }
         });
-
     }
 
     public void setLog(String s) {
@@ -63,8 +62,6 @@ public class Gui implements ActionListener {
     public static void main(String[] args) {
         try {
             Server server = new Server(new Gui());
-            ServerInput serverInput = new ServerInput();
-            serverInput.start();
         } catch (IOException e) {
         }
     }

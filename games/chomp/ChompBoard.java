@@ -1,15 +1,19 @@
 package games.chomp;
-import games.*;
 
-public class ChompBoard extends Board{
-    private boolean chompBoard[][] = new boolean [this.getLength()][this.getHeight()];// true = belegt
-    public ChompBoard(int length, int height){
+import games.Board;
+
+public class ChompBoard extends Board {
+    private boolean[][] chompBoard = new boolean[this.getLength()][this.getHeight()];// true = belegt
+
+    public ChompBoard(int length, int height) {
         this.chompBoard = new boolean[length][height];
     }
-    @Override public void draw(){
-        for(int k = 0; k < 2*this.getLength()+1;k++)System.out.print("-");
+
+    @Override
+    public void draw() {
+        for (int k = 0; k < 2 * this.getLength() + 1; k++) System.out.print("-");
         System.out.println();
-        for(int i = 0; i < this.getHeight(); i++){
+        for (int i = 0; i < this.getHeight(); i++) {
             System.out.print("|");
             for(int j = 0; j < this.getLength(); j++){
                 if (this.chompBoard[j][i] == false)System.out.print("0|");

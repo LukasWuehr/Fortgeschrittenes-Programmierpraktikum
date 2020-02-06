@@ -3,7 +3,6 @@ package GUI;
 import SC_Kom.Message;
 
 import javax.swing.*;
-import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,7 +62,6 @@ public class Login {
                 Message.sendMessage(2);
             }
         });
-
         messageLable.setText("");
     }
 

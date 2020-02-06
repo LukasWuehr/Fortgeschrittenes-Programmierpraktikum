@@ -1,14 +1,15 @@
-package GUI;
+package games.chomp;
 
+import GUI.MainScreen;
 import SC_Kom.Message;
+import games.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.Random;
-
-import games.Player;
 
 
 public class ChompGui {
@@ -28,7 +29,7 @@ public class ChompGui {
     private JButton exitButton;
     private JLabel gameInfo;
     private JPanel gamePanel;
-    JButton ButtonArray[][];
+    JButton[][] ButtonArray;
 
 
     public ChompGui(int length, int height, MainScreen MainScreen, Player player1, Player player2, int starNumb) {
@@ -135,8 +136,7 @@ public class ChompGui {
     }
 
     public boolean checkTaken(int lengthindex, int heightindex) {
-        if (ButtonArray[lengthindex][heightindex].getBackground() == Color.BLACK) return true;
-        else return false;
+        return ButtonArray[lengthindex][heightindex].getBackground() == Color.BLACK;
     }
 
     public boolean checkLost() {
