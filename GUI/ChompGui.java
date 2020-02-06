@@ -50,11 +50,9 @@ public class ChompGui {
         }
         this.chompPanel.setLayout(new GridLayout(length, height));
         ButtonArray = new JButton[length][height];
-        exitButton = new JButton();
-        playerLabel = new JLabel();
         playerLabel.setText(player1.getPlayerName() + "vs" + player2.getPlayerName());
         turnLabel.setText("Turns = " + turns);
-        exitButton.addActionListener(new ActionListener() {
+        exitButton.addActionListener(new ActionListener() {//Init Exitbutton
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 Message.sendMessage(11);
