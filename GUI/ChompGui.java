@@ -69,7 +69,7 @@ public class ChompGui {
                     @Override
                     public void mouseClicked(MouseEvent mouseEvent) {
                         if (ButtonArray[i][j].getBackground() == Color.WHITE && yourTurn) {
-                            incrementTurns();
+                            //incrementTurns();
                             colorButtons(i, j);
                             if (player1.getIsHuman() && player2.getIsHuman()) {//soll nur bei echten spielern spielzug versenden
                                 String turn = "chomp," + player1.getPlayerName() + "," + turns + ",";
@@ -81,7 +81,7 @@ public class ChompGui {
                                 gameInfo.setText("You have lost!");
                             }
                             if (player1.getIsHuman() == false && player2.getIsHuman() == false && checkLost() == false) {//Fall spiele gegen Computer
-                                incrementTurns();
+                                //incrementTurns();
                                 Random rn = new Random();
                                 int rnl = rn.nextInt(length);
                                 int rnh = rn.nextInt(height);
@@ -118,6 +118,8 @@ public class ChompGui {
                 ButtonArray[k][l].setBackground(Color.BLACK);
             }
         }
+        incrementTurns();
+        if (yourTurn && checkWon()) gameInfo.setText("You won!");
     }
 
     public JPanel getChompPanel() {
@@ -154,7 +156,7 @@ public class ChompGui {
         this.turns++;
         this.yourTurn = !this.yourTurn;
         turnLabel.setText("Turns = " + turns);
-        if (turns % 2 == 1 && startNumb == 1) gameInfo.setText(playerTwoTurn);
+        if (turns % 2 == 1) gameInfo.setText(playerTwoTurn);
         else gameInfo.setText(playerOneTurn);
     }
 
