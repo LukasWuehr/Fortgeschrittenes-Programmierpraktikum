@@ -3,8 +3,6 @@ package GUI;
 import SC_Kom.Message;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,9 +33,7 @@ public class MainMenu<Client> {
         lengthSpinner.setBackground(Color.LIGHT_GRAY);
         playButton.setBackground(Color.LIGHT_GRAY);
         playerComboBox.addItem("@Computer");
-        // list1.setListData((String[]) invites.toArray());
         list1.addMouseListener(new MouseListener() {
-
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 String invite = list1.getSelectedValue();
@@ -47,29 +43,25 @@ public class MainMenu<Client> {
                     Message.sendMessage(9);
                     Message.sendMessage(invite);
                 }
-                //mainScreen.setPanel(Connect4Gui.getPanel); // noch enscheidung hinzufuegen
             }
 
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-
             }
 
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
-
             }
 
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
-
             }
 
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
-
             }
         });
+
         inviteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -108,7 +100,7 @@ public class MainMenu<Client> {
 
     }
 
-    private void changeMenu() {
+    private void changeMenu() { //not not visible
         playButton.setVisible(!playButton.isVisible());
         list1.setVisible(!list1.isVisible());
         connectFourRadioButton.setVisible(!connectFourRadioButton.isVisible());

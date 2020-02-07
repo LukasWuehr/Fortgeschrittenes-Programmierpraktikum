@@ -3,7 +3,6 @@ package GUI;
 import SC_Kom.Message;
 
 import javax.swing.*;
-import javax.swing.plaf.DimensionUIResource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,15 +25,14 @@ public class Login {
         loginButton.setBackground(Color.LIGHT_GRAY);
         exitButton.setBackground(Color.LIGHT_GRAY);
         newPlayerButton.setBackground(Color.LIGHT_GRAY);
-        inputs[0] = "0";
-        //JFrame frame = new JFrame("Login");
         frame.setTitle("Login");
         frame.setContentPane(LoginPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(500, 500);
         frame.setVisible(true);
-        //frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        messageLable.setText("");
+
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -46,7 +44,6 @@ public class Login {
             public void actionPerformed(ActionEvent actionEvent) {
                 String pwd = String.valueOf(passwordField.getPassword());
                 String name = nameField.getText();
-                inputs[0] = "2"; //TODO: noch loeschen
                 inputs[1] = name;
                 inputs[2] = pwd;
                 Message.sendMessage(3);
@@ -57,14 +54,11 @@ public class Login {
             public void actionPerformed(ActionEvent actionEvent) {
                 String pwd = String.valueOf(passwordField.getPassword());
                 String name = nameField.getText();
-                inputs[0] = "1";
                 inputs[1] = name;
                 inputs[2] = pwd;
                 Message.sendMessage(2);
             }
         });
-
-        messageLable.setText("");
     }
 
     public String[] getInputs() {

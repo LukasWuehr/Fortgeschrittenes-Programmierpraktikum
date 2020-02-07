@@ -32,7 +32,7 @@ public class Connect4Gui extends Game {
         this.startPlayer = startPlayer;
         this.discs = new Disc[length][height];
         board = new Connect4Board(discs, this);
-        exitButton.addActionListener(new ActionListener() {
+        exitButton.addActionListener(new ActionListener() { // exit button
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message.sendMessage(11);
@@ -46,15 +46,15 @@ public class Connect4Gui extends Game {
     }
 
     private void setButtons(Player player) {
-        connect4BoardPanel.setLayout(new GridLayout(discs[0].length + 1, discs.length));
-        for (int i = 0; i < discs.length; i++) {
+        connect4BoardPanel.setLayout(new GridLayout(discs[0].length + 1, discs.length)); //create layout
+        for (int i = 0; i < discs.length; i++) { // top row
             JButton topButton = new JButton("▼");
             connect4BoardPanel.add(topButton);
             topButton.setForeground(Color.WHITE);
             topButton.setBackground(Color.BLUE);
             topButton.addMouseListener(new GridMouseListener(i, 0) {
                 @Override
-                public void mouseEntered(MouseEvent mouseEvent) {
+                public void mouseEntered(MouseEvent mouseEvent) { //set colors on hover
                     for (Disc disc : discs[i]) {
                         disc.getButton().setBackground(Color.CYAN);
                     }
@@ -68,10 +68,10 @@ public class Connect4Gui extends Game {
                 }
 
                 @Override
-                public void mouseClicked(MouseEvent mouseEvent) {
+                public void mouseClicked(MouseEvent mouseEvent) { //set disc
                     if (buttonsEnabled) {
                         board.setDisc(i, player, turns);
-                        if (!player1.getIsHuman() && !player2.getIsHuman()) {
+                        if (!player1.getIsHuman() && !player2.getIsHuman()) { //computer
                             while (!buttonsEnabled) {
                                 Random rn = new Random();
                                 board.setDisc(rn.nextInt(discs.length), player2, turns);
@@ -81,12 +81,11 @@ public class Connect4Gui extends Game {
                 }
             });
         }
-
+        // create all buttons for board, same function as top row
         for (int i = 0; discs[0].length > i; i++) { // links oben 0,0
             for (int j = 0; discs.length > j; j++) {
                 Disc disc = discs[j][i];
                 connect4BoardPanel.add(disc.getButton());
-                //disc.getButton().setText(j + " " + i);
                 disc.getButton().addMouseListener(new GridMouseListener(i, j) {
                     @Override
                     public void mouseEntered(MouseEvent mouseEvent) {
@@ -120,16 +119,17 @@ public class Connect4Gui extends Game {
     }
 
     public void setFontSize() {
+        //minimize all buttons
         for (Disc[] discss : discs) {
             for (Disc disc : discss) {
                 disc.setFont(1);
             }
         }
-
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
         }
+        //set size buttons maximum
         JButton button = discs[0][0].getButton();
         int size = Math.min(button.getWidth(), button.getHeight()) - Math.max(button.getInsets().left, button.getInsets().top);
 
@@ -162,6 +162,7 @@ public class Connect4Gui extends Game {
                 discs[j][i] = new Disc();
             }
         }
+        //determine who starts
         if (startPlayer == 2) {
             setButtons(player2);
             turns = -1;
@@ -175,7 +176,7 @@ public class Connect4Gui extends Game {
     }
 
 
-    public void changeClickable() {
+    public void changeClickable() { //enable/disable button use
         connect4BoardPanel.setEnabled(!connect4BoardPanel.isEnabled());
         buttonsEnabled = !buttonsEnabled;
         turns++;
@@ -184,7 +185,7 @@ public class Connect4Gui extends Game {
     }
 
     private void draw() {
-        //TODO: exit + message
+        Message.sendMessage(12);
         screen.stopGame("DRAW");
     }
 
@@ -197,7 +198,7 @@ public class Connect4Gui extends Game {
         }
         winner.addWin();
         System.out.printf("%s Wins\n", winner.getPlayerName());
-        //TODO: exit+ message
+        Message.sendMessage(12);
         screen.stopGame("WINNER: " + winner.getPlayerName());
 
     }

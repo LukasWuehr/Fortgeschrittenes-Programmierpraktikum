@@ -4,9 +4,11 @@ import GUI.Login;
 import GUI.MainScreen;
 
 import javax.swing.*;
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 class Client {
     JFrame frame;
@@ -20,7 +22,8 @@ class Client {
             server = new Socket("localhost", 3141);
             DataInputStream in = new DataInputStream(server.getInputStream());
             DataOutputStream out = new DataOutputStream(server.getOutputStream());
-            Message.setIn(in); Message.setOut(out);
+            Message.setIn(in);
+            Message.setOut(out); //set Message class
             Client client = new Client();
             if (!client.login(in, out)) {
                 System.out.println("Exit");
@@ -29,12 +32,12 @@ class Client {
                 return;
             }
             String name = in.readUTF();
-            Message message = new Message(in,out, client);
-            MainScreen screen = new MainScreen(client.frame,name);
+            Message message = new Message(in, out, client);
+            MainScreen screen = new MainScreen(client.frame, name);
             message.setScreen(screen);
-            Message.sendMessage(5);
+            Message.sendMessage(5); //get players
             message.start();
-            while (true){
+            while (true) {
             }
         } catch (UnknownHostException e) {
             System.out.println("ERROR: " + e);

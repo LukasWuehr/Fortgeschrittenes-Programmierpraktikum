@@ -7,8 +7,9 @@ class ClientNode {
     private Socket client;
     private String name;
     DataOutputStream out;
-    private String game = "login"; // TODO: ENUM: IDLE WantC4 WantChomp InC4 InComp
+    private String game = "login";
     private ClientNode vsPlayer;
+    private Gui gui;
 
     public void setVsPlayer(ClientNode vsPlayer) {
         this.vsPlayer = vsPlayer;
@@ -18,9 +19,10 @@ class ClientNode {
         return vsPlayer;
     }
 
-    public ClientNode(Socket client, DataOutputStream out) {
+    public ClientNode(Socket client, DataOutputStream out, Gui gui) {
         this.client = client;
         this.out = out;
+        this.gui = gui;
     }
 
     public String getName() {
@@ -46,7 +48,8 @@ class ClientNode {
     public synchronized void sendMessage(Byte code, String Message) {
         try {
             if (!game.equals("login")) {
-                System.out.println(name+code+" Message "+Message);
+                System.out.println(name + code + " Message " + Message); //TODO: in log auch
+                gui.setLog(name + ":" + code + " Message: " + Message);
                 out.writeByte(code);
                 out.writeUTF(Message);
             }
@@ -57,6 +60,7 @@ class ClientNode {
     public synchronized void sendMessage(Byte code, Integer Message) {
         try {
             if (!game.equals("login")) {
+                gui.setLog(name + ":" + code + " Message: " + Message);
                 out.writeByte(code);
                 out.writeInt(Message);
             }

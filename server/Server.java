@@ -2,7 +2,8 @@ package server;
 
 
 import java.io.*;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -77,7 +78,7 @@ class MulServerThread extends Thread {
             gui.setLog("new client:"+client.toString()+date);
             DataInputStream in = new DataInputStream(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            this.node = new ClientNode(client, out);
+            this.node = new ClientNode(client, out, gui);
             clients.add(node);
             if (!login(in, out)) {
                 System.out.println("Client logged out");
@@ -91,16 +92,19 @@ class MulServerThread extends Thread {
             while (true) {
                 int x = in.readByte();
                 switch (x) {
-                case 11:
-                    //player left game
-                    node.setGame("idle");
-                    node.getVsPlayer().setGame("idle");
-                    node.getVsPlayer().sendMessage((byte)11,"Player left");
-                    break;
-                case 10:
-                    node.getVsPlayer().sendMessage((byte) 10, in.readUTF()); // game message  // game,player,turn,h,l
-                    break;
-                case 5:
+                    case 12:
+                        node.setGame("idle");
+                        break;
+                    case 11:
+                        //player left game
+                        node.setGame("idle");
+                        node.getVsPlayer().setGame("idle");
+                        node.getVsPlayer().sendMessage((byte) 11, "Player left");
+                        break;
+                    case 10:
+                        node.getVsPlayer().sendMessage((byte) 10, in.readUTF()); // game message  // game,player,turn,h,l
+                        break;
+                    case 5:
                     getPlayers(in, out);
                     break;
                 case 9: //game start

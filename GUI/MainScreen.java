@@ -42,7 +42,7 @@ public class MainScreen {
         frame.setVisible(true);
         frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         atPlayer.addItem("@ALL");
-        sendButton.addActionListener(new ActionListener() {
+        sendButton.addActionListener(new ActionListener() { //send chat button
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String message = chatInput.getText();
@@ -50,8 +50,8 @@ public class MainScreen {
                 processChatMessage(message);
             }
         });
+        //set menu panel
         JPanel menuPanel = menu.getCurrentPanel();
-
         gamePanel.add("Card1", menuPanel);
         card.first(gamePanel);
 
@@ -61,7 +61,7 @@ public class MainScreen {
         atPlayer.setSelectedItem(vsPlayerName);
         Player player1, player2;
         if (startNumb == 1) {
-            if (vsPlayerName.equals("@Computer")) {
+            if (vsPlayerName.equals("@Computer")) {     //local game
                 player1 = new Player(playerName, false);
                 player2 = new Player(vsPlayerName, false);
             } else {
@@ -72,24 +72,23 @@ public class MainScreen {
             player1 = new Player(vsPlayerName, true);
             player2 = new Player(playerName, true);
         }
-        if (game.equals("Chomp")) {
+        if (game.equals("Chomp")) { //decide game
             chompGui = new ChompGui(length, height, this, player1, player2, startNumb);
-            gamePanel.add("ChompCard", chompGui.getChompPanel());
+            gamePanel.add("ChompCard", chompGui.getChompPanel()); //set panel/ screen
             chompGui.setScreen(this);
             card.last(gamePanel);
             HaveChompCard = true;
         } else {
             connectGui = new Connect4Gui(player1, player2, length, height, startNumb, this);
-            gamePanel.add("ConnectFourCard", connectGui.getPanel());
+            gamePanel.add("ConnectFourCard", connectGui.getPanel()); //set panel/ screen
             connectGui.setScreen(this);
             card.last(gamePanel);
             connectGui.start();
-            //connectGui.setFontSize();
         }
     }
 
     public void stopGame(String stop) {
-        JOptionPane.showMessageDialog(new JFrame(), stop);//window
+        JOptionPane.showMessageDialog(new JFrame(), stop);//info window
         if (HaveChompCard) card.removeLayoutComponent(chompGui.getChompPanel());
         else {
             card.removeLayoutComponent(connectGui.getPanel());
@@ -107,12 +106,12 @@ public class MainScreen {
 
     private void processChatMessage(String message) {
         String name = (String) atPlayer.getSelectedItem();
-        addChatMessage("You: " + message);
+        addChatMessage("You: " + message); // write to your self
         synchronized (this) {
             if (name.equals("@ALL")) {
-                Message.sendMessage(7);
+                Message.sendMessage(7); // send to all
             } else {
-                Message.sendMessage(6);
+                Message.sendMessage(6); // send to player
                 Message.sendMessage(name);
             }
             Message.sendMessage(message);

@@ -1,13 +1,12 @@
 package SC_Kom;
 
+import GUI.MainScreen;
+import games.Game;
+import games.Player;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import GUI.MainScreen;
-import games.*;
-import games.connect4.*;
-import games.chomp.*;
 
 /**
  * Message
@@ -44,7 +43,6 @@ public class Message extends Thread {
             while (true) {
                 switch (in.readByte()) {
                     case 12:
-                        //screen.infoWindow(in.readUTF());
                         in.readUTF();
                         break;
                     case 11: //stop game
@@ -98,10 +96,8 @@ public class Message extends Thread {
         if (infos[0].equals("connect")) {
             Player player = new Player(infos[1],false);
             screen.connectGui.getBoard().setDisc(Integer.parseInt(infos[4]),player,Integer.parseInt(infos[2]));
-            //(Connect4Game) game.setDisc();
         } else if (infos[0].equals("chomp")) {
             screen.chompGui.colorButtons(Integer.parseInt(infos[4]),Integer.parseInt(infos[3]));
-            //screen.chompGui.incrementTurns();
         }
     }
 
